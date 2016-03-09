@@ -178,3 +178,22 @@ function Conque_set_syntax(term)
 endfunction
 
 call conque_term#register_function('after_startup', 'Conque_set_syntax')
+
+" --------------- "
+" Custom Commands "
+" --------------- "
+
+" Creates a fancy comment box given a string
+function CommentBox(msg)
+  let com = substitute(&commentstring, '%s', '', '')
+  let len = strlen(a:msg)
+
+  let sur  = l:com . ' ' . repeat('-', l:len) . ' ' . l:com
+  let mid  = l:com . ' ' . a:msg . ' ' . l:com
+
+  call append('.', sur)
+  call append('.', mid)
+  call append('.', sur)
+endfunction
+
+command -nargs=* CommentBox call CommentBox(<q-args>)
