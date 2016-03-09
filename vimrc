@@ -106,7 +106,7 @@ set wildmenu                                        " Shows the available autoco
 set lazyredraw                                      " Don't always redraw the screen
 set backspace=indent,eol,start                      " Allow backspaces to remove more
 
-let g:DeleteTrailingWhitespace = 1                  " Remove trailing whitespace on save
+let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace on save
 
 " -------------- "
 " Tabs & Spacing "
