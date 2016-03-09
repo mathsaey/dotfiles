@@ -149,6 +149,13 @@ let mapleader = "\<Space>"                          " Use space as leader
 
 nnoremap <Leader>w :write<CR>                       " Save with leader-w
 
+" Spelling
+nnoremap <Leader>so  :setlocal spell<CR>            " Turn on spelling
+nnoremap <Leader>st  :setlocal nospell<CR>          " Turn off spelling
+nnoremap <Leader>sn  :setlocal spelllang=nl<CR>     " Use Dutch
+nnoremap <Leader>seb :setlocal spelllang=en_gb<CR>  " Use British English
+nnoremap <Leader>sea :setlocal spelllang=en_us<CR>  " Use American English
+
 " ------------------- "
 " ConqueTerm Settings "
 " ------------------- "
