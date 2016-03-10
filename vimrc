@@ -186,6 +186,7 @@ call conque_term#register_function('after_startup', 'Conque_set_syntax')
 " Creates a fancy comment box given a string
 function CommentBox(msg)
   let com = substitute(&commentstring, '%s', '', '')
+  let com = substitute(l:com, ' ', '', '')
   let len = strlen(a:msg)
 
   let sur  = l:com . ' ' . repeat('-', l:len) . ' ' . l:com
