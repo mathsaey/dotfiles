@@ -128,7 +128,7 @@ set listchars+=conceal:*                            " When list is enabled use *
 set listchars+=nbsp:.                               " When list is enabled use . to mark non-breakable spaces
 
 set formatoptions-=t                                " Don't auto-insert newlines when exceeding 80 characters
-set wrapmargin=0                                    " Don't wrap based on terminal
+set wrapmargin=0                                    " Don't wrap based on screen edge
 
 " --------------- "
 " Search Settings "
