@@ -223,10 +223,10 @@ nnoremap <Leader>seb :setlocal spelllang=en_gb<CR>
 nnoremap <Leader>sea :setlocal spelllang=en_us<CR>
 
 " Disable arrow keys
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
+noremap <up> :echoe "use k"<CR>
+noremap <down> :echoe "use j"<CR>
+noremap <left> :echoe "use h"<CR>
+noremap <right> :echoe "use l"<CR>
 
 " Easily get out of insert mode
 inoremap fj <Esc>
