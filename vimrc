@@ -146,21 +146,6 @@ set ignorecase                                      " Don't match case
 set smartcase                                       " Unless the search term contains uppercase
 
 " ------------------- "
-" Custom Key Bindings "
-" ------------------- "
-
-let mapleader = "\<Space>"                          " Use space as leader
-
-nnoremap <Leader>w :write<CR>                       " Save with leader-w
-
-" Spelling
-nnoremap <Leader>so  :setlocal spell<CR>            " Turn on spelling
-nnoremap <Leader>st  :setlocal nospell<CR>          " Turn off spelling
-nnoremap <Leader>sn  :setlocal spelllang=nl<CR>     " Use Dutch
-nnoremap <Leader>seb :setlocal spelllang=en_gb<CR>  " Use British English
-nnoremap <Leader>sea :setlocal spelllang=en_us<CR>  " Use American English
-
-" ------------------- "
 " ConqueTerm Settings "
 " ------------------- "
 
@@ -173,7 +158,7 @@ let g:Conque_syntax_assoc.python3 = 'python'        " Only required when the com
 let g:Conque_syntax_assoc.ghci    = 'haskell'
 let g:Conque_syntax_assoc.irb     = 'ruby'
 
-function Conque_set_syntax(term)
+function! Conque_set_syntax(term)
     if has_key(g:Conque_syntax_assoc, a:term.program_name)
         execute 'setlocal syntax=' . g:Conque_syntax_assoc[a:term.program_name]
     else
@@ -183,12 +168,21 @@ endfunction
 
 call conque_term#register_function('after_startup', 'Conque_set_syntax')
 
-" --------------- "
-" Custom Commands "
-" --------------- "
+" --------------------------- "
+" Custom Functions & Commands "
+" --------------------------- "
+
+" Toggle relative and absolute line numbers
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set norelativenumber
+  else
+    set relativenumber
+  endif
+endfunc
 
 " Creates a fancy comment box given a string
-function CommentBox(msg)
+function! CommentBox(msg)
   let com = substitute(&commentstring, '%s', '', '')
   let com = substitute(l:com, ' ', '', '')
   let len = strlen(a:msg)
@@ -201,4 +195,30 @@ function CommentBox(msg)
   call append('.', sur)
 endfunction
 
-command -nargs=* CommentBox call CommentBox(<q-args>)
+command! -nargs=* CommentBox call CommentBox(<q-args>)
+
+" ------------------- "
+" Custom Key Bindings "
+" ------------------- "
+
+" Use space as leader
+let mapleader = "\<Space>"
+
+" Save with leader-w
+nnoremap <Leader>w :write<CR>
+
+" Toggle line numbers
+nnoremap <Leader>l :call NumberToggle()<cr>
+
+" Spelling
+nnoremap <Leader>so  :setlocal spell<CR>
+nnoremap <Leader>st  :setlocal nospell<CR>
+nnoremap <Leader>sn  :setlocal spelllang=nl<CR>
+nnoremap <Leader>seb :setlocal spelllang=en_gb<CR>
+nnoremap <Leader>sea :setlocal spelllang=en_us<CR>
+
+" Disable arrow keys
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
