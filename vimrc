@@ -208,7 +208,7 @@ let mapleader = "\<Space>"
 nnoremap <Leader>w :write<CR>
 
 " Toggle line numbers
-nnoremap <Leader>l :call NumberToggle()<cr>
+nnoremap <Leader>l :call NumberToggle()<CR>
 
 " Spelling
 nnoremap <Leader>so  :setlocal spell<CR>
