@@ -211,7 +211,6 @@ nnoremap <Leader>n :nohlsearch<CR>
 " Toggle line numbers
 nnoremap <Leader>l :call NumberToggle()<CR>
 
-
 " Spelling
 nnoremap <Leader>so  :setlocal spell<CR>
 nnoremap <Leader>st  :setlocal nospell<CR>
