@@ -214,6 +214,7 @@ nnoremap <Leader>l :call NumberToggle()<CR>
 nnoremap <Leader>= :Tabularize /=<CR>
 " Show the visual undo tree
 nnoremap <Leader>u :GundoToggle<CR>
+
 " Spelling
 nnoremap <Leader>so  :setlocal spell<CR>
 nnoremap <Leader>st  :setlocal nospell<CR>
