@@ -204,11 +204,13 @@ command! -nargs=* CommentBox call CommentBox(<q-args>)
 " Use space as leader
 let mapleader = "\<Space>"
 
-" Save with leader-w
+" Save
 nnoremap <Leader>w :write<CR>
-
+" Turn off search highlighting
+nnoremap <Leader>n :nohlsearch<CR>
 " Toggle line numbers
 nnoremap <Leader>l :call NumberToggle()<CR>
+
 
 " Spelling
 nnoremap <Leader>so  :setlocal spell<CR>
