@@ -210,6 +210,8 @@ nnoremap <Leader>w :write<CR>
 nnoremap <Leader>n :nohlsearch<CR>
 " Toggle line numbers
 nnoremap <Leader>l :call NumberToggle()<CR>
+" Tabularize =
+nnoremap <Leader>= :Tabularize /=<CR>
 
 " Spelling
 nnoremap <Leader>so  :setlocal spell<CR>
@@ -223,3 +225,7 @@ map <up> <nop>
 map <down> <nop>
 map <left> <nop>
 map <right> <nop>
+
+" Easily get out of insert mode
+inoremap fj <Esc>
+inoremap jf <Esc>
