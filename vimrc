@@ -47,8 +47,10 @@ Plugin 'vim-scripts/DeleteTrailingWhitespace'       " Allow the automatic deleti
 
 " Languages
 Plugin 'zah/nimrod.vim'                             " Nim support
+Plugin 'hdima/python-syntax'                        " Better syntax highlighting for python
 Plugin 'derekwyatt/vim-scala'                       " Scala support
 Plugin 'LaTeX-Box-Team/LaTeX-Box'                   " Latex support
+Plugin 'vim-scripts/indentpython.vim'               " Better python indentation
 Plugin 'octol/vim-cpp-enhanced-highlight'           " Better CPP syntax highlighting
 
 call vundle#end()                                   " End of plugin list
@@ -105,6 +107,8 @@ set ttyfast                                         " Indicates the terminal is 
 set wildmenu                                        " Shows the available autocompletes in command menu
 set lazyredraw                                      " Don't always redraw the screen
 set backspace=indent,eol,start                      " Allow backspaces to remove more
+
+let g:syntastic_aggregate_errors = 1                " Show errors from various checkers in syntastic
 
 let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace on save
 
