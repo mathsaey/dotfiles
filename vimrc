@@ -209,7 +209,7 @@ nnoremap <Leader>w :write<CR>
 " Turn off search highlighting
 nnoremap <Leader>n :nohlsearch<CR>
 " Easier split changing
-nnoremap <Leader>w <C-W>
+nnoremap <Leader>m <C-W>
 " Toggle line numbers
 nnoremap <Leader>l :call NumberToggle()<CR>
 " Tabularize =
