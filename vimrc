@@ -181,6 +181,14 @@ function! NumberToggle()
   endif
 endfunc
 
+function! SpellToggle()
+  if (&spell == 1)
+    set nospell
+  else
+    set spell
+  endif
+endfunc
+
 " Creates a fancy comment box given a string
 function! CommentBox(msg)
   let com = substitute(&commentstring, '%s', '', '')
@@ -218,8 +226,7 @@ nnoremap <Leader>= :Tabularize /=<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 
 " Spelling
-nnoremap <Leader>so  :setlocal spell<CR>
-nnoremap <Leader>st  :setlocal nospell<CR>
+nnoremap <Leader>so  :call SpellToggle()<CR>
 nnoremap <Leader>sn  :setlocal spelllang=nl<CR>
 nnoremap <Leader>seb :setlocal spelllang=en_gb<CR>
 nnoremap <Leader>sea :setlocal spelllang=en_us<CR>
