@@ -32,7 +32,7 @@ Plugin 'xolox/vim-misc'                             " General scripts, required 
 Plugin 'jceb/vim-orgmode'                           " Org mode for vim
 Plugin 'godlygeek/tabular'                          " Easily align stuff
 Plugin 'xolox/vim-session'                          " Session Management
-Plugin 'tpope/vim-surround'                         " Easily change surrounding brances, quotes, ...
+Plugin 'tpope/vim-surround'                         " Easily change surrounding braces, quotes, ...
 Plugin 'vim-scripts/Tagbar'                         " File minimap
 Plugin 'vim-scripts/utl.vim'                        " Universal text linking (required for vim-orgmode)
 Plugin 'chrisbra/improvedft'                        " Makes f and t work on multiple lines
@@ -88,8 +88,8 @@ set guifont=Meslo\ LG\ L\ Regular\ for\ Powerline   " Custom powerline font
 let g:airline_powerline_fonts=1                     " Populate airline font symbol table
 let g:airline#extensions#tabline#enabled=1          " Show open buffers
 let g:airline#extensions#tabline#buffer_min_count=2 " Only show tab line when at least two buffers are open
-let g:airline#extensions#tabline#left_sep = ' '     " No left seperator
-let g:airline#extensions#tabline#left_alt_sep = '|' " Use | as the right seperator for 'straightrtabs
+let g:airline#extensions#tabline#left_sep = ' '     " No left separator
+let g:airline#extensions#tabline#left_alt_sep = '|' " Use | as the right separator for 'straight tabs
 
 " Temporary Files
 set backupdir=~/.tmp/vim/backup//                   " Directory for file backups
@@ -124,12 +124,12 @@ set smartindent                                     " Add extra tabs in some cas
 set expandtab                                       " Expand tabs to spaces
 
 set list                                            " Visualize tabs, trailing spaces and various elements
-set listchars=tab:--                                " When list is enabled use - to mark tabs
-set listchars+=trail:~                              " When list is enabled use ~ to mark trailing spaces
-set listchars+=extends:>                            " When list is enabled use > to mark that a line continues beyond the edge of the screen
-set listchars+=precedes:<                           " When list is enabled use < to mark that a line starts beyond the left edge of the screen
-set listchars+=conceal:*                            " When list is enabled use * to mark hidden charachters
-set listchars+=nbsp:.                               " When list is enabled use . to mark non-breakable spaces
+set listchars=tab:--                                " - to mark tabs
+set listchars+=trail:~                              " ~ to mark trailing spaces
+set listchars+=extends:>                            " > to mark that a line continues beyond the edge of the screen
+set listchars+=precedes:<                           " < to mark that a line starts beyond the left edge of the screen
+set listchars+=conceal:*                            " * to mark hidden characters
+set listchars+=nbsp:.                               " . to mark non-breakable spaces
 
 set formatoptions-=t                                " Don't auto-insert newlines when exceeding 80 characters
 set wrapmargin=0                                    " Don't wrap based on screen edge
@@ -138,7 +138,7 @@ set wrapmargin=0                                    " Don't wrap based on screen
 " Search Settings "
 " --------------- "
 
-set incsearch                                       " Highlight charachters as they are matched
+set incsearch                                       " Highlight characters as they are matched
 set hlsearch                                        " Highlight matches
 set showmatch                                       " Highlight matching [{()}]
 
@@ -149,7 +149,7 @@ set smartcase                                       " Unless the search term con
 " ConqueTerm Settings "
 " ------------------- "
 
-let g:ConqueTerm_ReadUnfocused = 1                  " Keep on refereshing when buffer is not active
+let g:ConqueTerm_ReadUnfocused = 1                  " Keep on refreshing when buffer is not active
 let g:ConqueTerm_StartMessages = 1                  " Show warnings on startup when necessary
 let g:ConqueTerm_TERM = 'xterm-256color'            " Report color support for prettier output
 
@@ -212,18 +212,18 @@ command! -nargs=* CommentBox call CommentBox(<q-args>)
 " Use space as leader
 let mapleader = "\<Space>"
 
-" Save
+" Easier split changing
+nnoremap <Leader>m <C-W>
+" Write file
 nnoremap <Leader>w :write<CR>
 " Turn off search highlighting
 nnoremap <Leader>n :nohlsearch<CR>
-" Easier split changing
-nnoremap <Leader>m <C-W>
-" Toggle line numbers
-nnoremap <Leader>l :call NumberToggle()<CR>
-" Tabularize =
-nnoremap <Leader>= :Tabularize /=<CR>
 " Show the visual undo tree
 nnoremap <Leader>u :GundoToggle<CR>
+" Tabularize =
+nnoremap <Leader>= :Tabularize /=<CR>
+" Toggle line numbers
+nnoremap <Leader>l :call NumberToggle()<CR>
 
 " Spelling
 nnoremap <Leader>so  :call SpellToggle()<CR>
