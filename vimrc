@@ -46,7 +46,7 @@ Plugin 'terryma/vim-expand-region'                  " Easily select regions
 Plugin 'vim-scripts/DeleteTrailingWhitespace'       " Allow the automatic deletion of trailing whitespace
 
 " Languages
-Plugin 'zah/nimrod.vim'                             " Nim support
+Plugin 'zah/nim.vim'                                " Nim support
 Plugin 'hdima/python-syntax'                        " Better syntax highlighting for python
 Plugin 'derekwyatt/vim-scala'                       " Scala support
 Plugin 'LaTeX-Box-Team/LaTeX-Box'                   " Latex support
