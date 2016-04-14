@@ -23,7 +23,7 @@ let g:LatexBox_latexmk_options =
       \ '-pdflatex="pdflatex -synctex=1 %O %S"'
 
 " Jump to current line in PDF
-map <silent> <LocalLeader>ls :silent
+map <silent> <LocalLeader>s :silent
       \ !/Applications/Skim.app/Contents/SharedSupport/displayline -r -g
       \ <C-R>=line('.')<CR> "<C-R>=LatexBox_GetOutputFile()<CR>"
       \ "%:p" <CR>
@@ -32,5 +32,5 @@ map <silent> <LocalLeader>ls :silent
 " Custom Keybinds "
 " --------------- "
 
-map <LocalLeader>b <LocalLeader>ll<LocalLeader>ls
+map <LocalLeader>b <LocalLeader>ll<LocalLeader>s
 
