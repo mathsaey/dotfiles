@@ -1,6 +1,22 @@
+" -------------- "
+" Local Settings "
+" -------------- "
+
+setlocal spell                 " Turn on spelling when writing tex
+setlocal spelllang=en_us       " Use US English spelling by default
+setlocal wrap linebreak nolist " Display long lines over multiple lines
+
+" ----------------- "
+" LatexBox Settings "
+" ----------------- "
+
 let g:LatexBox_viewer='open -a Skim'
 let g:LatexBox_latexmk_async=1
 let g:tex_flavor="latex"
+
+" ----------- "
+" Jump in PDF "
+" ----------- "
 
 " Enable synctex for forward searching
 let g:LatexBox_latexmk_options =
@@ -12,7 +28,9 @@ map <silent> <LocalLeader>ls :silent
       \ <C-R>=line('.')<CR> "<C-R>=LatexBox_GetOutputFile()<CR>"
       \ "%:p" <CR>
 
-setlocal wrap linebreak nolist " Display long lines over multiple lines
+" --------------- "
+" Custom Keybinds "
+" --------------- "
 
-setlocal spell            " Turn on spelling when writing tex
-setlocal spelllang=en_us  " Use US English spelling by default
+map <LocalLeader>b <LocalLeader>ll<LocalLeader>ls
+
