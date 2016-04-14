@@ -211,6 +211,8 @@ command! -nargs=* CommentBox call CommentBox(<q-args>)
 
 " Use space as leader
 let mapleader = "\<Space>"
+" Use backslash as local leader
+let maplocalleader = "\\"
 
 " Easier split changing
 nnoremap <Leader>m <C-W>
@@ -240,3 +242,4 @@ noremap <right> : echoe "use l"<CR>
 " Easily get out of insert mode
 inoremap fj <Esc>
 inoremap jf <Esc>
+
