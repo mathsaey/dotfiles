@@ -1,9 +1,18 @@
+" -------- "
+" Settings "
+" -------- "
+
 setlocal makeprg=python\ %
+setlocal spelllang=en_us   " Use US English when we want to spellcheck comments
 
 let g:syntastic_python_checkers=['python', 'pylint', 'pyflakes']
 
-command! Pyshell execute "ConqueTerm\ python"
-command! Pyrun   execute "ConqueTerm\ python\ -i\ ".expand('%')
+" -------- "
+" Keybinds "
+" -------- "
 
-command! Pyshell3 execute "ConqueTerm\ python3"
-command! Pyrun3   execute "ConqueTerm\ python3\ -i\ ".expand('%')
+map <LocalLeader>r :ConqueTerm python<CR>
+map <LocalLeader>b :ConqueTerm python -i "%"<CR>
+
+map <LocalLeader>r3  :ConqueTerm python3<CR>
+map <LocalLeader>b3  :ConqueTerm python3 -i "%"<CR>
