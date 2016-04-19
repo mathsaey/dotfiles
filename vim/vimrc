@@ -145,6 +145,19 @@ set showmatch                                       " Highlight matching [{()}]
 set ignorecase                                      " Don't match case
 set smartcase                                       " Unless the search term contains uppercase
 
+" ------------ "
+" Autocommands "
+" ------------ "
+
+" Close the preview window if it's open when leaving insert mode.
+" Refresh airline, to make sure it reflects the selected buffer.
+" Use `InsertLeave` instead of `CompleteDone` to ensure that the
+" documentation is still available while entering arguments.
+autocmd InsertLeave *
+  \ if pumvisible() == 0 |
+  \   pclose | :AirlineRefresh |
+  \ endif
+
 " ------------------- "
 " ConqueTerm Settings "
 " ------------------- "
@@ -242,4 +255,5 @@ noremap <right> : echoe "use l"<CR>
 " Easily get out of insert mode
 inoremap fj <Esc>
 inoremap jf <Esc>
+
 
