@@ -7,8 +7,10 @@
 # for the first time.
 # NOTE: vim will prompt you a few times during the installation process.
 
+# Script location
+SCRIPT=$(realpath $0)
 # Parent dir of the script
-DIR=$(dirname $0)
+DIR=$(dirname $SCRIPT)
 
 # Create directories
 mkdir -p ~/.tmp/vim/backup
