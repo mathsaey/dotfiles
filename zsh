@@ -36,10 +36,11 @@ source $ZSH/oh-my-zsh.sh
 # Variables #
 # --------- #
 
-export EDITOR="vim"
+export EDITOR="mvim -f"
 export VISUAL="mvim"
 
 alias vim=mvim
+alias vim!="command vim"
 
 export PATH=$PATH:~/.bin
 
