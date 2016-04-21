@@ -163,7 +163,8 @@ autocmd InsertLeave *
 " ------------------- "
 
 let g:ConqueTerm_ReadUnfocused = 1                  " Keep on refreshing when buffer is not active
-let g:ConqueTerm_StartMessages = 1                  " Show warnings on startup when necessary
+let g:ConqueTerm_StartMessages = 0                  " Show warnings on startup when necessary
+let g:ConqueTerm_InsertOnEnter = 0                  " Don't enter insert mode on start
 let g:ConqueTerm_TERM = 'xterm-256color'            " Report color support for prettier output
 
 let g:Conque_syntax_assoc = {}                      " Language to command mapping for syntax highlighting
@@ -255,5 +256,4 @@ noremap <right> : echoe "use l"<CR>
 " Easily get out of insert mode
 inoremap fj <Esc>
 inoremap jf <Esc>
-
 

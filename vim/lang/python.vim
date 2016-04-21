@@ -12,7 +12,7 @@ let g:syntastic_python_checkers=['python', 'pylint', 'pyflakes']
 " -------- "
 
 map <LocalLeader>r :ConqueTerm python<CR>
-map <LocalLeader>b :ConqueTerm python -i "%"<CR>
+map <LocalLeader>b :execute ":ConqueTerm python -i ".expand("%")
 
-map <LocalLeader>r3  :ConqueTerm python3<CR>
-map <LocalLeader>b3  :ConqueTerm python3 -i "%"<CR>
+map <LocalLeader>r3 :ConqueTerm python3<CR>
+map <LocalLeader>b3 :execute ":ConqueTerm python3 -i ".expand("%")
