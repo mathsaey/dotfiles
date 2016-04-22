@@ -20,6 +20,7 @@ Plugin 'gmarik/Vundle.vim'                          " Let Vundle manage itself
 " Visuals
 Plugin 'tomasr/molokai'                             " Color scheme
 Plugin 'bling/vim-airline'                          " Fancy status bar
+Plugin 'mhinz/vim-startify'                         " Custom start message
 
 " Git integration
 Plugin 'tpope/vim-fugitive'                         " Git integration
@@ -100,6 +101,10 @@ set undodir=~/.tmp/vim/undo//                       " Directory for undo files
 let g:session_autosave='yes'                        " Always save sessions when quitting vim
 let g:session_autoload = 'no'                       " Don't prompt for opening old sessions
 let g:session_autosave_periodic=1                   " Save session every minute
+
+" Startify
+let g:startify_session_dir = '~/.vim/sessions'      " Tell startify where to look for sessions
+let g:startify_files_number = 5                     " Limit the amount of recently used files/dirs startify shows
 
 " Misc
 set title                                           " Let vim set the window title
@@ -230,6 +235,8 @@ let maplocalleader = "\\"
 
 " Easier split changing
 nnoremap <Leader>m <C-W>
+" Use system clipboard
+nnoremap <Leader><Leader> "*
 " Write file
 nnoremap <Leader>w :write<CR>
 " Turn off search highlighting
