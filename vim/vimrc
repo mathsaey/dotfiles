@@ -208,6 +208,7 @@ function! NumberToggle()
   endif
 endfunc
 
+" Toggle spellcheck
 function! SpellToggle()
   if (&spell == 1)
     set nospell
