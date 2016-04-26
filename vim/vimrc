@@ -105,6 +105,14 @@ let g:session_autosave_periodic=1                   " Save session every minute
 " Startify
 let g:startify_session_dir = '~/.vim/sessions'      " Tell startify where to look for sessions
 let g:startify_files_number = 5                     " Limit the amount of recently used files/dirs startify shows
+let g:startify_list_order = [
+  \ ['Sessions:'],
+  \ 'sessions',
+  \ ['Recently opened files:'],
+  \ 'files',
+  \ ['Recently opened files in this directory:'],
+  \ 'dir'
+  \ ]
 
 " Misc
 set title                                           " Let vim set the window title
