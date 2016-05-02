@@ -44,6 +44,8 @@ alias vim!="command vim"
 
 export PATH=$PATH:~/.bin
 
+export HOMEBREW_NO_ANALYTICS=1
+
 # ----------------- #
 # Commands at Login #
 # ----------------- #
