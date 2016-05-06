@@ -106,6 +106,11 @@ let g:session_autosave_periodic=1                   " Save session every minute
 " Startify
 let g:startify_session_dir = '~/.vim/sessions'      " Tell startify where to look for sessions
 let g:startify_files_number = 5                     " Limit the amount of recently used files/dirs startify shows
+let g:startify_custom_header =
+  \ map(split(system(
+  \ 'fortune -a |
+  \ cowsay -f stegosaurus -W 70'
+  \ ), '\n'), '"   ". v:val')
 let g:startify_list_order = [
   \ ['Sessions:'],
   \ 'sessions',
