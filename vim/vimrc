@@ -124,6 +124,7 @@ let g:startify_list_order = [
 set title                                           " Let vim set the window title
 set ttyfast                                         " Indicates the terminal is fast and more chars can be sent
 set wildmenu                                        " Shows the available autocompletes in command menu
+set autowrite                                       " Automatically save before compiling and some other actions
 set lazyredraw                                      " Don't always redraw the screen
 set backspace=indent,eol,start                      " Allow backspaces to remove more
 
