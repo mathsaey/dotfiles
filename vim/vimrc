@@ -50,6 +50,7 @@ Plugin 'vim-scripts/DeleteTrailingWhitespace'       " Allow the automatic deleti
 Plugin 'zah/nim.vim'                                " Nim support
 Plugin 'hdima/python-syntax'                        " Better syntax highlighting for python
 Plugin 'derekwyatt/vim-scala'                       " Scala support
+Plugin 'wlangstroth/vim-racket'                     " Racket support
 Plugin 'LaTeX-Box-Team/LaTeX-Box'                   " Latex support
 Plugin 'vim-scripts/indentpython.vim'               " Better python indentation
 Plugin 'octol/vim-cpp-enhanced-highlight'           " Better CPP syntax highlighting
