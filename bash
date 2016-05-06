@@ -11,3 +11,5 @@ export PATH=$PATH:~/.bin
 
 export PS1="\u@\h:\W$ "
 export HOMEBREW_NO_ANALYTICS=1
+
+eval "$(thefuck --alias)"
