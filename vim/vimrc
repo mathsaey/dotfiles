@@ -151,7 +151,8 @@ set listchars+=precedes:<                           " < to mark that a line star
 set listchars+=conceal:*                            " * to mark hidden characters
 set listchars+=nbsp:.                               " . to mark non-breakable spaces
 
-set formatoptions-=t                                " Don't auto-insert newlines when exceeding 80 characters
+set nowrap                                          " Don't auto-insert newlines when exceeding 80 characters
+set sidescroll=1                                    " Scroll per charachter when sidescrolling
 set wrapmargin=0                                    " Don't wrap based on screen edge
 
 " --------------- "
