@@ -271,7 +271,7 @@ nnoremap <Leader>sn  :setlocal spelllang=nl<CR>
 nnoremap <Leader>seb :setlocal spelllang=en_gb<CR>
 nnoremap <Leader>sea :setlocal spelllang=en_us<CR>
 
-" Disable arrow keys
+" Disable arrow keys in normal mode
 noremap <up>    : echoe "use k"<CR>
 noremap <down>  : echoe "use j"<CR>
 noremap <left>  : echoe "use h"<CR>
