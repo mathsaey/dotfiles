@@ -282,6 +282,6 @@ inoremap fj <Esc>
 inoremap jf <Esc>
 
 " Use ; instead of : to avoid pressing shift
-map ; :
+noremap ; :
 " Double press ; to get the normal behaviour
 noremap ;; ;
