@@ -281,7 +281,5 @@ noremap <right> : echoe "use l"<CR>
 inoremap fj <Esc>
 inoremap jf <Esc>
 
-" Use ; instead of : to avoid pressing shift
-noremap ; :
-" Double press ; to get the normal behaviour
-noremap ;; ;
+" Use <Leader>; as a shortcut to : to avoid pressing shift
+noremap <Leader>; :
