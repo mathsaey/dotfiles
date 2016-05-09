@@ -253,7 +253,7 @@ let maplocalleader = "\\"
 " Easier split changing
 nnoremap <Leader>m <C-W>
 " Use system clipboard
-nnoremap <Leader><Leader> "*
+nnoremap <Leader>v "*
 " Write file
 nnoremap <Leader>w :write<CR>
 " Turn off search highlighting
@@ -282,4 +282,4 @@ inoremap fj <Esc>
 inoremap jf <Esc>
 
 " Use <Leader>; as a shortcut to : to avoid pressing shift
-noremap <Leader>; :
+noremap <Leader><Leader> :
