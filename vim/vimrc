@@ -48,6 +48,7 @@ Plugin 'vim-scripts/DeleteTrailingWhitespace'       " Allow the automatic deleti
 
 " Languages
 Plugin 'zah/nim.vim'                                " Nim support
+Plugin 'cespare/vim-toml'                           " Toml support
 Plugin 'hdima/python-syntax'                        " Better syntax highlighting for python
 Plugin 'derekwyatt/vim-scala'                       " Scala support
 Plugin 'wlangstroth/vim-racket'                     " Racket support
@@ -178,6 +179,9 @@ autocmd InsertLeave *
   \ if pumvisible() == 0 |
   \   pclose | :AirlineRefresh |
   \ endif
+
+" Add .nims as a nim file
+au BufNewFile,BufRead *.nims set filetype=nim
 
 " ------------------- "
 " ConqueTerm Settings "
