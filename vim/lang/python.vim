@@ -5,7 +5,7 @@
 setlocal makeprg=python\ %
 setlocal spelllang=en_us   " Use US English when we want to spellcheck comments
 
-let g:syntastic_python_checkers=['python', 'pylint', 'pyflakes']
+let g:syntastic_python_checkers=['python', 'pyflakes']
 
 " -------- "
 " Keybinds "
