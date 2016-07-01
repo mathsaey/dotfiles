@@ -3,62 +3,64 @@
 
 set nocompatible                                    " Discard vi compatibility
 
-" ------------ "
-" Vundle Setup "
-" ------------ "
+" ------- "
+" Plugins "
+" ------- "
 
-filetype off                                        " Temporarily turn off filetype detection
-set rtp +=~/.vim/bundle/Vundle.vim                  " Add vundle to the runtime path
-call vundle#begin()                                 " Start Vundle plugin list
+call plug#begin('~/.vim/bundle')                                               " Start plugin list
 
 " Plugin list
 " -----------
 
-" Plugin manager
-Plugin 'gmarik/Vundle.vim'                          " Let Vundle manage itself
-
 " Visuals
-Plugin 'tomasr/molokai'                             " Color scheme
-Plugin 'bling/vim-airline'                          " Fancy status bar
-Plugin 'mhinz/vim-startify'                         " Custom start message
+Plug 'tomasr/molokai'                                                          " Color scheme
+Plug 'bling/vim-airline'                                                       " Fancy status bar
+Plug 'mhinz/vim-startify'                                                      " Custom start message
 
 " Git integration
-Plugin 'tpope/vim-fugitive'                         " Git integration
-Plugin 'airblade/vim-gitgutter'                     " Show diff in sidebar
+Plug 'tpope/vim-fugitive'                                                      " Git integration
+Plug 'airblade/vim-gitgutter'                                                  " Show diff in sidebar
 
 " Tools
-Plugin 'sjl/gundo.vim'                              " Visual undo tree
-Plugin 'kien/ctrlp.vim'                             " Fuzzy file searching
-Plugin 'xolox/vim-misc'                             " General scripts, required for vim-session
-Plugin 'jceb/vim-orgmode'                           " Org mode for vim
-Plugin 'godlygeek/tabular'                          " Easily align stuff
-Plugin 'xolox/vim-session'                          " Session Management
-Plugin 'tpope/vim-surround'                         " Easily change surrounding braces, quotes, ...
-Plugin 'vim-scripts/Tagbar'                         " File minimap
-Plugin 'vim-scripts/utl.vim'                        " Universal text linking (required for vim-orgmode)
-Plugin 'chrisbra/improvedft'                        " Makes f and t work on multiple lines
-Plugin 'tpope/vim-commentary'                       " Easily turn lines into comments
-Plugin 'scrooloose/syntastic'                       " Linter
-Plugin 'tpope/vim-speeddating'                      " Date tools for vim, required for vim-orgmode
-Plugin 'rbgrouleff/bclose.vim'                      " Close buffer without changing layout
-Plugin 'Valloric/YouCompleteMe'                     " Tab completion
-Plugin 'pthrasher/conqueterm-vim'                   " Shell integration
-Plugin 'terryma/vim-expand-region'                  " Easily select regions
-Plugin 'vim-scripts/DeleteTrailingWhitespace'       " Allow the automatic deletion of trailing whitespace
+Plug 'sjl/gundo.vim'                                                           " Visual undo tree
+Plug 'kien/ctrlp.vim'                                                          " Fuzzy file searching
+Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
+Plug 'jceb/vim-orgmode'                                                        " Org mode for vim
+Plug 'godlygeek/tabular'                                                       " Easily align stuff
+Plug 'xolox/vim-session'                                                       " Session Management
+Plug 'tpope/vim-surround'                                                      " Easily change surrounding braces, quotes, ...
+Plug 'vim-scripts/Tagbar'                                                      " File minimap
+Plug 'vim-scripts/utl.vim'                                                     " Universal text linking (required for vim-orgmode)
+Plug 'chrisbra/improvedft'                                                     " Makes f and t work on multiple lines
+Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
+Plug 'scrooloose/syntastic'                                                    " Linter
+Plug 'tpope/vim-speeddating'                                                   " Date tools for vim, required for vim-orgmode
+Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
+Plug 'pthrasher/conqueterm-vim'                                                " Shell integration
+Plug 'terryma/vim-expand-region'                                               " Easily select regions
+Plug 'vim-scripts/DeleteTrailingWhitespace'                                    " Allow the automatic deletion of trailing whitespace
 
 " Languages
-Plugin 'zah/nim.vim'                                " Nim support
-Plugin 'cespare/vim-toml'                           " Toml support
-Plugin 'hdima/python-syntax'                        " Better syntax highlighting for python
-Plugin 'derekwyatt/vim-scala'                       " Scala support
-Plugin 'wlangstroth/vim-racket'                     " Racket support
-Plugin 'LaTeX-Box-Team/LaTeX-Box'                   " Latex support
-Plugin 'vim-scripts/indentpython.vim'               " Better python indentation
-Plugin 'octol/vim-cpp-enhanced-highlight'           " Better CPP syntax highlighting
+Plug 'zah/nim.vim', { 'for': 'nim' }                                           " Nim support
+Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': 'tex' }                              " Latex support
+Plug 'derekwyatt/vim-scala', {'for': 'scala' }                                 " Scala support
+Plug 'wlangstroth/vim-racket', { 'for': 'racket' }                             " Racket support
+Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }                      " Better CPP syntax highlighting
+Plug 'hdima/python-syntax', { 'for': 'python' }                                " Better syntax highlighting for python
+Plug 'vim-scripts/indentpython.vim', { 'for': 'python' }                       " Better python indentation
 
-call vundle#end()                                   " End of plugin list
+" Plugins with advanced setup
 
-filetype plugin indent on                           " Turn on filetype detection and indentation
+" Function to install YCM if it's not installed already
+function! BuildYCM(info)
+  if a:info.status == 'installed' || a:info.force
+    !./install.py --clang-completer
+  endif
+endfunction
+
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }                  " Tab completion
+
+call plug#end()                                                                " End of plugin list
 
 " ----------- "
 " Look & Feel "

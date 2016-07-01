@@ -22,14 +22,10 @@ mkdir -p ~/.vim/after
 ln -s $DIR/vimrc ~/.vimrc
 ln -s $DIR/lang/ ~/.vim/after/ftplugin
 
-# Setup Vundle if it doesn't exist
-if [ ! -d ~/.vim/bundle ]; then
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-fi
+# Setup vim-plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Install plugins and quit vim
-vim +PluginInstall +qall now
+vim +PlugInstall +qall now
 
-# Install youcompleteme
-cd ~/.vim/bundle/YouCompleteMe
-./install.py --clang-completer

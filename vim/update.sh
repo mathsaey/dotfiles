@@ -8,8 +8,5 @@
 git pull # Make sure scripts are up to date
 
 # Update plugins
-vim +PluginClean +PluginInstall +PluginUpdate +qall now
+vim +PlugUpgrade +PlugClean +PlugInstall +PlugUpdate +qall now
 
-# Update YCM
-cd ~/.vim/bundle/YouCompleteMe
-./install.py --clang-completer
