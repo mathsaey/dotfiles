@@ -169,6 +169,15 @@ set showmatch                                       " Highlight matching [{()}]
 set ignorecase                                      " Don't match case
 set smartcase                                       " Unless the search term contains uppercase
 
+" ------------------------ "
+" Global Language Settings "
+" ------------------------ "
+
+" Settings for languages that should be loaded before the relevant
+" fptplugin/after file is loaded
+
+let g:tex_flavor="latex"                            " Always use latex
+
 " ------------ "
 " Autocommands "
 " ------------ "
