@@ -20,4 +20,5 @@ Furthermore, the following features could be handy:
 
 * An override folder, which can be used to replace the global config file completely for certain hosts.
 * An exclude folder, the contents of which would be added to the generated config, but not to git.
+* OS specific settings, though this might not scale with the makefile generation.
 * Properly documenting the makefile would be nice too.
