@@ -8,10 +8,16 @@
 # Parent dir of the script
 DIR=$(dirname $0)
 
-# Symlink zsh and bash rc files
+# Create required directories
+mkdir -p ~/.ssh
+
+# Symlink files
 ln -s $DIR/zsh  ~/.zshrc
 ln -s $DIR/bash ~/.bashrc
 ln -s $DIR/bash ~/.bash_profile
+
+ln -s $DIR/tmux ~/.tmux.conf
+ln -s $DIR/ssh  ~/.ssh/config
 
 # Vim and git config
 vim/setup.sh
