@@ -18,6 +18,9 @@ set-window-option -g status-bg white
 set-window-option -g window-status-current-fg black
 set-window-option -g window-status-current-bg blue
 
+set-window-option -g message-bg blue
+set-window-option -g message-fg black
+
 # --------- #
 # Key binds #
 # --------- #
