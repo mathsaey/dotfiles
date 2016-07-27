@@ -44,13 +44,6 @@ alias vim!="command vim"
 
 export PATH=$PATH:~/.bin
 
-# ---------------- #
-# Tool Integration #
-# ---------------- #
-
-eval "$(thefuck --alias)"
-# source ~/.bin/iterm2_shell_integration.zsh
-
 # ----------------- #
 # Commands at Login #
 # ----------------- #
