@@ -4,6 +4,20 @@
 
 set-option -g status-position top
 
+set-window-option -g status-left " #S "
+set-window-option -g status-right " %H:%M %d-%b-%y "
+set-window-option -g window-status-format " #I: #W "
+set-window-option -g window-status-current-format " #I: #W "
+
+set-window-option -g status-left-fg black
+set-window-option -g status-left-bg white
+set-window-option -g status-right-fg black
+set-window-option -g status-right-bg white
+
+set-window-option -g status-bg white
+set-window-option -g window-status-current-fg black
+set-window-option -g window-status-current-bg blue
+
 # --------- #
 # Key binds #
 # --------- #
@@ -50,3 +64,4 @@ set -s escape-time 0
 
 # Make tmux messages last longer
 set-option -g display-time 2000
+
