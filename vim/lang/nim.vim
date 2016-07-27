@@ -1,5 +1,3 @@
-setlocal makeprg=nim\ c\ %
-
 command! Run execute "ConqueTerm\ nim\ c\ --run\ ".expand('%')
 
 fun! JumpToDef()
