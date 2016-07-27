@@ -1,0 +1,5 @@
+# Unicode
+set -g utf8 on
+set -g status-utf8 on
+
+new-window
