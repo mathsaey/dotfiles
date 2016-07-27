@@ -41,33 +41,33 @@ $(HOME)/.bashrc: $(call build,bash)
 $(HOME)/.bash_profile: $(call build,bash)
 	ln -s $< $@
 clean-bash:
-	rm $(HOME)/.bashrc
-	rm $(HOME)/.bash_profile
+	- rm $(HOME)/.bashrc
+	- rm $(HOME)/.bash_profile
 
 zsh: clean-zsh $(HOME)/.zshrc
 $(HOME)/.zshrc: $(call build,zsh)
 	ln -s $< $@
 clean-zsh:
-	rm $(HOME)/.zshrc
+	- rm $(HOME)/.zshrc
 
 tmux: clean-tmux $(HOME)/.tmux.conf
 $(HOME)/.tmux.conf: $(call build,tmux)
 	ln -s $< $@
 clean-tmux:
-	rm $(HOME)/.tmux.conf
+	- rm $(HOME)/.tmux.conf
 
 ssh: clean-ssh $(HOME)/.ssh/config
 $(HOME)/.ssh/config: $(call build,ssh)
 	mkdir -p $(dir $@)
 	ln -s $< $@
 clean-ssh:
-	rm $(HOME)/.ssh/config
+	- rm $(HOME)/.ssh/config
 
 git: clean-git $(HOME)/.gitconfig
 $(HOME)/.gitconfig: $(call build,gitconfig)
 	ln -s $< $@
 clean-git:
-	rm $(HOME)/.gitconfig
+	- rm $(HOME)/.gitconfig
 
 vim: clean-vim $(HOME)/.vimrc
 	./vim/setup.sh
