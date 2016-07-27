@@ -1,0 +1,5 @@
+Match originalHost fangorn exec "[ x$(ipconfig getifaddr en0) = x10.0.3.1 ]"
+  Hostname fangorn.local
+Host fangorn
+  HostName mathsaey.be
+
