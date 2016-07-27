@@ -96,5 +96,5 @@ $(DOTFILES)/$(BUILD)/% : $(DOTFILES)/% $(DOTFILES)/$(HOSTNAME)/%
 	cat $^ > $@
 $(DOTFILES)/$(BUILD)/% : $(DOTFILES)/%
 	mkdir -p $(dir $@)
-	cat $^ > $@
+	ln -s $< $@
 
