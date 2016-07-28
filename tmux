@@ -68,3 +68,6 @@ set -s escape-time 0
 # Make tmux messages last longer
 set-option -g display-time 2000
 
+# Don't allow automatic window renaming
+set-window-option -g automatic-rename off
+
