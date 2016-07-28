@@ -69,5 +69,5 @@ set -s escape-time 0
 set-option -g display-time 2000
 
 # Don't allow automatic window renaming
-set-window-option -g automatic-rename off
+set-window-option -g allow-rename off
 
