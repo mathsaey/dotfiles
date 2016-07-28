@@ -57,7 +57,7 @@ bind r source-file ~/.tmux.conf
 # ------------- #
 
 # Allow Colors
-set -g default-terminal "xterm-256color"
+set -g default-terminal "screen-256color"
 
 # Enable mouse control
 set -g mouse on
