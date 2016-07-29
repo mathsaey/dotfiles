@@ -15,6 +15,7 @@ call plug#begin('~/.vim/bundle')                                               "
 " Visuals
 Plug 'tomasr/molokai'                                                          " Color scheme
 Plug 'bling/vim-airline'                                                       " Fancy status bar
+Plug 'junegunn/goyo.vim'                                                       " Distraction free mode
 Plug 'mhinz/vim-startify'                                                      " Custom start message
 
 " Git integration
@@ -45,6 +46,7 @@ Plug 'zah/nim.vim', { 'for': 'nim' }                                           "
 Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': 'tex' }                              " Latex support
 Plug 'derekwyatt/vim-scala', {'for': 'scala' }                                 " Scala support
 Plug 'wlangstroth/vim-racket', { 'for': 'racket' }                             " Racket support
+Plug 'gabrielelana/vim-markdown', { 'for': 'markdown'}                         " Improved markdown support
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }                      " Better CPP syntax highlighting
 Plug 'hdima/python-syntax', { 'for': 'python' }                                " Better syntax highlighting for python
 Plug 'vim-scripts/indentpython.vim', { 'for': 'python' }                       " Better python indentation
