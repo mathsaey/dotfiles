@@ -41,10 +41,10 @@ bind -n M-k select-pane -U
 bind -n M-j select-pane -D
 
 # Resize
-bind -n M-Up resize-pane -U
-bind -n M-Down resize-pane -D
-bind -n M-Left resize-pane -L
-bind -n M-Right resize-pane -R
+bind -n M-S-Up resize-pane -U
+bind -n M-S-Down resize-pane -D
+bind -n M-S-Left resize-pane -L
+bind -n M-S-Right resize-pane -R
 
 # Enter A Command
 bind -n M-: command-prompt
