@@ -69,11 +69,12 @@ $(HOME)/.gitconfig: $(call build,gitconfig)
 clean-git:
 	- rm $(HOME)/.gitconfig
 
-vim: clean-vim $(HOME)/.vimrc
-	./vim/setup.sh
+vim: clean-vim
+	cd vim ; ./setup.sh
 clean-vim:
-	./vim/clean.sh
+	 - cd vim ; ./clean.sh
 
+.PHONY: vim
 .PHONY: all
 .PHONY: clean
 .PHONY: bash
