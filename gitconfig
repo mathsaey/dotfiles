@@ -3,8 +3,6 @@
 	email = mathsaey@vub.ac.be
 [push]
 	default = current
-[core]
-	editor = mvim -f
 	excludesfile = ~/.dotfiles/gitignore
 [filter "media"]
 	clean = git-media-clean %f
