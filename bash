@@ -5,7 +5,6 @@
 # symlink to this file
 
 export EDITOR="vim"
-export VISUAL="mvim"
 
 export PATH=$PATH:~/.bin
 
