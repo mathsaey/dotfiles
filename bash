@@ -4,6 +4,8 @@
 # This file contains the main bash config, bashrc and bash_profile should
 # symlink to this file
 
+source util.sh
+
 export EDITOR="vim"
 
 export PATH=$PATH:~/.bin
