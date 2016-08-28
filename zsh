@@ -1,4 +1,4 @@
 export HOMEBREW_NO_ANALYTICS=1
-alias fangorn="ssh fangorn -t mux $USER"
+alias brethil="ssh brethil -t mux $USER"
 eval "$(thefuck --alias)"
 
