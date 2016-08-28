@@ -4,7 +4,7 @@
 # This file contains the main bash config, bashrc and bash_profile should
 # symlink to this file
 
-source util.sh
+source ~/.dotfiles/util.sh
 
 export EDITOR="vim"
 
