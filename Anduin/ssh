@@ -3,5 +3,5 @@ Host fangorn
 
 Match originalHost brethil exec "[ x$(ipconfig getifaddr en0) = x10.0.3.1 ]"
   Hostname brethil.local
-Host fangorn
+Host brethil
   HostName mathsaey.be
