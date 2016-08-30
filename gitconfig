@@ -1,9 +1,10 @@
 [user]
 	name = Mathijs Saey
 	email = mathsaey@vub.ac.be
+[core]
+	excludesfile = ~/.dotfiles/gitignore
 [push]
 	default = current
-	excludesfile = ~/.dotfiles/gitignore
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
