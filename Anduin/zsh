@@ -5,6 +5,8 @@
 # Variables #
 # --------- #
 
+alias ls="ls -G"
+
 export EDITOR="mvim -f"
 export VISUAL="mvim"
 
