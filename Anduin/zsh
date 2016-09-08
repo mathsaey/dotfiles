@@ -13,7 +13,7 @@ export VISUAL="mvim"
 alias vim=mvim
 alias vim!="command vim"
 
-export PATH=$PATH:~/.bin:~/.nimble/bin
+export PATH=$PATH:~/.bin
 
 # ----------------- #
 # Commands at Login #
