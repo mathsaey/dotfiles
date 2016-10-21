@@ -37,6 +37,7 @@ Plug 'tpope/vim-commentary'                                                    "
 Plug 'scrooloose/syntastic'                                                    " Linter
 Plug 'tpope/vim-speeddating'                                                   " Date tools for vim, required for vim-orgmode
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
+Plug 'vim-scripts/TaskList.vim'                                                " List uncompleted todo's
 Plug 'pthrasher/conqueterm-vim'                                                " Shell integration
 Plug 'terryma/vim-expand-region'                                               " Easily select regions
 Plug 'vim-scripts/DeleteTrailingWhitespace'                                    " Allow the automatic deletion of trailing whitespace
