@@ -198,7 +198,7 @@ autocmd InsertLeave *
   \ endif
 
 " Add .nims as a nim file
-au BufNewFile,BufRead *.nims set filetype=nim
+autocmd BufNewFile,BufRead *.nims set filetype=nim
 
 " ------------------- "
 " ConqueTerm Settings "
