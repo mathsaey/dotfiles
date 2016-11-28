@@ -284,10 +284,17 @@ let mapleader = "\<Space>"
 " Use backslash as local leader
 let maplocalleader = "\\"
 
+" System copy/paste
+nnoremap <Leader>y "+y
+nnoremap <Leader>d "+d
+nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
+vnoremap <Leader>y "+y
+vnoremap <Leader>d "+d
+vnoremap <Leader>p "+p
+vnoremap <Leader>P "+P
 " Easier split changing
 nnoremap <Leader>m <C-W>
-" Use system clipboard
-nnoremap <Leader>v "*
 " Write file
 nnoremap <Leader>w :write<CR>
 " Turn off search highlighting
