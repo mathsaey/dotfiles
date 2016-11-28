@@ -294,6 +294,12 @@ vnoremap <Leader>y "+y
 vnoremap <Leader>d "+d
 vnoremap <Leader>p "+p
 vnoremap <Leader>P "+P
+" Close window
+nnoremap  <Leader>qa :qall<CR>
+" Close buffer
+nnoremap  <Leader>qw :q<CR>
+" Close buffer but preseve layout
+nnoremap  <Leader>qb :Bclose<CR>
 " Easier split changing
 nnoremap <Leader>m <C-W>
 " Write file
