@@ -35,6 +35,7 @@ Plug 'vim-scripts/utl.vim'                                                     "
 Plug 'chrisbra/improvedft'                                                     " Makes f and t work on multiple lines
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
 Plug 'scrooloose/syntastic'                                                    " Linter
+Plug 'kshenoy/vim-signature'                                                   " Show marks in the sidebar
 Plug 'tpope/vim-speeddating'                                                   " Date tools for vim, required for vim-orgmode
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
 Plug 'vim-scripts/TaskList.vim'                                                " List uncompleted todo's
