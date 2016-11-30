@@ -23,9 +23,9 @@ Plug 'tpope/vim-fugitive'                                                      "
 Plug 'airblade/vim-gitgutter'                                                  " Show diff in sidebar
 
 " Tools
-Plug 'sjl/gundo.vim'                                                           " Visual undo tree
 Plug 'kien/ctrlp.vim'                                                          " Fuzzy file searching
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
+Plug 'mbbill/undotree'                                                         " Visual undo tree
 Plug 'jceb/vim-orgmode'                                                        " Org mode for vim
 Plug 'godlygeek/tabular'                                                       " Easily align stuff
 Plug 'xolox/vim-session'                                                       " Session Management
@@ -132,6 +132,7 @@ let g:startify_list_order = [
 " Misc
 set title                                           " Let vim set the window title
 set ttyfast                                         " Indicates the terminal is fast and more chars can be sent
+set undofile                                        " Save undo tree
 set wildmenu                                        " Shows the available autocompletes in command menu
 set autowrite                                       " Automatically save before compiling and some other actions
 set lazyredraw                                      " Don't always redraw the screen
@@ -307,7 +308,7 @@ nnoremap <Leader>w :write<CR>
 " Turn off search highlighting
 nnoremap <Leader>n :nohlsearch<CR>
 " Show the visual undo tree
-nnoremap <Leader>u :GundoToggle<CR>
+nnoremap <Leader>u :UndotreeToggle<CR>
 " Tabularize =
 nnoremap <Leader>= :Tabularize /=<CR>
 " Toggle line numbers
