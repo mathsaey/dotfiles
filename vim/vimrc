@@ -14,9 +14,9 @@ call plug#begin('~/.vim/bundle')                                               "
 
 " Visuals
 Plug 'tomasr/molokai'                                                          " Color scheme
-Plug 'bling/vim-airline'                                                       " Fancy status bar
 Plug 'junegunn/goyo.vim'                                                       " Distraction free mode
 Plug 'mhinz/vim-startify'                                                      " Custom start message
+Plug 'vim-airline/vim-airline'                                                 " Fancy status bar
 
 " Git integration
 Plug 'tpope/vim-fugitive'                                                      " Git integration
