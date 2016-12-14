@@ -3,7 +3,24 @@ Match originalHost brethil exec "[ x$(ipconfig getifaddr en0) = x10.0.3.1 ]"
 Host brethil
   HostName mathsaey.be
 
-Host isabelle
-  HostName isabelle.vub.ac.be
 Host serenity
   HostName serenity.vub.ac.be
+
+Host isabelle
+  HostName isabelle.vub.ac.be
+Host isabelle-a
+  ProxyCommand ssh isabelle nc %h %p
+Host isabelle-b
+  ProxyCommand ssh isabelle nc %h %p
+Host isabelle-c
+  ProxyCommand ssh isabelle nc %h %p
+Host isabelle-d
+  ProxyCommand ssh isabelle nc %h %p
+Host isabelle-e
+  ProxyCommand ssh isabelle nc %h %p
+Host isabelle-f
+  ProxyCommand ssh isabelle nc %h %p
+Host isabelle-g
+  ProxyCommand ssh isabelle nc %h %p
+Host isabelle-h
+  ProxyCommand ssh isabelle nc %h %p
