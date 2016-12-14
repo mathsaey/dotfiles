@@ -1,7 +1,9 @@
-Host fangorn
-  HostName fangorn.local
-
 Match originalHost brethil exec "[ x$(ipconfig getifaddr en0) = x10.0.3.1 ]"
   Hostname brethil.local
 Host brethil
   HostName mathsaey.be
+
+Host isabelle
+  HostName isabelle.vub.ac.be
+Host serenity
+  HostName serenity.vub.ac.be
