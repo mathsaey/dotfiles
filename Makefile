@@ -7,7 +7,7 @@
 # Globals #
 # ------- #
 
-DOTFILES := $(shell pwd)
+DOTFILES := $(shell bash -c pwd)
 UNAME    := $(shell uname)
 BUILD    := build
 
