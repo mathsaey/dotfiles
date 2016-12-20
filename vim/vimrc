@@ -240,11 +240,7 @@ endfunc
 
 " Toggle spellcheck
 function! SpellToggle()
-  if (&spell == 1)
-    set nospell
-  else
-    set spell
-  endif
+  set spell!
 endfunc
 
 " Creates a fancy comment box given a string
