@@ -1,3 +1,6 @@
+Host *
+    UseKeychain yes
+
 Match originalHost brethil exec "[ x$(ipconfig getifaddr en0) = x10.0.3.1 ]"
   Hostname brethil.local
 Host brethil
