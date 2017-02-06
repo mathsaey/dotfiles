@@ -7,33 +7,35 @@ setlocal spelllang=en_us       " Use US English spelling by default
 setlocal formatoptions+=t      " Auto-wrap when exceeding 80 charachters.
 setlocal wrap linebreak nolist " Display long lines over multiple lines
 
-" ----------------- "
-" LatexBox Settings "
-" ----------------- "
-
-let g:LatexBox_viewer='open -a Skim'
-
-let g:LatexBox_quickfix=2
-let g:LatexBox_latexmk_async=1
-let g:LatexBox_latexmk_preview_continuously=1
-
-" ----------- "
-" Jump in PDF "
-" ----------- "
-
-" Enable synctex for forward searching
-let g:LatexBox_latexmk_options =
-      \ '-pdflatex="pdflatex -synctex=1 %O %S"'
-
-" Jump to current line in PDF
-map <silent> <LocalLeader>s :silent
-      \ !/Applications/Skim.app/Contents/SharedSupport/displayline -r -g
-      \ <C-R>=line('.')<CR> "<C-R>=LatexBox_GetOutputFile()<CR>"
-      \ "%:p" <CR>
-
 " --------------- "
-" Custom Keybinds "
+" vimtex Settings "
 " --------------- "
 
-map <LocalLeader>b <LocalLeader>ll<LocalLeader>s
+let g:vimtex_view_general_viewer
+  \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+
+let g:vimtex_latexmk_continuous = 1
+
+let g:vimtex_view_general_options = '-r @line @pdf @tex'
+
+" This adds a callback hook that updates Skim after compilation
+let g:vimtex_latexmk_callback_hooks = ['UpdateSkim']
+
+function! UpdateSkim(status)
+  if !a:status | return | endif
+
+  let l:out = b:vimtex.out()
+  let l:tex = expand('%:p')
+  let l:cmd = [g:vimtex_view_general_viewer, '-r']
+  if !empty(system('pgrep Skim'))
+    call extend(l:cmd, ['-g'])
+  endif
+  if has('nvim')
+    call jobstart(l:cmd + [line('.'), l:out, l:tex])
+  elseif has('job')
+    call job_start(l:cmd + [line('.'), l:out, l:tex])
+  else
+    call system(join(l:cmd + [line('.'), shellescape(l:out), shellescape(l:tex)], ' '))
+  endif
+endfunction
 

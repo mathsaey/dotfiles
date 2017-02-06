@@ -45,7 +45,7 @@ Plug 'vim-scripts/DeleteTrailingWhitespace'                                    "
 
 " Languages
 Plug 'zah/nim.vim', { 'for': 'nim' }                                           " Nim support
-Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': 'tex' }                              " Latex support
+Plug 'lervag/vimtex', { 'for': 'tex' }                                         " Latex support
 Plug 'derekwyatt/vim-scala', {'for': 'scala' }                                 " Scala support
 Plug 'wlangstroth/vim-racket', { 'for': 'racket' }                             " Racket support
 Plug 'gabrielelana/vim-markdown', { 'for': 'markdown'}                         " Improved markdown support
@@ -183,7 +183,7 @@ set smartcase                                       " Unless the search term con
 " Settings for languages that should be loaded before the relevant
 " fptplugin/after file is loaded
 
-let g:tex_flavor="latex"                            " Always use latex
+let g:tex_flavor = 'latex'                          " Always use latex
 
 " ------------ "
 " Autocommands "
