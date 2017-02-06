@@ -1,6 +1,6 @@
 function smux {
-  # Attach to a tmux session with name $USER over ssh
-  ssh $1 -t tmux attach -t $USER
+  # Attach to a tmuxinator session with name $USER over ssh
+  ssh $1 -t mux $USER
 }
 
 function highlight-snippet {
