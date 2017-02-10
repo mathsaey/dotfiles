@@ -270,8 +270,31 @@ function! CommentLine(msg)
   call append('.', mid)
 endfunction
 
+" Get the currently selected text
+" http://stackoverflow.com/a/6271254/3329884
+function! GetVisualSelection()
+  let [lnum1, col1] = getpos("'<")[1:2]
+  let [lnum2, col2] = getpos("'>")[1:2]
+  let lines = getline(lnum1, lnum2)
+  let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][col1 - 1:]
+  return join(lines, "\n")
+endfunction
+
+" Highlight the currently selected text and add it to the system clipboard
+function! Highlight(txt) range
+  let txt = shellescape(a:txt)
+  let ftp = &filetype
+  let cmd =
+    \ '!' . ' ' . 'echo' . ' ' . txt . ' | ' .
+    \ 'highlight -O rtf -s seashell -K 12 -k menlo --no-trailing-nl ' .
+    \ '-S ' . ftp . ' | pbcopy'
+  silent exec cmd
+endfunction
+
 command! -nargs=* CommentBox  call CommentBox(<q-args>)
 command! -nargs=* CommentLine call CommentLine(<q-args>)
+command! -range   Highlight   call Highlight(GetVisualSelection())
 
 " ------------------- "
 " Custom Key Bindings "
@@ -309,6 +332,8 @@ nnoremap <Leader>u :UndotreeToggle<CR>
 nnoremap <Leader>= :Tabularize /=<CR>
 " Toggle line numbers
 nnoremap <Leader>l :call NumberToggle()<CR>
+" Highligh selected text
+vnoremap <Leader>h :Highlight<CR>
 
 " Spelling
 nnoremap <Leader>so  :call SpellToggle()<CR>
