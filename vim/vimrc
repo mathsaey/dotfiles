@@ -271,7 +271,7 @@ function! CommentLine(msg)
 endfunction
 
 " Get the currently selected text
-" http://stackoverflow.com/a/6271254/3329884
+" Source: http://stackoverflow.com/a/6271254/3329884
 function! GetVisualSelection()
   let [lnum1, col1] = getpos("'<")[1:2]
   let [lnum2, col2] = getpos("'>")[1:2]
@@ -281,20 +281,38 @@ function! GetVisualSelection()
   return join(lines, "\n")
 endfunction
 
-" Highlight the currently selected text and add it to the system clipboard
-function! Highlight(txt) range
-  let txt = shellescape(a:txt)
-  let ftp = &filetype
+" Highlight a piece of text and add it to the system clipboard
+" Args: txt, [theme, fontSize, fileType, font]
+"   txt: The text to be highlighted
+"   theme: The highlight theme to use (defaults to seashell)
+"   fontSize: The font size to use (defaults to 12)
+"   fileType: The language of txt (defaults to the current filetype)
+"   font: The font to use (defaults to menlo)
+function! Highlight(txt, ...) range
+  let txt      = shellescape(a:txt)
+  let theme    = (a:0 >= 1) ? a:1 : 'seashell'
+  let fontSize = (a:0 >= 2) ? a:2 : 12
+  let fileType = (a:0 >= 3) ? a:3 : &filetype
+  let font     = (a:0 >= 4) ? a:4 : 'menlo'
   let cmd =
     \ '!' . ' ' . 'echo' . ' ' . txt . ' | ' .
-    \ 'highlight -O rtf -s seashell -K 12 -k menlo --no-trailing-nl ' .
-    \ '-S ' . ftp . ' | pbcopy'
-  silent exec cmd
+    \ 'highlight --out-format=rtf' . ' ' .
+    \ '--style=' . theme . ' ' .
+    \ '--font-size=' . fontSize . ' ' .
+    \ '--font=' . font . ' ' .
+    \ '--syntax=' . fileType . ' ' .
+    \ '--no-trailing-nl' . ' ' .
+    \ '|' . ' ' .  'pbcopy'
+  echo cmd
 endfunction
 
-command! -nargs=* CommentBox  call CommentBox(<q-args>)
-command! -nargs=* CommentLine call CommentLine(<q-args>)
-command! -range   Highlight   call Highlight(GetVisualSelection())
+command! -nargs=*          CommentBox  call CommentBox(<q-args>)
+command! -nargs=*          CommentLine call CommentLine(<q-args>)
+command! -nargs=* -range   Highlight   call Highlight(GetVisualSelection(), <f-args>)
+
+
+" def someTestCode():
+  " return "blah"
 
 " ------------------- "
 " Custom Key Bindings "
