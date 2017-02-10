@@ -303,16 +303,12 @@ function! Highlight(txt, ...) range
     \ '--syntax=' . fileType . ' ' .
     \ '--no-trailing-nl' . ' ' .
     \ '|' . ' ' .  'pbcopy'
-  echo cmd
+  silent exec cmd
 endfunction
 
 command! -nargs=*          CommentBox  call CommentBox(<q-args>)
 command! -nargs=*          CommentLine call CommentLine(<q-args>)
 command! -nargs=* -range   Highlight   call Highlight(GetVisualSelection(), <f-args>)
-
-
-" def someTestCode():
-  " return "blah"
 
 " ------------------- "
 " Custom Key Bindings "
