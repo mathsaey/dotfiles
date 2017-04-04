@@ -16,6 +16,7 @@ call plug#begin('~/.vim/bundle')                                               "
 Plug 'tomasr/molokai'                                                          " Color scheme
 Plug 'junegunn/goyo.vim'                                                       " Distraction free mode
 Plug 'mhinz/vim-startify'                                                      " Custom start message
+Plug 'junegunn/limelight.vim'                                                  " Only show current paragraph
 Plug 'vim-airline/vim-airline'                                                 " Fancy status bar
 
 " Git integration
@@ -23,6 +24,7 @@ Plug 'tpope/vim-fugitive'                                                      "
 Plug 'airblade/vim-gitgutter'                                                  " Show diff in sidebar
 
 " Tools
+Plug 'w0rp/ale'                                                                " Asynchronous linter
 Plug 'kien/ctrlp.vim'                                                          " Fuzzy file searching
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
 Plug 'mbbill/undotree'                                                         " Visual undo tree
@@ -34,7 +36,6 @@ Plug 'vim-scripts/Tagbar'                                                      "
 Plug 'vim-scripts/utl.vim'                                                     " Universal text linking (required for vim-orgmode)
 Plug 'chrisbra/improvedft'                                                     " Makes f and t work on multiple lines
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
-Plug 'scrooloose/syntastic'                                                    " Linter
 Plug 'kshenoy/vim-signature'                                                   " Show marks in the sidebar
 Plug 'tpope/vim-speeddating'                                                   " Date tools for vim, required for vim-orgmode
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
@@ -102,6 +103,10 @@ let g:airline#extensions#tabline#buffer_min_count=2 " Only show tab line when at
 let g:airline#extensions#tabline#left_sep = ' '     " No left separator
 let g:airline#extensions#tabline#left_alt_sep = '|' " Use | as the right separator for 'straight tabs
 
+" Error symbols
+let g:airline#extensions#ale#error_symbol = '⨉ '
+let g:airline#extensions#ale#warning_symbol = '⚠ '
+
 " Temporary Files
 set backupdir=~/.tmp/vim/backup//                   " Directory for file backups
 set directory=~/.tmp/vim/swap//                     " Directory for swap files
@@ -137,8 +142,6 @@ set wildmenu                                        " Shows the available autoco
 set autowrite                                       " Automatically save before compiling and some other actions
 set lazyredraw                                      " Don't always redraw the screen
 set backspace=indent,eol,start                      " Allow backspaces to remove more
-
-let g:syntastic_aggregate_errors = 1                " Show errors from various checkers in syntastic
 
 let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace on save
 
@@ -200,6 +203,10 @@ autocmd InsertLeave *
 
 " Add .nims as a nim file
 autocmd BufNewFile,BufRead *.nims set filetype=nim
+
+" Turn on Limelight when using Goyo
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
 
 " ------------------- "
 " ConqueTerm Settings "
@@ -348,6 +355,8 @@ nnoremap <Leader>= :Tabularize /=<CR>
 nnoremap <Leader>l :call NumberToggle()<CR>
 " Highligh selected text
 vnoremap <Leader>h :Highlight<CR>
+" Enter distraction free mode (or leave it)
+nnoremap <leader>g :Goyo<CR>
 
 " Spelling
 nnoremap <Leader>so  :call SpellToggle()<CR>
