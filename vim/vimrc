@@ -28,7 +28,6 @@ Plug 'w0rp/ale'                                                                "
 Plug 'kien/ctrlp.vim'                                                          " Fuzzy file searching
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
 Plug 'mbbill/undotree'                                                         " Visual undo tree
-Plug 'jceb/vim-orgmode'                                                        " Org mode for vim
 Plug 'godlygeek/tabular'                                                       " Easily align stuff
 Plug 'xolox/vim-session'                                                       " Session Management
 Plug 'tpope/vim-surround'                                                      " Easily change surrounding braces, quotes, ...
@@ -47,7 +46,9 @@ Plug 'vim-scripts/DeleteTrailingWhitespace'                                    "
 " Languages
 Plug 'zah/nim.vim', { 'for': 'nim' }                                           " Nim support
 Plug 'lervag/vimtex', { 'for': 'tex' }                                         " Latex support
+Plug 'jceb/vim-orgmode', {'for': 'org'}                                        " Org mode for vim
 Plug 'derekwyatt/vim-scala', {'for': 'scala' }                                 " Scala support
+Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}
 Plug 'wlangstroth/vim-racket', { 'for': 'racket' }                             " Racket support
 Plug 'gabrielelana/vim-markdown', { 'for': 'markdown'}                         " Improved markdown support
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }                      " Better CPP syntax highlighting
