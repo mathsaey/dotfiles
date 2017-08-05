@@ -1,6 +1,6 @@
 function smux {
   # Attach to a tmuxinator session with name $USER over ssh
-  ssh $1 -t mux $USER
+  ssh $1 -t tmuxinator $USER
 }
 
 function imux {
