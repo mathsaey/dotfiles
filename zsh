@@ -31,5 +31,4 @@ source ~/.dotfiles/res/zsh-plugins/powerlevel9k/powerlevel9k.zsh-theme
 # Plugins #
 # ------- #
 
-eval "$(thefuck --alias)"
 source ~/.dotfiles/res/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
