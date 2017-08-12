@@ -29,4 +29,4 @@ alias isabelle-all=$ISABELLE_ALL_CMD
 # Commands at Login #
 # ----------------- #
 
-screenfetch
+neofetch
