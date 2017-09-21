@@ -30,6 +30,7 @@ Plug 'xolox/vim-misc'                                                          "
 Plug 'mbbill/undotree'                                                         " Visual undo tree
 Plug 'godlygeek/tabular'                                                       " Easily align stuff
 Plug 'xolox/vim-session'                                                       " Session Management
+Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
 Plug 'tpope/vim-surround'                                                      " Easily change surrounding braces, quotes, ...
 Plug 'vim-scripts/Tagbar'                                                      " File minimap
 Plug 'vim-scripts/utl.vim'                                                     " Universal text linking (required for vim-orgmode)
@@ -48,7 +49,8 @@ Plug 'zah/nim.vim', { 'for': 'nim' }                                           "
 Plug 'lervag/vimtex', { 'for': 'tex' }                                         " Latex support
 Plug 'jceb/vim-orgmode', {'for': 'org'}                                        " Org mode for vim
 Plug 'derekwyatt/vim-scala', {'for': 'scala' }                                 " Scala support
-Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}
+Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}                               " Syntax support for Elixir
+Plug 'slashmili/alchemist.vim', {'for': 'elixir'}                              " IDE like tools for Elixir
 Plug 'wlangstroth/vim-racket', { 'for': 'racket' }                             " Racket support
 Plug 'gabrielelana/vim-markdown', { 'for': 'markdown'}                         " Improved markdown support
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }                      " Better CPP syntax highlighting
