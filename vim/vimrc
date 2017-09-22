@@ -234,7 +234,7 @@ function! Conque_set_syntax(term)
     endif
 endfunction
 
-call conque_term#register_function('after_startup', 'Conque_set_syntax')
+" call conque_term#register_function('after_startup', 'Conque_set_syntax')
 
 " --------------------------- "
 " Custom Functions & Commands "
