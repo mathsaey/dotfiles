@@ -16,7 +16,7 @@ call plug#begin('~/.vim/bundle')                                               "
 Plug 'tomasr/molokai'                                                          " Color scheme
 Plug 'junegunn/goyo.vim'                                                       " Distraction free mode
 Plug 'mhinz/vim-startify'                                                      " Custom start message
-Plug 'junegunn/limelight.vim'                                                  " Only show current paragraph
+Plug 'junegunn/limelight.vim'                                                  " Only color current paragraph
 Plug 'vim-airline/vim-airline'                                                 " Fancy status bar
 
 " Git integration
@@ -25,9 +25,9 @@ Plug 'airblade/vim-gitgutter'                                                  "
 
 " Tools
 Plug 'w0rp/ale'                                                                " Asynchronous linter
-Plug 'kien/ctrlp.vim'                                                          " Fuzzy file searching
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
 Plug 'mbbill/undotree'                                                         " Visual undo tree
+Plug 'mileszs/ack.vim'                                                         " Better file search
 Plug 'godlygeek/tabular'                                                       " Easily align stuff
 Plug 'xolox/vim-session'                                                       " Session Management
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
@@ -40,7 +40,6 @@ Plug 'kshenoy/vim-signature'                                                   "
 Plug 'tpope/vim-speeddating'                                                   " Date tools for vim, required for vim-orgmode
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
 Plug 'vim-scripts/TaskList.vim'                                                " List uncompleted todo's
-Plug 'pthrasher/conqueterm-vim'                                                " Shell integration
 Plug 'terryma/vim-expand-region'                                               " Easily select regions
 Plug 'vim-scripts/DeleteTrailingWhitespace'                                    " Allow the automatic deletion of trailing whitespace
 
@@ -181,6 +180,8 @@ set showmatch                                       " Highlight matching [{()}]
 
 set ignorecase                                      " Don't match case
 set smartcase                                       " Unless the search term contains uppercase
+
+let g:ackprg = 'ag --vimgrep'                       " Setup ag for ack.vim
 
 " ------------------------ "
 " Global Language Settings "
