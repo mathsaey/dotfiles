@@ -4,6 +4,13 @@
 export HOMEBREW_NO_ANALYTICS=1
 source ~/.dotfiles/util.sh
 
+# ---------------- #
+# General settings #
+# ---------------- #
+
+# Enable
+autoload -Uz compinit && compinit
+
 # ------- #
 # Visuals #
 # ------- #
