@@ -83,9 +83,9 @@ We add color and hotkeys to make it easy to recognize or enter these states.
 
 #+BEGIN_SRC emacs-lisp
   (setq org-todo-keywords '(
-    "TODO (t)"
+    "TODO(t)"
     "IN PROGRESS(p!/!)"
-    "WAITING (w!/!)"
+    "WAITING(w!/!)"
     "|"
     "DONE(d!)"
     "CANCELLED(c!)"))
