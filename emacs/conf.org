@@ -211,6 +211,8 @@ I don't need a splash screen every time I start emacs.
 
 * Language specific configuration
 
+I don't want my language specific tweaks to clutter up this file.
+  
 #+BEGIN_SRC emacs-lisp
   (org-babel-load-file (expand-file-name "org.org" conf-dir))
 #+END_SRC
