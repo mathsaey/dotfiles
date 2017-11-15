@@ -1,0 +1,227 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Mathijs Saey
+
+* Globals
+
+Keep some of the configuration in its own directory, namely =~/.emacs.d/conf/=.
+
+#+BEGIN_SRC emacs-lisp
+  (defconst conf-dir (expand-file-name "conf" user-emacs-directory))
+#+END_SRC
+
+* Packages
+** =package.el= config.
+
+We use =use-package= to manage our packages. Before we can use it, we need to
+do some setup with =package.el=. First of all, =require= it, afterwards,
+disable it while we set up our repositories. Finally, we make sure
+=package.el= doesn't modify our =init.el= file.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (setq package-enable-at-startup nil)
+  (setq package--init-file-ensured t)
+#+END_SRC
+
+Ensure we use /melpa/ when possible.
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/"))
+
+  (setq package-archive-priorities
+    '(("melpa"        . 5)
+      ("gnu"          . 0)))
+#+END_SRC
+
+Now that all of that is done, we can start =package.el=
+
+#+BEGIN_SRC emacs-lisp
+  (package-initialize)
+#+END_SRC
+** Setup =use-package=
+
+We make sure use-package is installed before we do anything else.
+
+#+BEGIN_SRC emacs-lisp
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+#+END_SRC
+
+We always want our packages to be required unless we specify otherwise.
+
+#+BEGIN_SRC emacs-lisp
+  (setq use-package-always-ensure t)
+#+END_SRC
+
+Now that all of that is done, we can finally start to use =use-package=.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'use-package)
+#+END_SRC
+* Evil mode
+ 
+Emacs is aweswome, but vim has a far superior interface. Let's use
+=evil-mode= to get the best of both worlds.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package evil
+    :after evil-leader
+    :config
+      (evil-mode t))
+#+END_SRC
+
+Let's use evil-leader to make our life a bit easier.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-leader
+    :config
+    (evil-leader/set-leader "<SPC>")
+    (global-evil-leader-mode)) 
+#+END_SRC
+
+I like to use =<leader>w= to /write/ my current buffer.
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "w" 'save-buffer)
+#+END_SRC
+
+Use =fj= or =jf= to leave insert mode.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-escape
+    :config
+      (require 'evil-escape)
+      (setq evil-escape-key-sequence "fj")
+      (setq evil-escape-unordered-key-sequence t)
+      (setq evil-escape-mode t)
+      (evil-escape-mode))
+#+END_SRC
+
+* Other packages
+
+#+BEGIN_SRC emacs-lisp
+  (use-package helm)
+#+END_SRC
+* Visuals
+** GUI things
+
+I don't need to see the scroll, menu, or tool bar.
+On OSX the menu bar is visible anyway, so let's not disable it.
+
+#+BEGIN_SRC emacs-lisp
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(unless (string-equal system-type "darwin")
+	(menu-bar-mode -1))
+#+END_SRC
+
+** line numbers and highlighting
+
+I like line numbers. However, I should only use them for programming-like
+languages since org-mode does not seem to like them that much.
+
+TODO: find a way to keep the line numbers right aligned.
+
+#+BEGIN_SRC emacs-lisp
+(use-package nlinum
+    :init
+    (add-hook 'prog-mode-hook 'nlinum-mode)
+    :config
+    (setq nlinum-format " %2d "))
+#+END_SRC
+
+Highlight the current line in all buffers. Use the =hlnum= package to also
+highlight the line number of the current line for easy identification.
+
+#+BEGIN_SRC emacs-lisp
+(setq global-hl-line-sticky-flag t)
+(global-hl-line-mode t)
+
+(use-package hlinum
+    :config
+    (hlinum-activate))
+#+END_SRC
+
+** Font
+   
+I like to use the Menlo font. 12 points seems to be a reasonable size.
+
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'default t :font "Menlo")
+(set-face-attribute 'default t :height (* 10 12))
+#+END_SRC
+** Theme
+
+Use the darkokai theme, don't add too much padding around the mode line.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package darkokai-theme
+   :config
+    (setq darkokai-mode-line-padding 1)
+    (load-theme 'darkokai t))
+#+END_SRC
+
+Use rainbow brakcets.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-delimiters
+    :config
+      (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+#+END_SRC
+
+** Mode Line
+
+I like fancy mode lines. We'll use
+[[https://github.com/dbordak/telephone-line][telephone-line]] to do the heavy
+lifting for us. To make things pretty, use the cubed separator everywhere.
+
+#+BEGIN_SRC emacs-lisp
+(use-package telephone-line
+    :ensure t
+    :config
+    (setq
+	telephone-line-height 24
+	telephone-line-primary-left-separator 'telephone-line-cubed-left
+	telephone-line-primary-right-separator 'telephone-line-cubed-right
+	telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left
+	telephone-line-secondary-right-separator'telephone-line-cubed-hollow-right)
+
+    (require 'telephone-line-config)
+    (telephone-line-evil-config))
+#+END_SRC
+
+* Miscellaneous configuration.
+
+I don't like how =customize.el= randomly modifies my =init.el= file. I didn't
+figure out how to disable this completely, but I can at least make it write
+its changes to a separate file.
+
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file (expand-file-name "customize.el" user-emacs-directory))
+  (load custom-file t)
+#+END_SRC
+
+I don't need a splash screen every time I start emacs.
+
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-message t) 
+#+END_SRC
+
+* Language specific configuration
+
+#+BEGIN_SRC emacs-lisp
+  (org-babel-load-file (expand-file-name "org.org" conf-dir))
+#+END_SRC
+
+* [2/7] To do
+- [X] Get rid of the emacs splash screen
+- [ ] Configure evil mode properly
+- [X] Fix the weird blank boxes org gives
+- [ ] Move all the emacs junk files to some central place
+  - [ ] Backup files
+  - [ ] Autosave files
+- [ ] Linters, autocompleters
+- [ ] Fancy parens
+- [ ] Do something about the org mode font

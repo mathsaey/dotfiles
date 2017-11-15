@@ -1,0 +1,104 @@
+#+TITLE: Org mode config
+
+* Keybinds
+
+I don't like emacs-style keybindings.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-org
+    :after org
+    :config
+     (require 'evil-org)
+     (evil-org-set-key-theme '(navigation return textobjects shift todo heading))
+     (add-hook 'org-mode-hook 'evil-org-mode))
+#+END_SRC
+
+Make =0= jump to the text of the header instead of the bullet.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-special-ctrl-a t)
+#+END_SRC
+
+Make =>= and =<= promote/demote of a heading.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'evil-org)
+  (evil-define-key 'normal evil-org-mode-map
+    (kbd ">") 'org-metaright
+    (kbd "<") 'org-metaleft)
+#+END_SRC
+
+Add some additional keybindings to =<leader>= in org mode.
+
+- =c= checks a checkbox
+- =l= follows the link under the point
+
+#+BEGIN_SRC emacs-lisp
+  (require 'evil-leader)
+  (evil-leader/set-key-for-mode 'org-mode
+    "c" 'org-ctrl-c-ctrl-c
+    "l" 'org-open-at-point)
+#+END_SRC
+
+* Visuals
+
+Let's use pretty bullets
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :after org
+    :init
+    (add-hook 'org-mode-hook #'org-bullets-mode))
+#+END_SRC
+
+I don't like the ellipsis org mode uses by default.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-ellipsis " ⤵")
+#+END_SRC
+
+I always want a blank line before a header.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-blank-before-new-entry
+  '((heading . t)
+    (plain-list-item . nil)))
+#+END_SRC
+
+Use more sane settings in =BEGIN_SRC= blocks.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+#+END_SRC
+
+* Todo
+
+The possible todo states are /TODO/, /IN PROGRESS/, /WAITING/ and /DONE/.
+Timestamps are added when entering or leaving the /IN PROGRESS/ and /WAITING/
+states. /DONE/ and /CANCELLED/ are the final states. Timestamps are recorded
+when entering these states.
+
+We add color and hotkeys to make it easy to recognize or enter these states.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-todo-keywords '(
+    "TODO (t)"
+    "IN PROGRESS(p!/!)"
+    "WAITING (w!/!)"
+    "|"
+    "DONE(d!)"
+    "CANCELLED(c!)"))
+  (setq org-todo-keyword-faces
+    '(("TODO" . org-todo)
+      ("IN PROGRESS" . "cyan")
+      ("WAITING" . "yellow")
+      ("DONE" . org-done)
+      ("CANCELLED" . "red")))
+#+END_SRC
+
+We add any recorded timestamps to the /logbook/ drawer.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-log-into-drawer "LOGBOOK")
+#+END_SRC
