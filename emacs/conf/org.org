@@ -48,7 +48,7 @@ Let's use pretty bullets
   (use-package org-bullets
     :after org
     :init
-    (add-hook 'org-mode-hook #'org-bullets-mode))
+    (add-hook 'org-mode-hook 'org-bullets-mode))
 #+END_SRC
 
 I don't like the ellipsis org mode uses by default.
@@ -57,12 +57,11 @@ I don't like the ellipsis org mode uses by default.
   (setq org-ellipsis " ⤵")
 #+END_SRC
 
-I always want a blank line before a header.
+Indent text with headline text. Use word wrap when lines become too long.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-blank-before-new-entry
-  '((heading . t)
-    (plain-list-item . nil)))
+  (setq org-startup-indented t)
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)
 #+END_SRC
 
 Use more sane settings in =BEGIN_SRC= blocks.
@@ -72,12 +71,13 @@ Use more sane settings in =BEGIN_SRC= blocks.
   (setq org-src-tab-acts-natively t)
 #+END_SRC
 
-* Todo
+* Workflow 
 
 The possible todo states are /TODO/, /IN PROGRESS/, /WAITING/ and /DONE/.
 Timestamps are added when entering or leaving the /IN PROGRESS/ and /WAITING/
 states. /DONE/ and /CANCELLED/ are the final states. Timestamps are recorded
-when entering these states.
+when entering these states. Additionally, a note is requested for entering the
+/WAITING/ and /CANCELLED/ state.
 
 We add color and hotkeys to make it easy to recognize or enter these states.
 
@@ -85,7 +85,7 @@ We add color and hotkeys to make it easy to recognize or enter these states.
   (setq org-todo-keywords '(
     "TODO(t)"
     "IN PROGRESS(p!/!)"
-    "WAITING(w!/!)"
+    "WAITING(w@/!)"
     "|"
     "DONE(d!)"
     "CANCELLED(c!)"))
