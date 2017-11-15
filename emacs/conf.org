@@ -26,7 +26,7 @@ disable it while we set up our repositories. Finally, we make sure
 Ensure we use /melpa/ when possible.
 
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/"))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
   (setq package-archive-priorities
     '(("melpa"        . 5)
