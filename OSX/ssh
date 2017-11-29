@@ -27,3 +27,7 @@ Host isabelle-g
   ProxyCommand ssh isabelle nc %h %p
 Host isabelle-h
   ProxyCommand ssh isabelle nc %h %p
+Host isabelle-i
+  ProxyCommand ssh isabelle nc %h %p
+Host isabelle-j
+  ProxyCommand ssh isabelle nc %h %p
