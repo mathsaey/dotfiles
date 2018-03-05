@@ -3,10 +3,13 @@
 
 * Globals
 
-Keep some of the configuration in its own directory, namely =~/.emacs.d/conf/=.
+Keep some of the configuration in its own directory, namely
+=~/.emacs.d/conf/=.
+Store all of the temporary files in =~/.tmp/emacs/=
 
 #+BEGIN_SRC emacs-lisp
   (defconst conf-dir (expand-file-name "conf" user-emacs-directory))
+  (defconst temp-dir (expand-file-name "~/.tmp/emacs"))
 #+END_SRC
 
 * Packages
@@ -23,13 +26,15 @@ disable it while we set up our repositories. Finally, we make sure
   (setq package--init-file-ensured t)
 #+END_SRC
 
-Ensure we use /melpa/ when possible.
+Ensure we use /melpa/ when possible. Also add the Org ELPA archives.
 
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (add-to-list 'package-archives '("org"   . "https://melpa.org/packages/"))
 
   (setq package-archive-priorities
     '(("melpa"        . 5)
+      ("org"          . 6)
       ("gnu"          . 0)))
 #+END_SRC
 
@@ -38,6 +43,7 @@ Now that all of that is done, we can start =package.el=
 #+BEGIN_SRC emacs-lisp
   (package-initialize)
 #+END_SRC
+
 ** Setup =use-package=
 
 We make sure use-package is installed before we do anything else.
@@ -59,7 +65,18 @@ Now that all of that is done, we can finally start to use =use-package=.
 #+BEGIN_SRC emacs-lisp
   (require 'use-package)
 #+END_SRC
-* Evil mode
+
+** Automatically update packages
+
+Update packages automatically every week.
+
+#+BEGIN_SRC emacs-lisp
+(use-package auto-package-update
+   :config
+   (setq auto-package-update-delete-old-versions t))
+#+END_SRC
+
+** Evil mode
  
 Emacs is aweswome, but vim has a far superior interface. Let's use
 =evil-mode= to get the best of both worlds.
@@ -99,11 +116,27 @@ Use =fj= or =jf= to leave insert mode.
       (evil-escape-mode))
 #+END_SRC
 
-* Other packages
+** Other packages
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org)
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (use-package helm)
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(when (string-equal system-type "darwin")
+  (use-package exec-path-from-shell
+    :config
+      (exec-path-from-shell-initialize)))
+#+END_SRC
+
 * Visuals
 ** GUI things
 
@@ -206,15 +239,36 @@ its changes to a separate file.
 I don't need a splash screen every time I start emacs.
 
 #+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-message t) 
+  (setq inhibit-startup-message t)
+#+END_SRC
+
+I don't like random emacs file cluttering up my file system.
+
+#+BEGIN_SRC emacs-lisp
+  (defconst auto-save-dir (expand-file-name "autosave/" temp-dir))
+  (setq auto-save-list-file-prefix auto-save-dir)
+  (setq auto-save-file-name-transforms
+    `((".*" ,auto-save-dir t)))
+  (setq backup-directory-alist
+    `((".*" . ,(expand-file-name "backup" temp-dir))))
 #+END_SRC
 
 * Language specific configuration
 
-I don't want my language specific tweaks to clutter up this file.
-  
+Let's keep language specific configuration seperate.
+
 #+BEGIN_SRC emacs-lisp
   (org-babel-load-file (expand-file-name "org.org" conf-dir))
+#+END_SRC
+
+* Functions
+
+Function to easily reload my emacs config.
+
+#+BEGIN_SRC emacs-lisp
+(defun m-reload-config ()
+  (interactive)
+  (load-file (expand-file-name "init.el" user-emacs-directory)))
 #+END_SRC
 
 * [2/7] To do

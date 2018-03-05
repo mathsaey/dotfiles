@@ -1,43 +1,225 @@
 #+TITLE: Org mode config
+#+AUTHOR: Mathijs Saey
+
+* Packages
+
+We use [[https://github.com/Somelauw/evil-org-mode/blob/master/doc/keythemes.org][evil-org]] to add a bunch of vim-like keybindings to org-mode.
+
+#+BEGIN_SRC emacs-lisp
+(use-package evil-org
+  :after org
+  :config
+   (require 'evil-org)
+   (add-hook 'org-mode-hook 'evil-org-mode))
+#+END_SRC
+
+[[https://github.com/alphapapa/helm-org-rifle][helm-org-rifle]] allows us to easily find things in our org-agenda-files.
+
+#+BEGIN_SRC emacs-lisp
+(use-package helm-org-rifle)
+#+END_SRC
+
+[[https://github.com/xuchunyang/grab-mac-link.el][grab-mac-link]] makes it easy to insert links from external applications.
+
+#+BEGIN_SRC emacs-lisp
+(use-package grab-mac-link)
+#+END_SRC
+
+* Files
+All of the org files will be stored in the [[file:~/org/][org folder]].
+Archiving and capturing happens in dedicated directories.
+
+#+BEGIN_SRC emacs-lisp
+(defconst m-org-main-dir     (expand-file-name "~/org/"))
+(defconst m-org-archive-dir  (expand-file-name "archive" m-org-main-dir))
+(defconst m-org-capture-dir  (expand-file-name "capture" m-org-main-dir))
+#+END_SRC
+
+Let's set the org-directory, and default note file for good measure.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-directory m-org-main-dir)
+(setq org-default-note-file (expand-file-name "todo.org" m-org-capture-dir))
+#+END_SRC
+
+We should also make sure org-agenda knows where to look for entries.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-files (list m-org-main-dir m-org-capture-dir))
+#+END_SRC
+
+Every time we archive something, we put a corresponding file in the
+archive directory.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-archive-location (expand-file-name "%s::" m-org-archive-dir))
+#+END_SRC
+
+We have some standard files which we will use for org-capture
+
+#+BEGIN_SRC emacs-lisp
+(defconst m-org-capture-todo     (expand-file-name "todo.org" m-org-capture-dir))
+(defconst m-org-capture-notes    (expand-file-name "notes.org" m-org-capture-dir))
+(defconst m-org-capture-meetings (expand-file-name "meetings.org" m-org-capture-dir))
+#+END_SRC
 
 * Keybinds
 
-I don't like emacs-style keybindings.
+Set up the key-themes for evil org.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package evil-org
-    :after org
-    :config
-     (require 'evil-org)
-     (evil-org-set-key-theme '(navigation return textobjects shift todo heading))
-     (add-hook 'org-mode-hook 'evil-org-mode))
+(require 'evil-org)
+(evil-org-set-key-theme
+  '(navigation additional textobjects shift todo heading return))
 #+END_SRC
 
 Make =0= jump to the text of the header instead of the bullet.
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-special-ctrl-a t)
+(setq org-special-ctrl-a t)
 #+END_SRC
 
 Make =>= and =<= promote/demote of a heading.
 
 #+BEGIN_SRC emacs-lisp
-  (require 'evil-org)
-  (evil-define-key 'normal evil-org-mode-map
-    (kbd ">") 'org-metaright
-    (kbd "<") 'org-metaleft)
+(require 'evil-org)
+(evil-define-key 'normal evil-org-mode-map
+  (kbd ">") 'org-metaright
+  (kbd "<") 'org-metaleft)
 #+END_SRC
 
 Add some additional keybindings to =<leader>= in org mode.
 
-- =c= checks a checkbox
-- =l= follows the link under the point
+#+BEGIN_SRC emacs-lisp
+(evil-leader/set-key-for-mode 'org-mode
+  "r" 'org-refile
+  "d" 'org-deadline
+  "s" 'org-schedule
+  "t" 'org-set-tags
+  "f" 'org-sparse-tree
+  "c" 'org-ctrl-c-ctrl-c
+  "l" 'org-open-at-point
+  "e" 'org-export-dispatch)
+#+END_SRC
+
+Custom link insertion function.
 
 #+BEGIN_SRC emacs-lisp
-  (require 'evil-leader)
-  (evil-leader/set-key-for-mode 'org-mode
-    "c" 'org-ctrl-c-ctrl-c
-    "l" 'org-open-at-point)
+(defun m-org-insert-external-link ()
+  (interactive)
+  (let ((apps 
+    '((?f . finder)
+      (?w . firefox)
+      (?m . mail)
+      (?s . skim))))
+    (let ((message-log-max nil))
+      (message "Grab link from: Finder [f], Firefox [w], Mail [m], or Skim [s]"))
+    (setq app (cdr (assq (read-char-exclusive) apps)))
+    (insert (grab-mac-link app 'org))))
+
+(evil-leader/set-key-for-mode 'org-mode
+  "g" 'm-org-insert-external-link)
+#+END_SRC
+
+** Global Keybinds
+
+We want easy access to the org-agenda, to org-capture, and to the
+org-iswitchb. Let's also make it possible to create a link from anywhere.
+All global org-mode keybinds are prefixed with ~<leader>o~.
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key "oa" 'org-agenda)
+  (evil-leader/set-key "oc" 'org-capture)
+  (evil-leader/set-key "ol" 'org-store-link)
+  (evil-leader/set-key "ob" 'm-org-agenda-switchb)
+  (evil-leader/set-key "or" 'helm-org-rifle-agenda-files)
+#+END_SRC
+
+By default, ~'org-switchb~ behaves differently depending on the prefix
+key that was used. We use the ~org-switchb~ on agenda files only, so
+we'll create a function that sets the appropriate prefix key first. 
+Based on [[https://stackoverflow.com/questions/6156286/emacs-lisp-call-function-with-prefix-argument-programmatically][this stackoverflow question]].
+
+#+BEGIN_SRC emacs-lisp
+(defun m-org-agenda-switchb ()
+  (interactive)
+  (let ((current-prefix-arg '(16)))
+    (call-interactively 'org-switchb)))
+#+END_SRC
+
+Note that this will only work for open files. Since the agenda opens
+all org files, this should not be an issue.
+
+** Agenda Keybinds
+
+I don't know what half of the agenda keybinds do, and they force my
+hands away from the home row. Time to set up my own agenda movement keys.
+
+#+BEGIN_SRC emacs-lisp
+(eval-after-load 'org-agenda
+  '(progn
+    (evil-set-initial-state 'org-agenda-mode 'emacs)
+    (evil-define-key 'emacs org-agenda-mode-map
+
+      ; Motion
+      ; ------
+
+      "j" 'org-agenda-next-line
+      "k" 'org-agenda-previous-line
+
+      ; Files
+      (kbd "<RET>") 'org-agenda-switch-to
+      (kbd "\t") 'org-agenda-goto
+      "F" 'org-agenda-follow-mode
+
+      ; Display
+      ; -------
+
+      "a" 'org-agenda
+      "A" 'org-agenda-append-agenda
+
+      "d" 'org-agenda-day-view
+      "w" 'org-agenda-week-view
+      "v" 'org-agenda-view-mode-dispatch
+
+      "f" 'org-agenda-later
+      "b" 'org-agenda-earlier
+
+      "." 'org-agenda-goto-today
+      "g" 'org-agenda-goto-date
+
+      "l" 'org-agenda-log-mode
+      "r" 'org-agenda-redo
+
+      "/" 'org-agenda-filter-by-tag
+
+      ; Remote Editing
+      ; --------------
+
+      "u" 'org-agenda-undo
+      "t" 'org-agenda-todo
+      (kbd "<SPC> t") 'org-agenda-set-tags
+
+      "+" 'org-agenda-priority-up
+      "-" 'org-agenda-priority-down
+
+      (kbd "<SPC> s") 'org-agenda-schedule
+      (kbd "<SPC> d") 'org-agenda-deadline
+
+      (kbd "up") 'org-agenda-do-date-earlier
+      (kbd "down") 'org-agenda-do-date-later
+
+      (kbd "<SPC> c") 'org-agenda-capture
+
+      ; Other
+      ; -----
+
+      (kbd "<SPC> e") 'org-agenda-write
+
+      "s" 'org-save-all-org-buffers
+      "q" 'org-agenda-quit
+      "x" 'org-agenda-exit
+)))
 #+END_SRC
 
 * Visuals
@@ -45,33 +227,34 @@ Add some additional keybindings to =<leader>= in org mode.
 Let's use pretty bullets
 
 #+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :after org
-    :init
-    (add-hook 'org-mode-hook 'org-bullets-mode))
+(use-package org-bullets
+  :after org
+  :init
+  (add-hook 'org-mode-hook 'org-bullets-mode))
 #+END_SRC
 
 I don't like the ellipsis org mode uses by default.
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-ellipsis " ⤵")
+(setq org-ellipsis " ⤵")
 #+END_SRC
 
 Indent text with headline text. Use word wrap when lines become too long.
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-startup-indented t)
-  (add-hook 'org-mode-hook 'turn-on-auto-fill)
+(setq org-startup-indented t)
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
 #+END_SRC
 
 Use more sane settings in =BEGIN_SRC= blocks.
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-src-fontify-natively t)
-  (setq org-src-tab-acts-natively t)
+(setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
 #+END_SRC
 
-* Workflow 
+* Workflow
+** =Todo= States
 
 The possible todo states are /TODO/, /IN PROGRESS/, /WAITING/ and /DONE/.
 Timestamps are added when entering or leaving the /IN PROGRESS/ and /WAITING/
@@ -82,23 +265,153 @@ when entering these states. Additionally, a note is requested for entering the
 We add color and hotkeys to make it easy to recognize or enter these states.
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-todo-keywords '(
-    "TODO(t)"
-    "IN PROGRESS(p!/!)"
-    "WAITING(w@/!)"
-    "|"
-    "DONE(d!)"
-    "CANCELLED(c!)"))
-  (setq org-todo-keyword-faces
-    '(("TODO" . org-todo)
-      ("IN PROGRESS" . "cyan")
-      ("WAITING" . "yellow")
-      ("DONE" . org-done)
-      ("CANCELLED" . "red")))
+(setq org-todo-keywords '(
+  "TODO(t)"
+  "IN PROGRESS(p!/!)"
+  "WAITING(w@/!)"
+  "|"
+  "DONE(d!)"
+  "CANCELLED(c@)"))
+(setq org-todo-keyword-faces
+  '(("TODO" . org-todo)
+    ("IN PROGRESS" . "cyan")
+    ("WAITING" . "yellow")
+    ("DONE" . org-done)
+    ("CANCELLED" . "red")))
+#+END_SRC
+
+Log deadline and scheduled changes.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-log-redeadline (quote time))
+(setq org-log-reschedule (quote time))
 #+END_SRC
 
 We add any recorded timestamps to the /logbook/ drawer.
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-log-into-drawer "LOGBOOK")
+(setq org-log-into-drawer "LOGBOOK")
+#+END_SRC
+
+Don't allow marking an entry as complete if it has uncompleted children.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-enforce-todo-dependencies t)
+#+END_SRC
+
+** Tags
+
+We use the following (mutually exclusive) tags:
+
+| Tag        | Meaning                                    |
+|------------+--------------------------------------------|
+| :work:     | Work related things, should be the default |
+| :personal: | Personal things, bills, ...                |
+| :meta:     | Org-mode related things                    |
+|------------+--------------------------------------------|
+
+#+BEGIN_SRC emacs-lisp
+(setq org-tag-alist
+  '((:startgroup . nil)
+    ("work" . ?w)
+    ("personal" . ?p)
+    ("meta" . ?m)
+    (:endgroup . nil)))
+(setq org-tag-faces
+  '(("work" . "red")
+    ("personal" . "yellow")
+    ("meta" . "cyan")))
+#+END_SRC
+
+** Capture 
+
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates
+  `(
+    ("t" "Create a task" entry
+      (file ,m-org-capture-todo)
+      "* TODO %?")
+    ("s" "Create and schedule a task" entry
+      (file ,m-org-capture-todo)
+      "* TODO %?\n  SCHEDULED: %^t")
+    ("n" "Make a note" entry
+      (file ,m-org-capture-notes)
+      "* %U %?")
+    ("m" "Start a meeting note" entry
+      (file ,m-org-capture-meetings)
+      "* %^t %^{Meeting Name}\n%?")))
+#+END_SRC
+
+Automatically enter insert mode when entering a capture buffer.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-capture-mode-hook 'evil-insert-state)
+#+END_SRC
+
+** Agenda
+
+We don't show deadline warnings for scheduled tasks, or for tasks that
+have already been completed.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-skip-deadline-prewarning-if-scheduled t)
+(setq org-agenda-skip-deadline-if-done t)
+#+END_SRC
+
+Show state changes in agenda.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-log-mode-items '(closed clock state))
+#+END_SRC
+
+Start in day view, don't show time grid, show the log, and start in follow mode.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-span 'day)
+(setq org-agenda-time-grid nil)
+(setq org-agenda-start-with-log-mode t)
+(setq org-agenda-start-with-follow-mode t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-custom-commands
+  '(("n" "Agenda and all TODOs"
+     ((agenda "") (alltodo "")))
+    ("u" "Unscheduled Tasks"
+     ((todo ""
+       ((org-agenda-overriding-header "Unscheduled Tasks")
+        (org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))))
+    ("d" "Completed Tasks"
+     ((agenda ""
+       ((org-agenda-overriding-header "Completed Tasks")
+        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'todo))))))))
+#+END_SRC
+
+** Refile
+
+Don't only allow refiling in the current file, allow refiling in every
+non-archive file in our org dir.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+#+END_SRC
+
+I want to be able to use an arbitrary file as a target (i.e. I want to
+insert a subtree on the top level of a file).
+
+#+BEGIN_SRC emacs-lisp
+(setq org-refile-use-outline-path 'file)
+#+END_SRC
+
+We need this to make sure that we can use helm for a narrowing search.
+[[https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html][Source + Explanation]]
+
+#+BEGIN_SRC emacs-lisp
+(setq org-outline-path-complete-in-steps nil)
+#+END_SRC
+
+Finally, we want to be able to create new headings on the fly.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-refile-allow-creating-parent-nodes 'confirm)
 #+END_SRC
