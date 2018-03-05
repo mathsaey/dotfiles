@@ -154,72 +154,74 @@ all org files, this should not be an issue.
 
 I don't know what half of the agenda keybinds do, and they force my
 hands away from the home row. Time to set up my own agenda movement keys.
+In order to remove the default bindings, we create our own keymap from scratch.
 
 #+BEGIN_SRC emacs-lisp
 (eval-after-load 'org-agenda
   '(progn
-    (evil-set-initial-state 'org-agenda-mode 'emacs)
-    (evil-define-key 'emacs org-agenda-mode-map
+    (setq org-agenda-mode-map (make-sparse-keymap))
 
-      ; Motion
-      ; ------
+    ; Motion
+    ; ------
 
-      "j" 'org-agenda-next-line
-      "k" 'org-agenda-previous-line
+    (define-key org-agenda-mode-map "j" 'org-agenda-next-line)
+    (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
 
-      ; Files
-      (kbd "<RET>") 'org-agenda-switch-to
-      (kbd "\t") 'org-agenda-goto
-      "F" 'org-agenda-follow-mode
+     ; Files
+    ; -----
 
-      ; Display
-      ; -------
+    (define-key org-agenda-mode-map (kbd "<RET>") 'org-agenda-switch-to)
+    (define-key org-agenda-mode-map (kbd "\t") 'org-agenda-goto)
+    (define-key org-agenda-mode-map "F" 'org-agenda-follow-mode)
 
-      "a" 'org-agenda
-      "A" 'org-agenda-append-agenda
+    ; Display
+    ; -------
 
-      "d" 'org-agenda-day-view
-      "w" 'org-agenda-week-view
-      "v" 'org-agenda-view-mode-dispatch
+    (define-key org-agenda-mode-map "a" 'org-agenda)
+    (define-key org-agenda-mode-map "A" 'org-agenda-append-agenda)
 
-      "f" 'org-agenda-later
-      "b" 'org-agenda-earlier
+    (define-key org-agenda-mode-map  "d" 'org-agenda-day-view)
+    (define-key org-agenda-mode-map  "w" 'org-agenda-week-view)
+    (define-key org-agenda-mode-map  "v" 'org-agenda-view-mode-dispatch)
 
-      "." 'org-agenda-goto-today
-      "g" 'org-agenda-goto-date
+    (define-key org-agenda-mode-map  "f" 'org-agenda-later)
+    (define-key org-agenda-mode-map  "b" 'org-agenda-earlier)
 
-      "l" 'org-agenda-log-mode
-      "r" 'org-agenda-redo
+    (define-key org-agenda-mode-map "." 'org-agenda-goto-today)
+    (define-key org-agenda-mode-map  "g" 'org-agenda-goto-date)
 
-      "/" 'org-agenda-filter-by-tag
+    (define-key org-agenda-mode-map "l" 'org-agenda-log-mode)
+    (define-key org-agenda-mode-map "r" 'org-agenda-redo)
 
-      ; Remote Editing
-      ; --------------
+    (define-key org-agenda-mode-map "/" 'org-agenda-filter-by-tag)
 
-      "u" 'org-agenda-undo
-      "t" 'org-agenda-todo
-      (kbd "<SPC> t") 'org-agenda-set-tags
+    ; Remote Editing
+    ; --------------
 
-      "+" 'org-agenda-priority-up
-      "-" 'org-agenda-priority-down
+    (define-key org-agenda-mode-map "u" 'org-agenda-undo)
+    (define-key org-agenda-mode-map "t" 'org-agenda-todo)
+    (define-key org-agenda-mode-map (kbd "SPC t") 'org-agenda-set-tags)
 
-      (kbd "<SPC> s") 'org-agenda-schedule
-      (kbd "<SPC> d") 'org-agenda-deadline
+    (define-key org-agenda-mode-map "+" 'org-agenda-priority-up)
+    (define-key org-agenda-mode-map "-" 'org-agenda-priority-down)
 
-      (kbd "up") 'org-agenda-do-date-earlier
-      (kbd "down") 'org-agenda-do-date-later
+    (define-key org-agenda-mode-map (kbd "SPC s") 'org-agenda-schedule)
+    (define-key org-agenda-mode-map (kbd "SPC d") 'org-agenda-deadline)
 
-      (kbd "<SPC> c") 'org-agenda-capture
+    (define-key org-agenda-mode-map (kbd "<up>") 'org-agenda-do-date-earlier)
+    (define-key org-agenda-mode-map (kbd "<down>") 'org-agenda-do-date-later)
 
-      ; Other
-      ; -----
+    (define-key org-agenda-mode-map (kbd "SPC c") 'org-agenda-capture)
 
-      (kbd "<SPC> e") 'org-agenda-write
+    ; Other
+    ; -----
 
-      "s" 'org-save-all-org-buffers
-      "q" 'org-agenda-quit
-      "x" 'org-agenda-exit
-)))
+    (define-key org-agenda-mode-map (kbd "SPC e") 'org-agenda-write)
+
+    (define-key org-agenda-mode-map "s" 'org-save-all-org-buffers)
+    (define-key org-agenda-mode-map "q" 'org-agenda-quit)
+    (define-key org-agenda-mode-map "x" 'org-agenda-exit)
+))
 #+END_SRC
 
 * Visuals
