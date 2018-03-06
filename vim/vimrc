@@ -28,13 +28,13 @@ Plug 'w0rp/ale'                                                                "
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
 Plug 'mbbill/undotree'                                                         " Visual undo tree
 Plug 'mileszs/ack.vim'                                                         " Better file search
+Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
 Plug 'godlygeek/tabular'                                                       " Easily align stuff
 Plug 'xolox/vim-session'                                                       " Session Management
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
-Plug 'tpope/vim-surround'                                                      " Easily change surrounding braces, quotes, ...
+Plug 'justinmk/vim-sneak'                                                      " Extra motion command
 Plug 'vim-scripts/Tagbar'                                                      " File minimap
 Plug 'vim-scripts/utl.vim'                                                     " Universal text linking (required for vim-orgmode)
-Plug 'chrisbra/improvedft'                                                     " Makes f and t work on multiple lines
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
 Plug 'kshenoy/vim-signature'                                                   " Show marks in the sidebar
 Plug 'tpope/vim-speeddating'                                                   " Date tools for vim, required for vim-orgmode
@@ -48,6 +48,7 @@ Plug 'zah/nim.vim', { 'for': 'nim' }                                           "
 Plug 'lervag/vimtex', { 'for': 'tex' }                                         " Latex support
 Plug 'jceb/vim-orgmode', {'for': 'org'}                                        " Org mode for vim
 Plug 'derekwyatt/vim-scala', {'for': 'scala' }                                 " Scala support
+Plug 'dleonard0/pony-vim-syntax', {'for': 'pony'}                              " Pony support
 Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}                               " Syntax support for Elixir
 Plug 'slashmili/alchemist.vim', {'for': 'elixir'}                              " IDE like tools for Elixir
 Plug 'wlangstroth/vim-racket', { 'for': 'racket' }                             " Racket support
@@ -181,6 +182,9 @@ set showmatch                                       " Highlight matching [{()}]
 
 set ignorecase                                      " Don't match case
 set smartcase                                       " Unless the search term contains uppercase
+
+let g:sneak#streak = 1                              " Use vim-sneak streak mode, which makes it easier to go to a match
+let g:sneak#use_ic_scs = 1                          " let vim-sneak use the ignorecase/smartcase settings.
 
 let g:ackprg = 'ag --vimgrep'                       " Setup ag for ack.vim
 
@@ -381,3 +385,37 @@ inoremap jf <Esc>
 
 " Use <Leader>; as a shortcut to : to avoid pressing shift
 noremap <Leader><Leader> :
+
+" Vim Sneak Bindings
+" ------------------
+
+" 2-character Sneak
+nmap s <Plug>Sneak_s
+nmap S <Plug>Sneak_S
+" visual-mode
+xmap s <Plug>Sneak_s
+xmap S <Plug>Sneak_S
+" operator-pending-mode
+omap s <Plug>Sneak_s
+omap S <Plug>Sneak_S
+" 1-character enhanced 'f'
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+" visual-mode
+xmap f <Plug>Sneak_f
+xmap F <Plug>Sneak_F
+" operator-pending-mode
+omap f <Plug>Sneak_f
+omap F <Plug>Sneak_F
+" 1-character enhanced 't'
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
+" visual-mode
+xmap t <Plug>Sneak_t
+xmap T <Plug>Sneak_T
+" operator-pending-mode
+omap t <Plug>Sneak_t
+omap T <Plug>Sneak_T
+" repeat motion
+map ; <Plug>Sneak_;
+map , <Plug>Sneak_,
