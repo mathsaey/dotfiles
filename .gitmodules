@@ -4,3 +4,6 @@
 [submodule "res/zsh-plugins/powerlevel9k"]
 	path = res/zsh-plugins/powerlevel9k
 	url = https://github.com/bhilburn/powerlevel9k
+[submodule "res/zsh-plugins/git-flow-completion"]
+	path = res/zsh-plugins/git-flow-completion
+	url = https://github.com/bobthecow/git-flow-completion
