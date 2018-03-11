@@ -39,3 +39,4 @@ source ~/.dotfiles/res/zsh-plugins/powerlevel9k/powerlevel9k.zsh-theme
 # ------- #
 
 source ~/.dotfiles/res/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.dotfiles/res/zsh-plugins/git-flow-completion/git-flow-completion.zsh
