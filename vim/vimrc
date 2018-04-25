@@ -31,6 +31,7 @@ Plug 'mileszs/ack.vim'                                                         "
 Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
 Plug 'godlygeek/tabular'                                                       " Easily align stuff
 Plug 'xolox/vim-session'                                                       " Session Management
+Plug 'romainl/vim-qlist'                                                       " Better include search
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
 Plug 'justinmk/vim-sneak'                                                      " Extra motion command
 Plug 'vim-scripts/Tagbar'                                                      " File minimap
@@ -41,7 +42,15 @@ Plug 'tpope/vim-speeddating'                                                   "
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
 Plug 'vim-scripts/TaskList.vim'                                                " List uncompleted todo's
 Plug 'terryma/vim-expand-region'                                               " Easily select regions
+Plug 'vim-scripts/ReplaceWithRegister'                                         " Replace without overwriting register
 Plug 'vim-scripts/DeleteTrailingWhitespace'                                    " Allow the automatic deletion of trailing whitespace
+
+" Text Objects
+Plug 'kana/vim-textobj-line'                                                   " Line text object
+Plug 'kana/vim-textobj-user'                                                   " Required for elixir text objects
+Plug 'chaoren/vim-wordmotion'                                                  " Word text objects that deal with camelcase etc
+Plug 'vim-scripts/argtextobj.vim'                                              " Text objects that deal with function arguments
+Plug 'michaeljsmith/vim-indent-object'                                         " Text object for indented content
 
 " Languages
 Plug 'zah/nim.vim', { 'for': 'nim' }                                           " Nim support
@@ -49,10 +58,12 @@ Plug 'lervag/vimtex', { 'for': 'tex' }                                         "
 Plug 'jceb/vim-orgmode', {'for': 'org'}                                        " Org mode for vim
 Plug 'derekwyatt/vim-scala', {'for': 'scala' }                                 " Scala support
 Plug 'dleonard0/pony-vim-syntax', {'for': 'pony'}                              " Pony support
-Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}                               " Syntax support for Elixir
-Plug 'slashmili/alchemist.vim', {'for': 'elixir'}                              " IDE like tools for Elixir
 Plug 'wlangstroth/vim-racket', { 'for': 'racket' }                             " Racket support
 Plug 'gabrielelana/vim-markdown', { 'for': 'markdown'}                         " Improved markdown support
+Plug 'mhinz/vim-mix-format', {'for': 'elixir'}                                 " Elixir formatter
+Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}                               " Basic support for Elixir
+Plug 'slashmili/alchemist.vim', {'for': 'elixir'}                              " IDE like tools for Elixir
+Plug 'andyl/vim-textobj-elixir', {'for': 'elixir'}                             " Extra text objects for elixir
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }                      " Better CPP syntax highlighting
 Plug 'hdima/python-syntax', { 'for': 'python' }                                " Better syntax highlighting for python
 Plug 'vim-scripts/indentpython.vim', { 'for': 'python' }                       " Better python indentation
@@ -216,30 +227,6 @@ autocmd BufNewFile,BufRead *.nims set filetype=nim
 " Turn on Limelight when using Goyo
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
-
-" ------------------- "
-" ConqueTerm Settings "
-" ------------------- "
-
-let g:ConqueTerm_ReadUnfocused = 1                  " Keep on refreshing when buffer is not active
-let g:ConqueTerm_StartMessages = 0                  " Show warnings on startup when necessary
-let g:ConqueTerm_InsertOnEnter = 0                  " Don't enter insert mode on start
-let g:ConqueTerm_TERM = 'xterm-256color'            " Report color support for prettier output
-
-let g:Conque_syntax_assoc = {}                      " Language to command mapping for syntax highlighting
-let g:Conque_syntax_assoc.python3 = 'python'        " Only required when the command and the syntax names differ.
-let g:Conque_syntax_assoc.ghci    = 'haskell'
-let g:Conque_syntax_assoc.irb     = 'ruby'
-
-function! Conque_set_syntax(term)
-    if has_key(g:Conque_syntax_assoc, a:term.program_name)
-        execute 'setlocal syntax=' . g:Conque_syntax_assoc[a:term.program_name]
-    else
-        execute 'setlocal syntax=' . a:term.program_name
-    endif
-endfunction
-
-" call conque_term#register_function('after_startup', 'Conque_set_syntax')
 
 " --------------------------- "
 " Custom Functions & Commands "
