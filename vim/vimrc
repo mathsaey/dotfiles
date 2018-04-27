@@ -309,6 +309,22 @@ function! Highlight(txt, ...) range
   silent exec cmd
 endfunction
 
+" Move to a split or create one if there is no split in the desired location.
+" Args: key
+"   key: the hjkl that was pressed.
+function! MoveOrCreateWindow(key)
+    let t:curwin = winnr()
+    exec "wincmd ".a:key
+    if (t:curwin == winnr())
+        if (match(a:key,'[jk]'))
+            wincmd v
+        else
+            wincmd s
+        endif
+        exec "wincmd ".a:key
+    endif
+  endfunction
+
 command! -nargs=*          CommentBox  call CommentBox(<q-args>)
 command! -nargs=*          CommentLine call CommentLine(<q-args>)
 command! -nargs=* -range   Highlight   call Highlight(GetVisualSelection(), <f-args>)
@@ -331,14 +347,6 @@ vnoremap <Leader>y "+y
 vnoremap <Leader>d "+d
 vnoremap <Leader>p "+p
 vnoremap <Leader>P "+P
-" Close window
-nnoremap  <Leader>qa :qall<CR>
-" Close buffer
-nnoremap  <Leader>qw :q<CR>
-" Close buffer but preseve layout
-nnoremap  <Leader>qb :Bclose<CR>
-" Easier split changing
-nnoremap <Leader>m <C-W>
 " Write file
 nnoremap <Leader>w :write<CR>
 " Turn off search highlighting
@@ -372,6 +380,18 @@ inoremap jf <Esc>
 
 " Use <Leader>; as a shortcut to : to avoid pressing shift
 noremap <Leader><Leader> :
+
+" Window Operations
+" -----------------
+
+" Move to a split or create one
+nnoremap <silent> <Leader>mh :call MoveOrCreateWindow('h')<CR>
+nnoremap <silent> <Leader>mj :call MoveOrCreateWindow('j')<CR>
+nnoremap <silent> <Leader>mk :call MoveOrCreateWindow('k')<CR>
+nnoremap <silent> <Leader>ml :call MoveOrCreateWindow('l')<CR>
+
+" Close the current split
+nnoremap <silent> <Leader>mx :quit<CR>
 
 " Vim Sneak Bindings
 " ------------------
