@@ -383,7 +383,7 @@ inoremap jf <Esc>
 noremap <Leader><Leader> :
 
 " Open a terminal
-noremap <Leader>s :terminal
+noremap <Leader>s :terminal<CR>
 
 " Window Operations
 " -----------------
