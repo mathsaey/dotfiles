@@ -12,4 +12,4 @@ let g:mix_format_options = '--check-equivalent'
 map <LocalLeader>r :terminal iex<CR>
 map <LocalLeader>s :terminal iex -S mix<CR>
 
-map <LocalLeader>t :terminal mix test<CR>
+map <LocalLeader>t :terminal ++rows=20 mix test<CR>

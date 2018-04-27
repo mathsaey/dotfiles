@@ -1,2 +1,2 @@
 [core]
-	editor = mvim -f
+	editor = vim

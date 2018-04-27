@@ -121,6 +121,14 @@ let g:airline#extensions#tabline#left_alt_sep = '|' " Use | as the right separat
 let g:airline#extensions#ale#error_symbol = '⨉ '
 let g:airline#extensions#ale#warning_symbol = '⚠ '
 
+" Terminal colors in macvim
+if has("gui_macvim")
+  let g:terminal_ansi_colors = [
+    \ '#171717', '#fe4386', '#a6e32d', '#e6da73', '#0094d9', '#9b37ff', '#50b7d9', '#c7c7c7',
+    \ '#686868', '#fa80ac', '#bde371', '#fff27f', '#00beff', '#be9eff', '#5ed7ff', '#ffffff'
+    \  ]
+endif
+
 " Temporary Files
 set backupdir=~/.tmp/vim/backup//                   " Directory for file backups
 set directory=~/.tmp/vim/swap//                     " Directory for swap files
