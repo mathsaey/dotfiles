@@ -347,6 +347,7 @@ vnoremap <Leader>y "+y
 vnoremap <Leader>d "+d
 vnoremap <Leader>p "+p
 vnoremap <Leader>P "+P
+
 " Write file
 nnoremap <Leader>w :write<CR>
 " Turn off search highlighting
@@ -380,6 +381,9 @@ inoremap jf <Esc>
 
 " Use <Leader>; as a shortcut to : to avoid pressing shift
 noremap <Leader><Leader> :
+
+" Open a terminal
+noremap <Leader>s :terminal
 
 " Window Operations
 " -----------------
