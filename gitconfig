@@ -10,3 +10,5 @@
 	smudge = git-media-smudge %f
 [credential]
 	helper = cache --timeout=3600
+[alias]
+	tree = log --all --graph --decorate --oneline
