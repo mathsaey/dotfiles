@@ -48,7 +48,6 @@ Plug 'vim-scripts/DeleteTrailingWhitespace'                                    "
 " Text Objects
 Plug 'kana/vim-textobj-line'                                                   " Line text object
 Plug 'kana/vim-textobj-user'                                                   " Required for elixir text objects
-Plug 'chaoren/vim-wordmotion'                                                  " Word text objects that deal with camelcase etc
 Plug 'vim-scripts/argtextobj.vim'                                              " Text objects that deal with function arguments
 Plug 'michaeljsmith/vim-indent-object'                                         " Text object for indented content
 
@@ -401,6 +400,9 @@ nnoremap <silent> <Leader>mh :call MoveOrCreateWindow('h')<CR>
 nnoremap <silent> <Leader>mj :call MoveOrCreateWindow('j')<CR>
 nnoremap <silent> <Leader>mk :call MoveOrCreateWindow('k')<CR>
 nnoremap <silent> <Leader>ml :call MoveOrCreateWindow('l')<CR>
+
+" Map <Leader> M to the window command prefix
+nnoremap <Leader>m <C-W>
 
 " Close the current split
 nnoremap <silent> <Leader>mx :quit<CR>
