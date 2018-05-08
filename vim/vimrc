@@ -1,8 +1,6 @@
 " Vimrc
 " Mathijs Saey
 
-set nocompatible                                    " Discard vi compatibility
-
 " ------- "
 " Plugins "
 " ------- "
@@ -17,7 +15,8 @@ Plug 'tomasr/molokai'                                                          "
 Plug 'junegunn/goyo.vim'                                                       " Distraction free mode
 Plug 'mhinz/vim-startify'                                                      " Custom start message
 Plug 'junegunn/limelight.vim'                                                  " Only color current paragraph
-Plug 'vim-airline/vim-airline'                                                 " Fancy status bar
+
+Plug 'itchyny/lightline.vim'
 
 " Git integration
 Plug 'tpope/vim-fugitive'                                                      " Git integration
@@ -29,18 +28,13 @@ Plug 'xolox/vim-misc'                                                          "
 Plug 'mbbill/undotree'                                                         " Visual undo tree
 Plug 'mileszs/ack.vim'                                                         " Better file search
 Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
-Plug 'godlygeek/tabular'                                                       " Easily align stuff
 Plug 'xolox/vim-session'                                                       " Session Management
 Plug 'romainl/vim-qlist'                                                       " Better include search
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
 Plug 'justinmk/vim-sneak'                                                      " Extra motion command
-Plug 'vim-scripts/Tagbar'                                                      " File minimap
-Plug 'vim-scripts/utl.vim'                                                     " Universal text linking (required for vim-orgmode)
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
 Plug 'kshenoy/vim-signature'                                                   " Show marks in the sidebar
-Plug 'tpope/vim-speeddating'                                                   " Date tools for vim, required for vim-orgmode
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
-Plug 'vim-scripts/TaskList.vim'                                                " List uncompleted todo's
 Plug 'terryma/vim-expand-region'                                               " Easily select regions
 Plug 'vim-scripts/ReplaceWithRegister'                                         " Replace without overwriting register
 Plug 'vim-scripts/DeleteTrailingWhitespace'                                    " Allow the automatic deletion of trailing whitespace
@@ -54,16 +48,14 @@ Plug 'michaeljsmith/vim-indent-object'                                         "
 " Languages
 Plug 'zah/nim.vim', { 'for': 'nim' }                                           " Nim support
 Plug 'lervag/vimtex', { 'for': 'tex' }                                         " Latex support
-Plug 'jceb/vim-orgmode', {'for': 'org'}                                        " Org mode for vim
-Plug 'derekwyatt/vim-scala', {'for': 'scala' }                                 " Scala support
-Plug 'dleonard0/pony-vim-syntax', {'for': 'pony'}                              " Pony support
+Plug 'jceb/vim-orgmode', {'for': 'org' }                                       " Org mode for vim
+Plug 'dleonard0/pony-vim-syntax', { 'for': 'pony' }                            " Pony support
 Plug 'wlangstroth/vim-racket', { 'for': 'racket' }                             " Racket support
-Plug 'gabrielelana/vim-markdown', { 'for': 'markdown'}                         " Improved markdown support
-Plug 'mhinz/vim-mix-format', {'for': 'elixir'}                                 " Elixir formatter
-Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}                               " Basic support for Elixir
-Plug 'slashmili/alchemist.vim', {'for': 'elixir'}                              " IDE like tools for Elixir
-Plug 'andyl/vim-textobj-elixir', {'for': 'elixir'}                             " Extra text objects for elixir
-Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }                      " Better CPP syntax highlighting
+Plug 'gabrielelana/vim-markdown', { 'for': 'markdown' }                        " Improved markdown support
+Plug 'mhinz/vim-mix-format', {'for': 'elixir' }                                " Elixir formatter
+Plug 'elixir-lang/vim-elixir', {'for': 'elixir' }                              " Basic support for Elixir
+Plug 'slashmili/alchemist.vim', {'for': 'elixir' }                             " IDE like tools for Elixir
+Plug 'andyl/vim-textobj-elixir', {'for': 'elixir' }                            " Extra text objects for elixir
 Plug 'hdima/python-syntax', { 'for': 'python' }                                " Better syntax highlighting for python
 Plug 'vim-scripts/indentpython.vim', { 'for': 'python' }                       " Better python indentation
 
@@ -82,9 +74,48 @@ Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }                  "
 
 call plug#end()                                                                " End of plugin list
 
-" ----------- "
-" Look & Feel "
-" ----------- "
+" ---------------------- "
+" Miscellaneous Settings "
+" ---------------------- "
+
+set title                                           " Let vim set the window title
+set ttyfast                                         " Indicates the terminal is fast and more chars can be sent
+set undofile                                        " Save undo tree
+set wildmenu                                        " Shows the available autocompletes in command menu
+set autowrite                                       " Automatically save before compiling and some other actions
+set lazyredraw                                      " Don't always redraw the screen
+set backspace=indent,eol,start                      " Allow backspaces to remove more
+
+" Whitespace
+let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace on save
+
+" Session configuration
+let g:session_autosave='yes'                        " Always save sessions when quitting vim
+let g:session_autoload = 'no'                       " Don't prompt for opening old sessions
+let g:session_autosave_periodic=1                   " Save session every minute
+
+" File Locations
+" --------------
+
+" Temporary Files
+set backupdir=~/.tmp/vim/backup//                   " Directory for file backups
+set directory=~/.tmp/vim/swap//                     " Directory for swap files
+set undodir=~/.tmp/vim/undo//                       " Directory for undo files
+
+" Sessions
+let g:session_directory='~/.tmp/vim/sessions/'
+
+" ------- "
+" Visuals "
+" ------- "
+
+" Theme and Font
+colorscheme molokai                                 " Set color scheme
+set guifont=Menlo:h12                               " Set text font
+
+" Syntax highlighting tweaks
+syntax enable                                       " Enable syntax highlighting
+set showmatch                                       " Highlight matching [{()}]
 
 " Line numbers
 set ruler                                           " Show line and column number
@@ -96,29 +127,21 @@ set colorcolumn=80                                  " Show a line on column 80
 set guioptions-=r                                   " Hide right scrollbar
 set guioptions-=l                                   " Hide left scrollbar
 set guioptions-=L                                   " Hide left scrollbar when multiple panels exist
+set guioptions-=e                                   " Don't use the GUI tab bar
 
-" Color Scheme
-set t_Co=256                                        " Enable 256 color support
-syntax enable                                       " Enable syntax highlighting
-colorscheme molokai                                 " Set color scheme
+" Wrapping behaviour
+set nowrap                                          " Don't auto-insert newlines when exceeding 80 characters
+set sidescroll=1                                    " Scroll per charachter when sidescrolling
+set wrapmargin=0                                    " Don't wrap based on screen edge
 
-" Font
-set guifont=Menlo:h12                               " Set text font
-
-" Status Bar + Airline
-set laststatus=2                                    " Always show the status bar
-set guifont=Meslo\ LG\ L\ Regular\ for\ Powerline   " Custom powerline font
-
-" Buffer list
-let g:airline_powerline_fonts=1                     " Populate airline font symbol table
-let g:airline#extensions#tabline#enabled=1          " Show open buffers
-let g:airline#extensions#tabline#buffer_min_count=2 " Only show tab line when at least two buffers are open
-let g:airline#extensions#tabline#left_sep = ' '     " No left separator
-let g:airline#extensions#tabline#left_alt_sep = '|' " Use | as the right separator for 'straight tabs
-
-" Error symbols
-let g:airline#extensions#ale#error_symbol = '⨉ '
-let g:airline#extensions#ale#warning_symbol = '⚠ '
+" hidden charachters
+set list                                            " Visualize tabs, trailing spaces and various elements
+set listchars=tab:--                                " - to mark tabs
+set listchars+=trail:~                              " ~ to mark trailing spaces
+set listchars+=extends:>                            " > to mark that a line continues beyond the edge of the screen
+set listchars+=precedes:<                           " < to mark that a line starts beyond the left edge of the screen
+set listchars+=conceal:*                            " * to mark hidden characters
+set listchars+=nbsp:.                               " . to mark non-breakable spaces
 
 " Terminal colors in macvim
 if has("gui_macvim")
@@ -128,18 +151,40 @@ if has("gui_macvim")
     \  ]
 endif
 
-" Temporary Files
-set backupdir=~/.tmp/vim/backup//                   " Directory for file backups
-set directory=~/.tmp/vim/swap//                     " Directory for swap files
-set undodir=~/.tmp/vim/undo//                       " Directory for undo files
+" Status Line
+" -----------
 
-" Sessions
-let g:session_directory='~/.tmp/vim/sessions/'
-let g:session_autosave='yes'                        " Always save sessions when quitting vim
-let g:session_autoload = 'no'                       " Don't prompt for opening old sessions
-let g:session_autosave_periodic=1                   " Save session every minute
+set laststatus=2                                    " Always show the status bar
+set noshowmode                                      " Don't show --insert-- and the like, it will be shown in the status line
+
+let g:lightline = {
+\ 'colorscheme': 'powerline'}
+
+" Components to show on the currently active window
+let g:lightline.active = {
+\ 'left': [['mode', 'paste', 'spell'],
+\          ['relativepath', 'readonly', 'modified']],
+\ 'right': [['lineinfo'],
+\            ['percent']]}
+
+" Components to show on inactive windows
+let g:lightline.inactive = {
+  \ 'left': [['relativepath', 'readonly', 'modified']],
+  \ 'right': []}
+
+" Don't show RO for readonly, use a custom function instead
+let g:lightline.component_function = {
+  \   'readonly': 'LightlineReadonly',
+  \ }
+
+" Prettier indicator for readonly buffers
+function! LightlineReadonly()
+  return &readonly ? '*read-only*' : ''
+endfunction
 
 " Startify
+" --------
+"
 let g:startify_session_dir = g:session_directory    " Tell startify where to look for sessions
 let g:startify_files_number = 5                     " Limit the amount of recently used files/dirs startify shows
 let g:startify_custom_header =
@@ -156,54 +201,32 @@ let g:startify_list_order = [
   \ 'dir'
   \ ]
 
-" Misc
-set title                                           " Let vim set the window title
-set ttyfast                                         " Indicates the terminal is fast and more chars can be sent
-set undofile                                        " Save undo tree
-set wildmenu                                        " Shows the available autocompletes in command menu
-set autowrite                                       " Automatically save before compiling and some other actions
-set lazyredraw                                      " Don't always redraw the screen
-set backspace=indent,eol,start                      " Allow backspaces to remove more
+" ----------------- "
+" Editing Behaviour "
+" ----------------- "
 
-let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace on save
-
-" -------------- "
-" Tabs & Spacing "
-" -------------- "
-
+" Tabs & Spacing
 set tabstop=2                                       " Draw tabs as 2 spaces
 set shiftwidth=2                                    " Use 2 spaces as automatic indentation
 set softtabstop=2                                   " Insert and remove tabs as 2 spaces
-set autoindent                                      " Automatically copy amount of leading tabs from previous lines
-set smartindent                                     " Add extra tabs in some cases
 set expandtab                                       " Expand tabs to spaces
 
-set list                                            " Visualize tabs, trailing spaces and various elements
-set listchars=tab:--                                " - to mark tabs
-set listchars+=trail:~                              " ~ to mark trailing spaces
-set listchars+=extends:>                            " > to mark that a line continues beyond the edge of the screen
-set listchars+=precedes:<                           " < to mark that a line starts beyond the left edge of the screen
-set listchars+=conceal:*                            " * to mark hidden characters
-set listchars+=nbsp:.                               " . to mark non-breakable spaces
+" Indentation
+set autoindent                                      " Automatically copy amount of leading tabs from previous lines
 
-set nowrap                                          " Don't auto-insert newlines when exceeding 80 characters
-set sidescroll=1                                    " Scroll per charachter when sidescrolling
-set wrapmargin=0                                    " Don't wrap based on screen edge
-
-" --------------- "
-" Search Settings "
-" --------------- "
-
+" Search Behaviour
 set incsearch                                       " Highlight characters as they are matched
 set hlsearch                                        " Highlight matches
-set showmatch                                       " Highlight matching [{()}]
 
+" Search Case Behaviour
 set ignorecase                                      " Don't match case
 set smartcase                                       " Unless the search term contains uppercase
 
+" vim-sneak
 let g:sneak#streak = 1                              " Use vim-sneak streak mode, which makes it easier to go to a match
 let g:sneak#use_ic_scs = 1                          " let vim-sneak use the ignorecase/smartcase settings.
 
+" Global search
 let g:ackprg = 'ag --vimgrep'                       " Setup ag for ack.vim
 
 " ------------------------ "
@@ -219,21 +242,18 @@ let g:tex_flavor = 'latex'                          " Always use latex
 " Autocommands "
 " ------------ "
 
-" Close the preview window if it's open when leaving insert mode.
-" Refresh airline, to make sure it reflects the selected buffer.
-" Use `InsertLeave` instead of `CompleteDone` to ensure that the
-" documentation is still available while entering arguments.
-autocmd InsertLeave *
-  \ if pumvisible() == 0 |
-  \   pclose | :AirlineRefresh |
-  \ endif
+augroup AutoMake
+  " Ensure these commands are only loaded once
+  autocmd!
 
-" Add .nims as a nim file
-autocmd BufNewFile,BufRead *.nims set filetype=nim
+  " Add .nims as a nim file
+  autocmd BufNewFile,BufRead *.nims set filetype=nim
 
-" Turn on Limelight when using Goyo
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
+  " Turn on Limelight when using Goyo
+  autocmd User GoyoEnter Limelight
+  autocmd User GoyoLeave Limelight!
+
+augroup END
 
 " --------------------------- "
 " Custom Functions & Commands "
@@ -254,7 +274,7 @@ function! SpellToggle()
 endfunc
 
 " Creates a fancy comment box given a string
-function! CommentBox(msg)
+function! CommentBox(msg) abort
   let com = substitute(&commentstring, '%s', '', '')
   let com = substitute(l:com, ' ', '', '')
   let len = strlen(a:msg)
@@ -268,7 +288,7 @@ function! CommentBox(msg)
 endfunction
 
 " Creates a fancy comment line given a string
-function! CommentLine(msg)
+function! CommentLine(msg) abort
   let com = substitute(&commentstring, '%s', '', '')
   let com = substitute(l:com, ' ', '', '')
   let len = strlen(a:msg)
@@ -298,7 +318,7 @@ endfunction
 "   fontSize: The font size to use (defaults to 12)
 "   fileType: The language of txt (defaults to the current filetype)
 "   font: The font to use (defaults to menlo)
-function! Highlight(txt, ...) range
+function! Highlight(txt, ...) range abort
   let txt      = shellescape(a:txt)
   let theme    = (a:0 >= 1) ? a:1 : 'seashell'
   let fontSize = (a:0 >= 2) ? a:2 : 12
@@ -319,7 +339,7 @@ endfunction
 " Move to a split or create one if there is no split in the desired location.
 " Args: key
 "   key: the hjkl that was pressed.
-function! MoveOrCreateWindow(key)
+function! MoveOrCreateWindow(key) abort
     let t:curwin = winnr()
     exec "wincmd ".a:key
     if (t:curwin == winnr())
@@ -345,15 +365,17 @@ let mapleader = "\<Space>"
 " Use backslash as local leader
 let maplocalleader = "\\"
 
-" System copy/paste
+" Copy to system clipboard
 nnoremap <Leader>y "+y
 nnoremap <Leader>d "+d
-nnoremap <Leader>p "+p
-nnoremap <Leader>P "+P
 vnoremap <Leader>y "+y
 vnoremap <Leader>d "+d
-vnoremap <Leader>p "+p
-vnoremap <Leader>P "+P
+
+" Copy from system clipboard, using paste mode
+nnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
+nnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
+vnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
+vnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 
 " Write file
 nnoremap <Leader>w :write<CR>
@@ -361,8 +383,6 @@ nnoremap <Leader>w :write<CR>
 nnoremap <Leader>n :nohlsearch<CR>
 " Show the visual undo tree
 nnoremap <Leader>u :UndotreeToggle<CR>
-" Tabularize =
-nnoremap <Leader>= :Tabularize /=<CR>
 " Toggle line numbers
 nnoremap <Leader>l :call NumberToggle()<CR>
 " Highligh selected text
@@ -385,9 +405,6 @@ noremap <right> : echoe "use l"<CR>
 " Easily get out of insert mode
 inoremap fj <Esc>
 inoremap jf <Esc>
-
-" Use <Leader>; as a shortcut to : to avoid pressing shift
-noremap <Leader><Leader> :
 
 " Open a terminal
 noremap <Leader>s :terminal<CR>
