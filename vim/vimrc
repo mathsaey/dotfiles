@@ -13,10 +13,8 @@ call plug#begin('~/.vim/bundle')                                               "
 " Visuals
 Plug 'tomasr/molokai'                                                          " Color scheme
 Plug 'junegunn/goyo.vim'                                                       " Distraction free mode
-Plug 'mhinz/vim-startify'                                                      " Custom start message
+Plug 'itchyny/lightline.vim'                                                   " Status bar
 Plug 'junegunn/limelight.vim'                                                  " Only color current paragraph
-
-Plug 'itchyny/lightline.vim'
 
 " Git integration
 Plug 'tpope/vim-fugitive'                                                      " Git integration
@@ -46,18 +44,18 @@ Plug 'vim-scripts/argtextobj.vim'                                              "
 Plug 'michaeljsmith/vim-indent-object'                                         " Text object for indented content
 
 " Languages
-Plug 'zah/nim.vim', { 'for': 'nim' }                                           " Nim support
-Plug 'lervag/vimtex', { 'for': 'tex' }                                         " Latex support
-Plug 'jceb/vim-orgmode', {'for': 'org' }                                       " Org mode for vim
-Plug 'dleonard0/pony-vim-syntax', { 'for': 'pony' }                            " Pony support
-Plug 'wlangstroth/vim-racket', { 'for': 'racket' }                             " Racket support
-Plug 'gabrielelana/vim-markdown', { 'for': 'markdown' }                        " Improved markdown support
-Plug 'mhinz/vim-mix-format', {'for': 'elixir' }                                " Elixir formatter
-Plug 'elixir-lang/vim-elixir', {'for': 'elixir' }                              " Basic support for Elixir
-Plug 'slashmili/alchemist.vim', {'for': 'elixir' }                             " IDE like tools for Elixir
-Plug 'andyl/vim-textobj-elixir', {'for': 'elixir' }                            " Extra text objects for elixir
-Plug 'hdima/python-syntax', { 'for': 'python' }                                " Better syntax highlighting for python
-Plug 'vim-scripts/indentpython.vim', { 'for': 'python' }                       " Better python indentation
+Plug 'zah/nim.vim', {'for': 'nim'}                                             " Nim support
+Plug 'lervag/vimtex', {'for': 'tex'}                                           " Latex support
+Plug 'jceb/vim-orgmode', {'for': 'org'}                                        " Org mode for vim
+Plug 'dleonard0/pony-vim-syntax', {'for': 'pony'}                              " Pony support
+Plug 'wlangstroth/vim-racket', {'for': 'racket'}                               " Racket support
+Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}                          " Improved markdown support
+Plug 'mhinz/vim-mix-format', {'for': 'elixir'}                                 " Elixir formatter
+Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}                               " Basic support for Elixir
+Plug 'slashmili/alchemist.vim', {'for': 'elixir'}                              " IDE like tools for Elixir
+Plug 'andyl/vim-textobj-elixir', {'for': 'elixir'}                             " Extra text objects for elixir
+Plug 'hdima/python-syntax', {'for': 'python'}                                  " Better syntax highlighting for python
+Plug 'vim-scripts/indentpython.vim', {'for': 'python'}                         " Better python indentation
 
 " Plugins with advanced setup
 
@@ -181,25 +179,6 @@ let g:lightline.component_function = {
 function! LightlineReadonly()
   return &readonly ? '*read-only*' : ''
 endfunction
-
-" Startify
-" --------
-"
-let g:startify_session_dir = g:session_directory    " Tell startify where to look for sessions
-let g:startify_files_number = 5                     " Limit the amount of recently used files/dirs startify shows
-let g:startify_custom_header =
-  \ map(split(system(
-  \ 'fortune -a |
-  \ cowsay -f stegosaurus -W 70'
-  \ ), '\n'), '"   ". v:val')
-let g:startify_list_order = [
-  \ ['Sessions:'],
-  \ 'sessions',
-  \ ['Recently opened files:'],
-  \ 'files',
-  \ ['Recently opened files in this directory:'],
-  \ 'dir'
-  \ ]
 
 " ----------------- "
 " Editing Behaviour "
