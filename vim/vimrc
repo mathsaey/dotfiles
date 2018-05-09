@@ -13,6 +13,7 @@ call plug#begin('~/.vim/bundle')                                               "
 " Visuals
 Plug 'tomasr/molokai'                                                          " Color scheme
 Plug 'junegunn/goyo.vim'                                                       " Distraction free mode
+Plug 'luochen1990/rainbow'                                                     " Colour parentheses
 Plug 'itchyny/lightline.vim'                                                   " Status bar
 Plug 'junegunn/limelight.vim'                                                  " Only color current paragraph
 
@@ -114,6 +115,11 @@ set guifont=Menlo:h12                               " Set text font
 " Syntax highlighting tweaks
 syntax enable                                       " Enable syntax highlighting
 set showmatch                                       " Highlight matching [{()}]
+
+" Rainbow Parentheses
+let g:rainbow_active = 0                            " Enable the rainbow toggle command, but don't activate
+let g:rainbow_conf = {}
+let g:rainbow_conf.separately = {'*':{}}
 
 " Line numbers
 set ruler                                           " Show line and column number
@@ -356,8 +362,8 @@ nnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 vnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
 vnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 
-" Write file
-nnoremap <Leader>w :write<CR>
+" Update file
+nnoremap <Leader>w :update<CR>
 " Turn off search highlighting
 nnoremap <Leader>n :nohlsearch<CR>
 " Show the visual undo tree
@@ -367,7 +373,9 @@ nnoremap <Leader>l :call NumberToggle()<CR>
 " Highligh selected text
 vnoremap <Leader>h :Highlight<CR>
 " Enter distraction free mode (or leave it)
-nnoremap <leader>g :Goyo<CR>
+nnoremap <Leader>g :Goyo<CR>
+" Toggle rainbow parentheses
+nnoremap <Leader>[ :RainbowToggle<CR>
 
 " Spelling
 nnoremap <Leader>so  :call SpellToggle()<CR>
