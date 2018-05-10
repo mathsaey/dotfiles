@@ -25,27 +25,64 @@ We use [[https://github.com/Somelauw/evil-org-mode/blob/master/doc/keythemes.org
 (use-package grab-mac-link)
 #+END_SRC
 
+* Custom Functions
+
+Inserts an org link from some external program.
+
+#+BEGIN_SRC emacs-lisp
+(defun m/org-insert-external-link ()
+  (interactive)
+  (let ((apps 
+    '((?f . finder)
+      (?w . firefox)
+      (?m . mail)
+      (?s . skim))))
+    (let ((message-log-max nil))
+      (message "Grab link from: Finder [f], Firefox [w], Mail [m], or Skim [s]"))
+    (setq app (cdr (assq (read-char-exclusive) apps)))
+    (insert (grab-mac-link app 'org))))
+#+END_SRC
+
+By default, ~'org-switchb~ behaves differently depending on the prefix
+key that was used. We use the ~org-switchb~ on agenda files only, so
+we'll create a function that sets the appropriate prefix key first. 
+Based on [[https://stackoverflow.com/questions/6156286/emacs-lisp-call-function-with-prefix-argument-programmatically][this stackoverflow question]].
+
+Note that this will only work for open files. Since the agenda opens
+all org files, this should not be an issue.
+
+#+BEGIN_SRC emacs-lisp
+(defun m/org-agenda-switchb ()
+  (interactive)
+  (let ((current-prefix-arg '(16)))
+    (call-interactively 'org-switchb)))
+#+END_SRC
+
 * Files
 All of the org files will be stored in the [[file:~/org/][org folder]].
+Capturing happens in dedicated files, archiving happens in its own folder.
 Archiving and capturing happens in dedicated directories.
 
 #+BEGIN_SRC emacs-lisp
 (defconst m-org-main-dir     (expand-file-name "~/org/"))
 (defconst m-org-archive-dir  (expand-file-name "archive" m-org-main-dir))
-(defconst m-org-capture-dir  (expand-file-name "capture" m-org-main-dir))
+
+(defconst m-org-capture-todo     (expand-file-name "todo.org" m-org-main-dir))
+(defconst m-org-capture-notes    (expand-file-name "notes.org" m-org-main-dir))
+(defconst m-org-capture-meetings (expand-file-name "meetings.org" m-org-main-dir))
 #+END_SRC
 
 Let's set the org-directory, and default note file for good measure.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-directory m-org-main-dir)
-(setq org-default-note-file (expand-file-name "todo.org" m-org-capture-dir))
+(setq org-default-note-file m-org-capture-todo)
 #+END_SRC
 
 We should also make sure org-agenda knows where to look for entries.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-agenda-files (list m-org-main-dir m-org-capture-dir))
+(setq org-agenda-files (list m-org-main-dir))
 #+END_SRC
 
 Every time we archive something, we put a corresponding file in the
@@ -55,15 +92,8 @@ archive directory.
 (setq org-archive-location (expand-file-name "%s::" m-org-archive-dir))
 #+END_SRC
 
-We have some standard files which we will use for org-capture
-
-#+BEGIN_SRC emacs-lisp
-(defconst m-org-capture-todo     (expand-file-name "todo.org" m-org-capture-dir))
-(defconst m-org-capture-notes    (expand-file-name "notes.org" m-org-capture-dir))
-(defconst m-org-capture-meetings (expand-file-name "meetings.org" m-org-capture-dir))
-#+END_SRC
-
 * Keybinds
+** Local
 
 Set up the key-themes for evil org.
 
@@ -82,146 +112,134 @@ Make =0= jump to the text of the header instead of the bullet.
 Make =>= and =<= promote/demote of a heading.
 
 #+BEGIN_SRC emacs-lisp
-(require 'evil-org)
-(evil-define-key 'normal evil-org-mode-map
-  (kbd ">") 'org-metaright
-  (kbd "<") 'org-metaleft)
+(general-define-key
+  :states  'normal
+  :keymaps 'evil-org-mode-map
+  ">" 'org-metaright
+  "<" 'org-metaleft)
 #+END_SRC
 
-Add some additional keybindings to =<leader>= in org mode.
+Add some additional keybindings to =<localleader>= in org mode.
 
 #+BEGIN_SRC emacs-lisp
-(evil-leader/set-key-for-mode 'org-mode
+(general-define-key
+  :states  'normal
+  :keymaps 'org-mode-map
+  :prefix  localleader
   "r" 'org-refile
   "d" 'org-deadline
   "s" 'org-schedule
   "t" 'org-set-tags
   "f" 'org-sparse-tree
+  "p" 'org-set-property
+  "x" 'org-edit-special
   "c" 'org-ctrl-c-ctrl-c
   "l" 'org-open-at-point
-  "e" 'org-export-dispatch)
+  "a" 'org-archive-subtree
+  "e" 'org-export-dispatch
+  "g" 'm/org-insert-external-link)
 #+END_SRC
 
-Custom link insertion function.
-
-#+BEGIN_SRC emacs-lisp
-(defun m-org-insert-external-link ()
-  (interactive)
-  (let ((apps 
-    '((?f . finder)
-      (?w . firefox)
-      (?m . mail)
-      (?s . skim))))
-    (let ((message-log-max nil))
-      (message "Grab link from: Finder [f], Firefox [w], Mail [m], or Skim [s]"))
-    (setq app (cdr (assq (read-char-exclusive) apps)))
-    (insert (grab-mac-link app 'org))))
-
-(evil-leader/set-key-for-mode 'org-mode
-  "g" 'm-org-insert-external-link)
-#+END_SRC
-
-** Global Keybinds
+** Global
 
 We want easy access to the org-agenda, to org-capture, and to the
-org-iswitchb. Let's also make it possible to create a link from anywhere.
-All global org-mode keybinds are prefixed with ~<leader>o~.
+org-switchb. Let's also make it possible to create a link from anywhere.
+All global org-mode keybinds are prefixed with =<leader>o=.
 
 #+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key "oa" 'org-agenda)
-  (evil-leader/set-key "oc" 'org-capture)
-  (evil-leader/set-key "ol" 'org-store-link)
-  (evil-leader/set-key "ob" 'm-org-agenda-switchb)
-  (evil-leader/set-key "or" 'helm-org-rifle-agenda-files)
+(general-define-key
+  :states '(normal emacs)
+  :prefix leader
+  "oa" 'org-agenda
+  "oc" 'org-capture
+  "ol" 'org-store-link
+  "ob" 'm/org-agenda-switchb
+  "or" 'helm-org-rifle-agenda-files)
 #+END_SRC
 
-By default, ~'org-switchb~ behaves differently depending on the prefix
-key that was used. We use the ~org-switchb~ on agenda files only, so
-we'll create a function that sets the appropriate prefix key first. 
-Based on [[https://stackoverflow.com/questions/6156286/emacs-lisp-call-function-with-prefix-argument-programmatically][this stackoverflow question]].
-
-#+BEGIN_SRC emacs-lisp
-(defun m-org-agenda-switchb ()
-  (interactive)
-  (let ((current-prefix-arg '(16)))
-    (call-interactively 'org-switchb)))
-#+END_SRC
-
-Note that this will only work for open files. Since the agenda opens
-all org files, this should not be an issue.
-
-** Agenda Keybinds
+** Agenda
 
 I don't know what half of the agenda keybinds do, and they force my
 hands away from the home row. Time to set up my own agenda movement keys.
-In order to remove the default bindings, we create our own keymap from scratch.
+In order to remove the default bindings, we delete the standard
+org-agenda keybinds.
 
 #+BEGIN_SRC emacs-lisp
 (eval-after-load 'org-agenda
   '(progn
     (setq org-agenda-mode-map (make-sparse-keymap))
 
-    ; Motion
-    ; ------
+    (general-define-key
+      :prefix localleader
+      :states 'emacs
+      :keymaps 'org-agenda-mode-map
 
-    (define-key org-agenda-mode-map "j" 'org-agenda-next-line)
-    (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
+      "s" 'org-agenda-schedule
+      "d" 'org-agenda-deadline
 
-     ; Files
-    ; -----
+      "t" 'org-agenda-set-tags
 
-    (define-key org-agenda-mode-map (kbd "<RET>") 'org-agenda-switch-to)
-    (define-key org-agenda-mode-map (kbd "\t") 'org-agenda-goto)
-    (define-key org-agenda-mode-map "F" 'org-agenda-follow-mode)
+      "e" 'org-agenda-write)
 
-    ; Display
-    ; -------
-
-    (define-key org-agenda-mode-map "a" 'org-agenda)
-    (define-key org-agenda-mode-map "A" 'org-agenda-append-agenda)
-
-    (define-key org-agenda-mode-map  "d" 'org-agenda-day-view)
-    (define-key org-agenda-mode-map  "w" 'org-agenda-week-view)
-    (define-key org-agenda-mode-map  "v" 'org-agenda-view-mode-dispatch)
-
-    (define-key org-agenda-mode-map  "f" 'org-agenda-later)
-    (define-key org-agenda-mode-map  "b" 'org-agenda-earlier)
-
-    (define-key org-agenda-mode-map "." 'org-agenda-goto-today)
-    (define-key org-agenda-mode-map  "g" 'org-agenda-goto-date)
-
-    (define-key org-agenda-mode-map "l" 'org-agenda-log-mode)
-    (define-key org-agenda-mode-map "r" 'org-agenda-redo)
-
-    (define-key org-agenda-mode-map "/" 'org-agenda-filter-by-tag)
-
-    ; Remote Editing
-    ; --------------
-
-    (define-key org-agenda-mode-map "u" 'org-agenda-undo)
-    (define-key org-agenda-mode-map "t" 'org-agenda-todo)
-    (define-key org-agenda-mode-map (kbd "SPC t") 'org-agenda-set-tags)
-
-    (define-key org-agenda-mode-map "+" 'org-agenda-priority-up)
-    (define-key org-agenda-mode-map "-" 'org-agenda-priority-down)
-
-    (define-key org-agenda-mode-map (kbd "SPC s") 'org-agenda-schedule)
-    (define-key org-agenda-mode-map (kbd "SPC d") 'org-agenda-deadline)
-
-    (define-key org-agenda-mode-map (kbd "<up>") 'org-agenda-do-date-earlier)
-    (define-key org-agenda-mode-map (kbd "<down>") 'org-agenda-do-date-later)
-
-    (define-key org-agenda-mode-map (kbd "SPC c") 'org-agenda-capture)
-
-    ; Other
-    ; -----
-
-    (define-key org-agenda-mode-map (kbd "SPC e") 'org-agenda-write)
-
-    (define-key org-agenda-mode-map "s" 'org-save-all-org-buffers)
-    (define-key org-agenda-mode-map "q" 'org-agenda-quit)
-    (define-key org-agenda-mode-map "x" 'org-agenda-exit)
-))
+    (general-define-key
+      :states  'emacs
+      :keymaps 'org-agenda-mode-map
+    
+      ; Motion
+      ; ------
+    
+      "j" 'org-agenda-next-line
+      "k" 'org-agenda-previous-line
+    
+       ; Files
+      ; -----
+    
+      "\t" 'org-agenda-switch-to
+      "<RET>" 'org-agenda-goto
+      "F" 'org-agenda-follow-mode
+    
+      ; Display
+      ; -------
+    
+      "a" 'org-agenda
+      "A" 'org-agenda-append-agenda
+    
+      "d" 'org-agenda-day-view
+      "w" 'org-agenda-week-view
+      "v" 'org-agenda-view-mode-dispatch
+    
+      "f" 'org-agenda-later
+      "b" 'org-agenda-earlier
+    
+      "." 'org-agenda-goto-today
+       "g" 'org-agenda-goto-date
+    
+      "l" 'org-agenda-log-mode
+      "r" 'org-agenda-redo
+    
+      "/" 'org-agenda-filter-by-tag
+    
+      ; Remote Editing
+      ; --------------
+    
+      "u" 'org-agenda-undo
+      "t" 'org-agenda-todo
+    
+      "+" 'org-agenda-priority-up
+      "-" 'org-agenda-priority-down
+    
+      "<up>" 'org-agenda-do-date-earlier
+      "<down>" 'org-agenda-do-date-later
+    
+      "c" 'org-agenda-capture
+    
+      ; Other
+      ; -----
+    
+      "s" 'org-save-all-org-buffers
+      "q" 'org-agenda-quit
+      "x" 'org-agenda-exit
+    )))
 #+END_SRC
 
 * Visuals
@@ -233,6 +251,12 @@ Let's use pretty bullets
   :after org
   :init
   (add-hook 'org-mode-hook 'org-bullets-mode))
+#+END_SRC
+
+Hide emphasis markers.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-hide-emphasis-markers t)
 #+END_SRC
 
 I don't like the ellipsis org mode uses by default.
@@ -253,13 +277,14 @@ Use more sane settings in =BEGIN_SRC= blocks.
 #+BEGIN_SRC emacs-lisp
 (setq org-src-fontify-natively t)
 (setq org-src-tab-acts-natively t)
+(setq org-edit-src-content-indentation 0)
 #+END_SRC
 
 * Workflow
 ** =Todo= States
 
-The possible todo states are /TODO/, /IN PROGRESS/, /WAITING/ and /DONE/.
-Timestamps are added when entering or leaving the /IN PROGRESS/ and /WAITING/
+The possible todo states are /TODO/, +IN PROGRESS+ ACTIVE, /WAITING/ and /DONE/.
+Timestamps are added when entering or leaving the /ACTIVE/ and /WAITING/
 states. /DONE/ and /CANCELLED/ are the final states. Timestamps are recorded
 when entering these states. Additionally, a note is requested for entering the
 /WAITING/ and /CANCELLED/ state.
@@ -267,16 +292,17 @@ when entering these states. Additionally, a note is requested for entering the
 We add color and hotkeys to make it easy to recognize or enter these states.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-todo-keywords '(
-  "TODO(t)"
-  "IN PROGRESS(p!/!)"
-  "WAITING(w@/!)"
-  "|"
-  "DONE(d!)"
-  "CANCELLED(c@)"))
+(setq org-todo-keywords
+  '((sequence
+      "TODO(t)"
+      "ACTIVE(a!/!)"
+      "WAITING(w@/!)"
+      "|"
+      "DONE(d!)"
+      "CANCELLED(c@)")))
 (setq org-todo-keyword-faces
   '(("TODO" . org-todo)
-    ("IN PROGRESS" . "cyan")
+    ("ACTIVE" . "cyan")
     ("WAITING" . "yellow")
     ("DONE" . org-done)
     ("CANCELLED" . "red")))
@@ -333,9 +359,6 @@ We use the following (mutually exclusive) tags:
     ("t" "Create a task" entry
       (file ,m-org-capture-todo)
       "* TODO %?")
-    ("s" "Create and schedule a task" entry
-      (file ,m-org-capture-todo)
-      "* TODO %?\n  SCHEDULED: %^t")
     ("n" "Make a note" entry
       (file ,m-org-capture-notes)
       "* %U %?")
@@ -363,16 +386,17 @@ have already been completed.
 Show state changes in agenda.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-agenda-log-mode-items '(closed clock state))
+(setq org-agenda-log-mode-items '(closed state))
 #+END_SRC
 
-Start in day view, don't show time grid, show the log, and start in follow mode.
+Start in day view, don't show time grid, but do show the log.
+If there is a way to tweak follow mode to only open one buffer, we
+should enable it by default.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-agenda-span 'day)
 (setq org-agenda-time-grid nil)
 (setq org-agenda-start-with-log-mode t)
-(setq org-agenda-start-with-follow-mode t)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp

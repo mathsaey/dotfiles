@@ -66,9 +66,23 @@ Now that all of that is done, we can finally start to use =use-package=.
   (require 'use-package)
 #+END_SRC
 
-** Automatically update packages
+** Other packages
+Emacs is aweswome, but vim has a far superior interface. Let's use
+=evil-mode= to get the best of both worlds.
 
-Update packages automatically every week.
+#+BEGIN_SRC emacs-lisp
+(use-package evil
+  :config
+    (evil-mode t))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package helm)
+(use-package magit)
+(use-package buffer-move)
+#+END_SRC
+
+Easily update packages with auto-package-update.
 
 #+BEGIN_SRC emacs-lisp
 (use-package auto-package-update
@@ -76,65 +90,17 @@ Update packages automatically every week.
    (setq auto-package-update-delete-old-versions t))
 #+END_SRC
 
-** Evil mode
- 
-Emacs is aweswome, but vim has a far superior interface. Let's use
-=evil-mode= to get the best of both worlds.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package evil
-    :after evil-leader
-    :config
-      (evil-mode t))
-#+END_SRC
-
-Let's use evil-leader to make our life a bit easier.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package evil-leader
-    :config
-    (evil-leader/set-leader "<SPC>")
-    (global-evil-leader-mode)) 
-#+END_SRC
-
-I like to use =<leader>w= to /write/ my current buffer.
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "w" 'save-buffer)
-#+END_SRC
-
-Use =fj= or =jf= to leave insert mode.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package evil-escape
-    :config
-      (require 'evil-escape)
-      (setq evil-escape-key-sequence "fj")
-      (setq evil-escape-unordered-key-sequence t)
-      (setq evil-escape-mode t)
-      (evil-escape-mode))
-#+END_SRC
-
-** Other packages
-
-#+BEGIN_SRC emacs-lisp
-  (use-package org)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (use-package helm)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (use-package magit)
-#+END_SRC
-
 #+BEGIN_SRC emacs-lisp
 (when (string-equal system-type "darwin")
   (use-package exec-path-from-shell
     :config
       (exec-path-from-shell-initialize)))
+#+END_SRC
+
+** Language Specific packages
+
+#+BEGIN_SRC emacs-lisp
+(use-package elixir-mode)
 #+END_SRC
 
 * Visuals
@@ -196,12 +162,18 @@ Use the darkokai theme, don't add too much padding around the mode line.
     (load-theme 'darkokai t))
 #+END_SRC
 
-Use rainbow brakcets.
+Use rainbow brakcets in lisp like languages.
 
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
     :config
-      (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+      (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
+#+END_SRC
+
+Highlight matching parentheses in prog mode.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook 'show-paren-mode)
 #+END_SRC
 
 ** Mode Line
@@ -223,6 +195,91 @@ lifting for us. To make things pretty, use the cubed separator everywhere.
 
     (require 'telephone-line-config)
     (telephone-line-evil-config))
+#+END_SRC
+
+* Keybinds
+
+Allow evil's motion commands to skip multiple lines.
+
+#+BEGIN_SRC emacs-lisp
+(setq evil-cross-lines t)
+#+END_SRC
+
+We use general.el to set up keybinds.
+
+#+BEGIN_SRC emacs-lisp
+(use-package general)
+(require 'general)
+#+END_SRC
+
+I like the concept of a leader for my custom functions, let's create a
+leader and a loccalleader.
+
+#+BEGIN_SRC emacs-lisp
+(setq leader "SPC")
+(setq localleader "\\")
+#+END_SRC
+
+Use =<leader>w= to /write/ the current buffer.
+
+#+BEGIN_SRC emacs-lisp
+(general-define-key
+  :states 'normal
+  :prefix  leader
+  "w" 'save-buffer)
+#+END_SRC
+
+In order to easily switch buffers, we use the home-row movement keys
+(hjkl), with a ~<leader>m~ prefix.
+Furthermore, make it possible to swap buffers with that prefix and r.
+
+#+BEGIN_SRC emacs-lisp
+(require 'buffer-move)
+(general-define-key
+  :states '(normal emacs)
+  :prefix leader
+  "mh" 'windmove-left
+  "mj" 'windmove-down
+  "mk" 'windmove-up
+  "ml" 'windmove-right
+  "mr" 'buf-move-right)
+#+END_SRC
+
+Use =fj= to escape from insert mode.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-escape
+    :config
+      (require 'evil-escape)
+      (setq evil-escape-key-sequence "fj")
+      (setq evil-escape-unordered-key-sequence t)
+      (setq evil-escape-mode t)
+      (evil-escape-mode))
+#+END_SRC
+
+Add vim-sneak like behaviour to evil mode.
+
+#+BEGIN_SRC emacs-lisp
+(use-package evil-snipe
+  :config
+  (require 'evil-snipe)
+  (evil-snipe-mode t)
+  (evil-snipe-override-mode t)
+  (setq evil-snipe-scope 'whole-buffer)
+  (setq evil-snipe-repeat-scope 'whole-buffer)
+  (general-define-key
+    :states 'operator
+    :keymaps 'evil-snipe-local-mode-map
+    "s" 'evil-snipe-x
+    "S" 'evil-snipe-X))
+#+END_SRC
+
+Add bindings to increase and reduce font size.
+
+#+BEGIN_SRC emacs-lisp
+(general-define-key
+  "s-+" 'text-scale-increase
+  "s--" 'text-scale-decrease)
 #+END_SRC
 
 * Miscellaneous configuration.
@@ -261,17 +318,7 @@ Let's keep language specific configuration seperate.
   (org-babel-load-file (expand-file-name "org.org" conf-dir))
 #+END_SRC
 
-* Functions
-
-Function to easily reload my emacs config.
-
-#+BEGIN_SRC emacs-lisp
-(defun m-reload-config ()
-  (interactive)
-  (load-file (expand-file-name "init.el" user-emacs-directory)))
-#+END_SRC
-
-* [2/7] To do
+* [3/8] To do
 - [X] Get rid of the emacs splash screen
 - [ ] Configure evil mode properly
 - [X] Fix the weird blank boxes org gives
@@ -279,5 +326,6 @@ Function to easily reload my emacs config.
   - [ ] Backup files
   - [ ] Autosave files
 - [ ] Linters, autocompleters
-- [ ] Fancy parens
+- [X] Fancy parens
 - [ ] Do something about the org mode font
+- [ ] Spellcheck
