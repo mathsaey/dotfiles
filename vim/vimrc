@@ -26,6 +26,7 @@ Plug 'w0rp/ale'                                                                "
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
 Plug 'mbbill/undotree'                                                         " Visual undo tree
 Plug 'mileszs/ack.vim'                                                         " Better file search
+Plug 'SirVer/ultisnips'                                                        " Snippet plugin
 Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
 Plug 'xolox/vim-session'                                                       " Session Management
 Plug 'romainl/vim-qlist'                                                       " Better include search
@@ -92,6 +93,9 @@ let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace
 let g:session_autosave='yes'                        " Always save sessions when quitting vim
 let g:session_autoload = 'no'                       " Don't prompt for opening old sessions
 let g:session_autosave_periodic=1                   " Save session every minute
+
+" Snippet configuration
+ let g:UltiSnipsSnippetDirectories=['~/.vim/snip']
 
 " File Locations
 " --------------
