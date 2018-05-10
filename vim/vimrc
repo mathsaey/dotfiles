@@ -20,7 +20,6 @@ Plug 'junegunn/limelight.vim'                                                  "
 " Git integration
 Plug 'tpope/vim-fugitive'                                                      " Git integration
 Plug 'airblade/vim-gitgutter'                                                  " Show diff in sidebar
-
 " Tools
 Plug 'w0rp/ale'                                                                " Asynchronous linter
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
@@ -30,6 +29,7 @@ Plug 'SirVer/ultisnips'                                                        "
 Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
 Plug 'xolox/vim-session'                                                       " Session Management
 Plug 'romainl/vim-qlist'                                                       " Better include search
+Plug 'honza/vim-snippets'                                                      " Default snippets for various languages
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
 Plug 'justinmk/vim-sneak'                                                      " Extra motion command
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
@@ -90,12 +90,9 @@ set backspace=indent,eol,start                      " Allow backspaces to remove
 let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace on save
 
 " Session configuration
-let g:session_autosave='yes'                        " Always save sessions when quitting vim
+let g:session_autosave = 'yes'                      " Always save sessions when quitting vim
 let g:session_autoload = 'no'                       " Don't prompt for opening old sessions
-let g:session_autosave_periodic=1                   " Save session every minute
-
-" Snippet configuration
- let g:UltiSnipsSnippetDirectories=['~/.vim/snip']
+let g:session_autosave_periodic = 1                 " Save session every minute
 
 " File Locations
 " --------------
@@ -217,6 +214,33 @@ let g:sneak#use_ic_scs = 1                          " let vim-sneak use the igno
 
 " Global search
 let g:ackprg = 'ag --vimgrep'                       " Setup ag for ack.vim
+
+" -------- "
+" Snippets "
+" -------- "
+
+" General configuration
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/snip']
+let g:UltiSnipsEditSplit = 'context'
+
+" Keybinds
+let g:UltiSnipsExpandTrigger="<c-tab>"
+let g:UltiSnipsListSnippets="<c-s-tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" Jump through the YCM list with <tab>, use <CR> to select an entry
+let g:ulti_expand_or_jump_res = 0
+function ExpandSnippetOrCarriageReturn()
+    let snippet = UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res > 0
+        return snippet
+    else
+        return "\<CR>"
+    endif
+endfunction
+
+inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 
 " ------------------------ "
 " Global Language Settings "
