@@ -71,3 +71,5 @@ set-option -g display-time 2000
 # Don't allow automatic window renaming
 set-window-option -g allow-rename off
 
+# Automatically update window numbers so there are no gaps between indices
+set-option -g renumber-windows on
