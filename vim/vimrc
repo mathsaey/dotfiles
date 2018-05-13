@@ -17,9 +17,10 @@ Plug 'luochen1990/rainbow'                                                     "
 Plug 'itchyny/lightline.vim'                                                   " Status bar
 Plug 'junegunn/limelight.vim'                                                  " Only color current paragraph
 
-" Git integration
+" VCS integration
 Plug 'tpope/vim-fugitive'                                                      " Git integration
-Plug 'airblade/vim-gitgutter'                                                  " Show diff in sidebar
+Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
+
 " Tools
 Plug 'w0rp/ale'                                                                " Asynchronous linter
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
@@ -46,18 +47,18 @@ Plug 'vim-scripts/argtextobj.vim'                                              "
 Plug 'michaeljsmith/vim-indent-object'                                         " Text object for indented content
 
 " Languages
-Plug 'zah/nim.vim', {'for': 'nim'}                                             " Nim support
-Plug 'lervag/vimtex', {'for': 'tex'}                                           " Latex support
-Plug 'jceb/vim-orgmode', {'for': 'org'}                                        " Org mode for vim
-Plug 'dleonard0/pony-vim-syntax', {'for': 'pony'}                              " Pony support
-Plug 'wlangstroth/vim-racket', {'for': 'racket'}                               " Racket support
-Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}                          " Improved markdown support
-Plug 'mhinz/vim-mix-format', {'for': 'elixir'}                                 " Elixir formatter
-Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}                               " Basic support for Elixir
-Plug 'slashmili/alchemist.vim', {'for': 'elixir'}                              " IDE like tools for Elixir
-Plug 'andyl/vim-textobj-elixir', {'for': 'elixir'}                             " Extra text objects for elixir
-Plug 'hdima/python-syntax', {'for': 'python'}                                  " Better syntax highlighting for python
-Plug 'vim-scripts/indentpython.vim', {'for': 'python'}                         " Better python indentation
+Plug 'zah/nim.vim'                                                             " Nim support
+Plug 'lervag/vimtex'                                                           " Latex support
+Plug 'jceb/vim-orgmode'                                                        " Org mode for vim
+Plug 'dleonard0/pony-vim-syntax'                                               " Pony support
+Plug 'wlangstroth/vim-racket'                                                  " Racket support
+Plug 'gabrielelana/vim-markdown'                                               " Improved markdown support
+Plug 'mhinz/vim-mix-format'                                                    " Elixir formatter
+Plug 'elixir-lang/vim-elixir'                                                  " Basic support for Elixir
+Plug 'slashmili/alchemist.vim'                                                 " IDE like tools for Elixir
+Plug 'andyl/vim-textobj-elixir'                                                " Extra text objects for elixir
+Plug 'hdima/python-syntax'                                                     " Better syntax highlighting for python
+Plug 'vim-scripts/indentpython.vim'                                            " Better python indentation
 
 " Plugins with advanced setup
 
@@ -111,7 +112,7 @@ let g:session_directory='~/.tmp/vim/sessions/'
 
 " Theme and Font
 colorscheme molokai                                 " Set color scheme
-set guifont=Menlo:h12                               " Set text font
+set guifont=Menlo:h13                               " Set text font
 
 " Syntax highlighting tweaks
 syntax enable                                       " Enable syntax highlighting
@@ -231,7 +232,7 @@ let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " Jump through the YCM list with <tab>, use <CR> to select an entry
 let g:ulti_expand_or_jump_res = 0
-function ExpandSnippetOrCarriageReturn()
+function! ExpandSnippetOrCarriageReturn()
     let snippet = UltiSnips#ExpandSnippetOrJump()
     if g:ulti_expand_or_jump_res > 0
         return snippet
