@@ -451,7 +451,7 @@ inoremap fj <Esc>
 inoremap jf <Esc>
 
 " Open a terminal or tmuxinator project if it's available
-noremap <Leader>s :call OpenTerminalOrTmuxinatorProject<CR>
+noremap <Leader>s :call OpenTerminalOrTmuxinatorProject()<CR>
 " Open a standard terminal
 noremap <Leader>t :terminal<CR>
 " Open the netrw split
