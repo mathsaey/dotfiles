@@ -11,28 +11,20 @@ source ~/.dotfiles/util.sh
 # Enable
 autoload -Uz compinit && compinit
 
-# ------- #
-# Visuals #
-# ------- #
+# ------ #
+# Prompt #
+# ------ #
 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs root_indicator)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs time)
-POWERLEVEL9K_DISABLE_RPROMPT=true
+setopt prompt_subst
+autoload -Uz vcs_info
 
-POWERLEVEL9K_HOME_ICON=''
-POWERLEVEL9K_HOME_SUB_ICON=''
-POWERLEVEL9K_FOLDER_ICON=''
+precmd () { vcs_info }
 
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%{%F{red}$%} "
+P_cont='%{%F{black}%K{white}%} %n@%m %{%f%k%}'
+P_dir='%{%F{black}%K{blue}%} $(pwd | sed -e "s,^$HOME,~,") %{%f%k%}'
+P_pre='%{%F{red}%}$ %{%f%k%}'
 
-POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND="white"
-POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="black"
-POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND="red"
-POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND="black"
-
-source ~/.dotfiles/res/zsh-plugins/powerlevel9k/powerlevel9k.zsh-theme
+PROMPT=$P_cont$P_dir$'\n'$P_pre
 
 # ------- #
 # Plugins #

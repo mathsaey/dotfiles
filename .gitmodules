@@ -1,9 +1,6 @@
 [submodule "res/zsh-plugins/zsh-syntax-highlighting"]
 	path = res/zsh-plugins/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
-[submodule "res/zsh-plugins/powerlevel9k"]
-	path = res/zsh-plugins/powerlevel9k
-	url = https://github.com/bhilburn/powerlevel9k
 [submodule "res/zsh-plugins/git-flow-completion"]
 	path = res/zsh-plugins/git-flow-completion
 	url = https://github.com/bobthecow/git-flow-completion
