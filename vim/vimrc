@@ -95,6 +95,9 @@ let g:session_autosave = 'yes'                      " Always save sessions when 
 let g:session_autoload = 'no'                       " Don't prompt for opening old sessions
 let g:session_autosave_periodic = 1                 " Save session every minute
 
+" vim-signify configuration
+let g:signify_realtime = 1                          " Update the git markers more frequently
+
 " File Locations
 " --------------
 
@@ -380,6 +383,17 @@ function! MoveOrCreateWindow(key) abort
     endif
   endfunction
 
+" Open a terminal, if a tmuxinator project exists with the name of the current
+" session, open that instead.
+function! OpenTerminalOrTmuxinatorProject() abort
+  let sname = fnamemodify(v:this_session, ":t:r")
+  if filereadable(expand("~/.tmuxinator/" . sname . ".yml"))
+    exec 'terminal tmuxinator start ' . sname
+  else
+    exec 'terminal'
+  endif
+endfunction
+
 command! -nargs=*          CommentBox  call CommentBox(<q-args>)
 command! -nargs=*          CommentLine call CommentLine(<q-args>)
 command! -nargs=* -range   Highlight   call Highlight(GetVisualSelection(), <f-args>)
@@ -436,8 +450,10 @@ noremap <right> : echoe "use l"<CR>
 inoremap fj <Esc>
 inoremap jf <Esc>
 
-" Open a terminal
-noremap <Leader>s :terminal<CR>
+" Open a terminal or tmuxinator project if it's available
+noremap <Leader>s :call OpenTerminalOrTmuxinatorProject<CR>
+" Open a standard terminal
+noremap <Leader>t :terminal<CR>
 " Open the netrw split
 noremap <Leader>f :Vexplore<CR>
 
