@@ -21,6 +21,10 @@ Plug 'junegunn/limelight.vim'                                                  "
 Plug 'tpope/vim-fugitive'                                                      " Git integration
 Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
 
+" Fzf
+Plug 'junegunn/fzf'                                                          " Install fzf as a plugin for portability
+Plug 'junegunn/fzf.vim'                                                        " Out of the box vim integration
+
 " Tools
 Plug 'w0rp/ale'                                                                " Asynchronous linter
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
@@ -97,6 +101,20 @@ let g:session_autosave_periodic = 1                 " Save session every minute
 
 " vim-signify configuration
 let g:signify_realtime = 1                          " Update the git markers more frequently
+
+" File Browser
+" ------------
+
+" Don't show the netrw banner
+let g:netrw_banner = 0
+" Use a tree like layout for netrw
+let g:netrw_liststyle = 3
+" Open a selected file in the previous window
+let g:netrw_browse_split = 4
+" Show the netrw preview in a vertical split
+let g:netrw_preview=1
+" Size of netrw window
+let g:netrw_winsize = 25
 
 " File Locations
 " --------------
@@ -190,20 +208,6 @@ let g:lightline.component_function = {
 function! LightlineReadonly()
   return &readonly ? '*read-only*' : ''
 endfunction
-
-" File Browser
-" ------------
-
-" Don't show the netrw banner
-let g:netrw_banner = 0
-" Use a tree like layout for netrw
-let g:netrw_liststyle = 3
-" Open a selected file in the previous window
-let g:netrw_browse_split = 4
-" Show the netrw preview in a vertical split
-let g:netrw_preview=1
-" Size of netrw window
-let g:netrw_winsize = 25
 
 " ----------------- "
 " Editing Behaviour "
