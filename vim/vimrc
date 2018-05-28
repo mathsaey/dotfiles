@@ -411,17 +411,8 @@ let mapleader = "\<Space>"
 " Use backslash as local leader
 let maplocalleader = "\\"
 
-" Copy to system clipboard
-nnoremap <Leader>y "+y
-nnoremap <Leader>d "+d
-vnoremap <Leader>y "+y
-vnoremap <Leader>d "+d
-
-" Copy from system clipboard, using paste mode
-nnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
-nnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
-vnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
-vnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
+" Command Shortcuts
+" -----------------
 
 " Update file
 nnoremap <Leader>w :update<CR>
@@ -438,31 +429,48 @@ nnoremap <Leader>g :Goyo<CR>
 " Toggle rainbow parentheses
 nnoremap <Leader>[ :RainbowToggle<CR>
 
+" Open a terminal or tmuxinator project if it's available
+noremap <Leader>s :call OpenTerminalOrTmuxinatorProject()<CR>
+" Open a standard terminal
+noremap <Leader>t :terminal<CR>
+" Open the netrw split
+noremap <Leader>k :Vexplore<CR>
+
 " Spelling
 nnoremap <Leader>so  :call SpellToggle()<CR>
 nnoremap <Leader>sn  :setlocal spelllang=nl<CR>
 nnoremap <Leader>seb :setlocal spelllang=en_gb<CR>
 nnoremap <Leader>sea :setlocal spelllang=en_us<CR>
 
-" Disable arrow keys in normal mode
-noremap <up>    : echoe "use k"<CR>
-noremap <down>  : echoe "use j"<CR>
-noremap <left>  : echoe "use h"<CR>
-noremap <right> : echoe "use l"<CR>
+" Fuzzy finding
+" -------------
+" All commands should start with <Leader>f
 
-" Easily get out of insert mode
-inoremap fj <Esc>
-inoremap jf <Esc>
+" Find files
+nnoremap <Leader>ff :GFiles<CR>
+nnoremap <Leader>fk :Files<CR>
+nnoremap <Leader>fa :Ag<CR>
 
-" Open a terminal or tmuxinator project if it's available
-noremap <Leader>s :call OpenTerminalOrTmuxinatorProject()<CR>
-" Open a standard terminal
-noremap <Leader>t :terminal<CR>
-" Open the netrw split
-noremap <Leader>f :Vexplore<CR>
+" Select buffer
+nnoremap <Leader>fb :Buffers<CR>
+
+" Find a line
+nnoremap <Leader>fl :Lines<CR>
+nnoremap <Leader>fh :BLines<CR>
+
+" Find a command
+nnoremap <Leader>fc :Commands<CR>
+
+" Find a filetype
+nnoremap <Leader>ft :Filetypes<CR>
 
 " Window Operations
 " -----------------
+" Map <Leader> M to the window command prefix
+nnoremap <Leader>m <C-W>
+
+" Close the current split
+nnoremap <silent> <Leader>mx :quit<CR>
 
 " Move to a split or create one
 nnoremap <silent> <Leader>mh :call MoveOrCreateWindow('h')<CR>
@@ -470,14 +478,33 @@ nnoremap <silent> <Leader>mj :call MoveOrCreateWindow('j')<CR>
 nnoremap <silent> <Leader>mk :call MoveOrCreateWindow('k')<CR>
 nnoremap <silent> <Leader>ml :call MoveOrCreateWindow('l')<CR>
 
-" Map <Leader> M to the window command prefix
-nnoremap <Leader>m <C-W>
+" Editing
+" -------
 
-" Close the current split
-nnoremap <silent> <Leader>mx :quit<CR>
+" Easily get out of insert mode
+inoremap fj <Esc>
+inoremap jf <Esc>
 
-" Vim Sneak Bindings
-" ------------------
+" Disable arrow keys in normal mode
+noremap <up>    : echoe "use k"<CR>
+noremap <down>  : echoe "use j"<CR>
+noremap <left>  : echoe "use h"<CR>
+noremap <right> : echoe "use l"<CR>
+
+" Copy to system clipboard
+nnoremap <Leader>y "+y
+nnoremap <Leader>d "+d
+vnoremap <Leader>y "+y
+vnoremap <Leader>d "+d
+
+" Copy from system clipboard, using paste mode
+nnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
+nnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
+vnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
+vnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
+
+" Vim Sneak
+" ---------
 
 " 2-character Sneak
 nmap s <Plug>Sneak_s
