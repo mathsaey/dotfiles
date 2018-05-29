@@ -294,20 +294,6 @@ augroup END
 " Custom Functions & Commands "
 " --------------------------- "
 
-" Toggle relative and absolute line numbers
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set norelativenumber
-  else
-    set relativenumber
-  endif
-endfunc
-
-" Toggle spellcheck
-function! SpellToggle()
-  set spell!
-endfunc
-
 " Creates a fancy comment box given a string
 function! CommentBox(msg) abort
   let com = substitute(&commentstring, '%s', '', '')
@@ -398,6 +384,26 @@ function! OpenTerminalOrTmuxinatorProject() abort
   endif
 endfunction
 
+" Find out if we are in a git repo
+" Based on https://github.com/junegunn/fzf.vim/blob/master/autoload/fzf/vim.vim#L500
+function! s:is_git_repo() abort
+  let root = split(system('git rev-parse --show-toplevel'), '\n')[0]
+  return v:shell_error ? 0 : 1
+endfunction
+
+" Execute the fzf.vim "GFiles" command, or the "Files" command, if we're not
+" in a git repo.
+function! FilesOrGFiles() abort
+  if s:is_git_repo()
+    exec 'GFiles'
+  else
+    exec 'Files'
+  endif
+endfunction
+
+" Commands
+" --------
+
 command! -nargs=*          CommentBox  call CommentBox(<q-args>)
 command! -nargs=*          CommentLine call CommentLine(<q-args>)
 command! -nargs=* -range   Highlight   call Highlight(GetVisualSelection(), <f-args>)
@@ -413,6 +419,10 @@ let maplocalleader = "\\"
 
 " Command Shortcuts
 " -----------------
+"
+"  Prefixes:
+"   - <Leader>m for window operations (mnemonic: m for "move")
+"   - <Leader>z for spelling operations (mnemonic: z is spell "fix" key)
 
 " Update file
 nnoremap <Leader>w :update<CR>
@@ -421,11 +431,9 @@ nnoremap <Leader>n :nohlsearch<CR>
 " Show the visual undo tree
 nnoremap <Leader>u :UndotreeToggle<CR>
 " Toggle line numbers
-nnoremap <Leader>l :call NumberToggle()<CR>
-" Highligh selected text
-vnoremap <Leader>h :Highlight<CR>
+nnoremap <Leader>l :set relativenumber!<CR>
 " Enter distraction free mode (or leave it)
-nnoremap <Leader>g :Goyo<CR>
+nnoremap <Leader>o :Goyo<CR>
 " Toggle rainbow parentheses
 nnoremap <Leader>[ :RainbowToggle<CR>
 
@@ -433,36 +441,34 @@ nnoremap <Leader>[ :RainbowToggle<CR>
 noremap <Leader>s :call OpenTerminalOrTmuxinatorProject()<CR>
 " Open a standard terminal
 noremap <Leader>t :terminal<CR>
+
 " Open the netrw split
 noremap <Leader>k :Vexplore<CR>
 
-" Spelling
-nnoremap <Leader>so  :call SpellToggle()<CR>
-nnoremap <Leader>sn  :setlocal spelllang=nl<CR>
-nnoremap <Leader>seb :setlocal spelllang=en_gb<CR>
-nnoremap <Leader>sea :setlocal spelllang=en_us<CR>
+" Spellcheck
+" ----------
+
+nnoremap <Leader>zo  :set spell!<CR>
+nnoremap <Leader>zn  :setlocal spelllang=nl<CR>
+nnoremap <Leader>zeb :setlocal spelllang=en_gb<CR>
+nnoremap <Leader>zea :setlocal spelllang=en_us<CR>
 
 " Fuzzy finding
 " -------------
-" All commands should start with <Leader>f
 
-" Find files
-nnoremap <Leader>ff :GFiles<CR>
-nnoremap <Leader>fk :Files<CR>
-nnoremap <Leader>fa :Ag<CR>
+" Find a buffer
+nnoremap <Leader>b :Buffers<CR>
 
-" Select buffer
-nnoremap <Leader>fb :Buffers<CR>
+" Find a file from git or from all files
+nnoremap <Leader>f :call FilesOrGFiles()<CR>
+nnoremap <Leader>F :Files<CR>
 
-" Find a line
-nnoremap <Leader>fl :Lines<CR>
-nnoremap <Leader>fh :BLines<CR>
+" Find a line in the current buffer or in all the buffers
+nnoremap <Leader>g :Lines<CR>
+nnoremap <Leader>G :BLines<CR>
 
-" Find a command
-nnoremap <Leader>fc :Commands<CR>
-
-" Find a filetype
-nnoremap <Leader>ft :Filetypes<CR>
+" Fuzzy find a session to open
+nnoremap <Leader>B :call fzf#run({'source': xolox#session#get_names(0), 'sink': 'OpenSession'})<CR>
 
 " Window Operations
 " -----------------
