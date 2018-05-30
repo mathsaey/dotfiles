@@ -11,6 +11,9 @@ source ~/.dotfiles/util.sh
 # Enable
 autoload -Uz compinit && compinit
 
+# Use ripgrep as the default fzf search provider
+export FZF_DEFAULT_COMMAND="rg --files"
+
 # ------ #
 # Prompt #
 # ------ #

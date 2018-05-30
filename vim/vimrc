@@ -22,7 +22,7 @@ Plug 'tpope/vim-fugitive'                                                      "
 Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
 
 " Fzf
-Plug 'junegunn/fzf'                                                          " Install fzf as a plugin for portability
+Plug 'junegunn/fzf'                                                            " Install fzf as a plugin for portability
 Plug 'junegunn/fzf.vim'                                                        " Out of the box vim integration
 
 " Tools
@@ -101,6 +101,9 @@ let g:session_autosave_periodic = 1                 " Save session every minute
 
 " vim-signify configuration
 let g:signify_realtime = 1                          " Update the git markers more frequently
+
+" bclose configuration
+let g:no_plugin_maps = 1                            " Don't let Bclose bind <Leader>bd
 
 " File Browser
 " ------------
@@ -235,7 +238,8 @@ let g:sneak#streak = 1                              " Use vim-sneak streak mode,
 let g:sneak#use_ic_scs = 1                          " let vim-sneak use the ignorecase/smartcase settings.
 
 " Global search
-let g:ackprg = 'ag --vimgrep'                       " Setup ag for ack.vim
+let g:ackprg = 'rg --vimgrep'                           " Use ripgrep for ack.vim
+let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs' " Use ripgrep as the default fzf file provider
 
 " -------- "
 " Snippets "
