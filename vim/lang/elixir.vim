@@ -23,8 +23,8 @@ let g:rainbow_conf.separately.elixir = {
 " Keybinds "
 " -------- "
 
-map <LocalLeader>r :terminal iex<CR>
 map <LocalLeader>s :terminal iex -S mix<CR>
+map <LocalLeader>S :terminal iex<CR>
 
 map <LocalLeader>t :terminal ++rows=20 mix test<CR>
 
