@@ -36,7 +36,6 @@ Plug 'xolox/vim-session'                                                       "
 Plug 'romainl/vim-qlist'                                                       " Better include search
 Plug 'honza/vim-snippets'                                                      " Default snippets for various languages
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
-Plug 'justinmk/vim-sneak'                                                      " Extra motion command
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
 Plug 'kshenoy/vim-signature'                                                   " Show marks in the sidebar
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
@@ -232,10 +231,6 @@ set hlsearch                                        " Highlight matches
 " Search Case Behaviour
 set ignorecase                                      " Don't match case
 set smartcase                                       " Unless the search term contains uppercase
-
-" vim-sneak
-let g:sneak#streak = 1                              " Use vim-sneak streak mode, which makes it easier to go to a match
-let g:sneak#use_ic_scs = 1                          " let vim-sneak use the ignorecase/smartcase settings.
 
 " Global search
 let g:ackprg = 'rg --vimgrep'                           " Use ripgrep for ack.vim
@@ -512,37 +507,3 @@ nnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
 nnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 vnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
 vnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
-
-" Vim Sneak
-" ---------
-
-" 2-character Sneak
-nmap s <Plug>Sneak_s
-nmap S <Plug>Sneak_S
-" visual-mode
-xmap s <Plug>Sneak_s
-xmap S <Plug>Sneak_S
-" operator-pending-mode
-omap s <Plug>Sneak_s
-omap S <Plug>Sneak_S
-" 1-character enhanced 'f'
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
-" visual-mode
-xmap f <Plug>Sneak_f
-xmap F <Plug>Sneak_F
-" operator-pending-mode
-omap f <Plug>Sneak_f
-omap F <Plug>Sneak_F
-" 1-character enhanced 't'
-nmap t <Plug>Sneak_t
-nmap T <Plug>Sneak_T
-" visual-mode
-xmap t <Plug>Sneak_t
-xmap T <Plug>Sneak_T
-" operator-pending-mode
-omap t <Plug>Sneak_t
-omap T <Plug>Sneak_T
-" repeat motion
-map ; <Plug>Sneak_;
-map , <Plug>Sneak_,
