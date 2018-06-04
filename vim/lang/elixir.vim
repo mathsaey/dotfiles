@@ -1,4 +1,5 @@
 setlocal spelllang=en_uk   " Use uk English when we want to spellcheck comments
+setlocal textwidth=80      " Wrap at 80 charachters
 setlocal formatprg=mix\ format\ -
 
 let g:mix_format_silent_errors = 1

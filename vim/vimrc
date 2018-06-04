@@ -227,6 +227,7 @@ set autoindent                                      " Automatically copy amount 
 " Search Behaviour
 set incsearch                                       " Highlight characters as they are matched
 set hlsearch                                        " Highlight matches
+set gdefault                                        " Always use global substitute
 
 " Search Case Behaviour
 set ignorecase                                      " Don't match case
@@ -277,7 +278,7 @@ let g:tex_flavor = 'latex'                          " Always use latex
 " ------------ "
 
 augroup AutoMake
-  " Ensure these commands are only loaded once
+ " Ensure these commands are only loaded once
   autocmd!
 
   " Add .nims as a nim file
@@ -287,6 +288,8 @@ augroup AutoMake
   autocmd User GoyoEnter Limelight
   autocmd User GoyoLeave Limelight!
 
+  " Rearrange splits when vim is resized
+  autocmd VimResized * wincmd =
 augroup END
 
 " --------------------------- "
