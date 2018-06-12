@@ -17,10 +17,6 @@ Plug 'luochen1990/rainbow'                                                     "
 Plug 'itchyny/lightline.vim'                                                   " Status bar
 Plug 'junegunn/limelight.vim'                                                  " Only color current paragraph
 
-" VCS integration
-Plug 'tpope/vim-fugitive'                                                      " Git integration
-Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
-
 " Fzf
 Plug 'junegunn/fzf'                                                            " Install fzf as a plugin for portability
 Plug 'junegunn/fzf.vim'                                                        " Out of the box vim integration
@@ -30,14 +26,11 @@ Plug 'w0rp/ale'                                                                "
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
 Plug 'mbbill/undotree'                                                         " Visual undo tree
 Plug 'mileszs/ack.vim'                                                         " Better file search
-Plug 'SirVer/ultisnips'                                                        " Snippet plugin
 Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
 Plug 'xolox/vim-session'                                                       " Session Management
-Plug 'romainl/vim-qlist'                                                       " Better include search
-Plug 'honza/vim-snippets'                                                      " Default snippets for various languages
+Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
-Plug 'kshenoy/vim-signature'                                                   " Show marks in the sidebar
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
 Plug 'terryma/vim-expand-region'                                               " Easily select regions
 Plug 'vim-scripts/ReplaceWithRegister'                                         " Replace without overwriting register
@@ -82,11 +75,9 @@ call plug#end()                                                                "
 " Miscellaneous Settings "
 " ---------------------- "
 
-set title                                           " Let vim set the window title
 set ttyfast                                         " Indicates the terminal is fast and more chars can be sent
 set undofile                                        " Save undo tree
 set wildmenu                                        " Shows the available autocompletes in command menu
-set autowrite                                       " Automatically save before compiling and some other actions
 set lazyredraw                                      " Don't always redraw the screen
 set backspace=indent,eol,start                      " Allow backspaces to remove more
 
@@ -237,33 +228,6 @@ set smartcase                                       " Unless the search term con
 let g:ackprg = 'rg --vimgrep'                           " Use ripgrep for ack.vim
 let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs' " Use ripgrep as the default fzf file provider
 
-" -------- "
-" Snippets "
-" -------- "
-
-" General configuration
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/snip']
-let g:UltiSnipsEditSplit = 'context'
-
-" Keybinds
-let g:UltiSnipsExpandTrigger="<c-tab>"
-let g:UltiSnipsListSnippets="<c-s-tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
-" Jump through the YCM list with <tab>, use <CR> to select an entry
-let g:ulti_expand_or_jump_res = 0
-function! ExpandSnippetOrCarriageReturn()
-    let snippet = UltiSnips#ExpandSnippetOrJump()
-    if g:ulti_expand_or_jump_res > 0
-        return snippet
-    else
-        return "\<CR>"
-    endif
-endfunction
-
-inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
-
 " ------------------------ "
 " Global Language Settings "
 " ------------------------ "
@@ -342,7 +306,7 @@ endfunction
 "   fileType: The language of txt (defaults to the current filetype)
 "   font: The font to use (defaults to menlo)
 function! Highlight(txt, ...) range abort
-  let txt      = shellescape(a:txt)
+  let txt      = shellescape(a:txt, 1)
   let theme    = (a:0 >= 1) ? a:1 : 'seashell'
   let fontSize = (a:0 >= 2) ? a:2 : 12
   let fileType = (a:0 >= 3) ? a:3 : &filetype
@@ -380,9 +344,9 @@ function! MoveOrCreateWindow(key) abort
 function! OpenTerminalOrTmuxinatorProject() abort
   let sname = fnamemodify(v:this_session, ":t:r")
   if filereadable(expand("~/.tmuxinator/" . sname . ".yml"))
-    exec 'terminal tmuxinator start ' . sname
+    exec 'terminal ++close tmuxinator start ' . sname
   else
-    exec 'terminal'
+    exec 'terminal ++close'
   endif
 endfunction
 
@@ -438,14 +402,28 @@ nnoremap <Leader>l :set relativenumber!<CR>
 nnoremap <Leader>o :Goyo<CR>
 " Toggle rainbow parentheses
 nnoremap <Leader>[ :RainbowToggle<CR>
+" Open the netrw split
+noremap <Leader>k :Lexplore<CR>
+
+" Terminal
+" --------
 
 " Open a terminal or tmuxinator project if it's available
-noremap <Leader>s :call OpenTerminalOrTmuxinatorProject()<CR>
+nnoremap <Leader>s :call OpenTerminalOrTmuxinatorProject()<CR>
 " Open a standard terminal
-noremap <Leader>S :terminal<CR>
+nnoremap <Leader>S :terminal<CR>
 
-" Open the netrw split
-noremap <Leader>k :Vexplore<CR>
+" Detach from tmux
+tnoremap `d <C-b>d
+" Kill the current tmux session
+" As a hacky workaround, add a space after ':' to ensure tmux doesn't miss the
+" 'k' in 'kill-session'
+tnoremap `D <C-b>: kill-session<CR>
+
+" Go to terminal normal mode
+tnoremap `n <C-W>N
+" Move to the next window
+tnoremap `m <C-W><C-W>
 
 " Spellcheck
 " ----------
