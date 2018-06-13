@@ -30,6 +30,7 @@ Plug 'xolox/vim-session'                                                       "
 Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
 Plug 'tpope/vim-endwise'                                                       " Automatically insert matching end keyword
+Plug 'tpope/vim-surround'                                                      " Easily work with surrounding charachters
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
 Plug 'vim-scripts/ReplaceWithRegister'                                         " Replace without overwriting register
@@ -42,6 +43,7 @@ Plug 'vim-scripts/argtextobj.vim'                                              "
 Plug 'michaeljsmith/vim-indent-object'                                         " Text object for indented content
 
 " Languages
+Plug 'tpope/vim-scriptease'                                                    " Vimscript goodies
 Plug 'zah/nim.vim'                                                             " Nim support
 Plug 'lervag/vimtex'                                                           " Latex support
 Plug 'jceb/vim-orgmode'                                                        " Org mode for vim
@@ -140,6 +142,10 @@ set ruler                                           " Show line and column numbe
 set number                                          " Draw line numbers
 set cursorline                                      " Highlight current line
 set colorcolumn=80                                  " Show a line on column 80
+
+" Cursor area
+set scrolloff=1                                     " Always show the line above the cursor
+set sidescrolloff=5
 
 " Scroll bars
 set guioptions-=r                                   " Hide right scrollbar
