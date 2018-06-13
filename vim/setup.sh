@@ -20,8 +20,8 @@ mkdir -p ~/.vim/after
 
 # Create necessary symlinks
 ln -s $DIR/vimrc ~/.vimrc
-ln -s $DIR/snip/ ~/.vim/snip
 ln -s $DIR/lang/ ~/.vim/after/ftplugin
+ln -s $DIR/syntax/ ~/.vim/after/syntax
 
 # Setup vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \

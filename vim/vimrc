@@ -20,7 +20,6 @@ Plug 'junegunn/limelight.vim'                                                  "
 " Fzf
 Plug 'junegunn/fzf'                                                            " Install fzf as a plugin for portability
 Plug 'junegunn/fzf.vim'                                                        " Out of the box vim integration
-
 " Tools
 Plug 'w0rp/ale'                                                                " Asynchronous linter
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
@@ -30,9 +29,9 @@ Plug 'tpope/vim-repeat'                                                        "
 Plug 'xolox/vim-session'                                                       " Session Management
 Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
+Plug 'tpope/vim-endwise'                                                       " Automatically insert matching end keyword
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
-Plug 'terryma/vim-expand-region'                                               " Easily select regions
 Plug 'vim-scripts/ReplaceWithRegister'                                         " Replace without overwriting register
 Plug 'vim-scripts/DeleteTrailingWhitespace'                                    " Allow the automatic deletion of trailing whitespace
 
@@ -75,10 +74,8 @@ call plug#end()                                                                "
 " Miscellaneous Settings "
 " ---------------------- "
 
-set ttyfast                                         " Indicates the terminal is fast and more chars can be sent
 set undofile                                        " Save undo tree
 set wildmenu                                        " Shows the available autocompletes in command menu
-set lazyredraw                                      " Don't always redraw the screen
 set backspace=indent,eol,start                      " Allow backspaces to remove more
 
 " Whitespace
@@ -106,8 +103,8 @@ let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 " Show the netrw preview in a vertical split
 let g:netrw_preview=1
-" Size of netrw window
-let g:netrw_winsize = 25
+" Don't store netrw history
+let g:netrw_dirhistmax=0
 
 " File Locations
 " --------------
@@ -118,7 +115,7 @@ set directory=~/.tmp/vim/swap//                     " Directory for swap files
 set undodir=~/.tmp/vim/undo//                       " Directory for undo files
 
 " Sessions
-let g:session_directory='~/.tmp/vim/sessions/'
+let g:session_directory='~/.tmp/vim/sessions/'      " Directory for session files
 
 " ------- "
 " Visuals "
@@ -131,6 +128,7 @@ set guifont=Menlo:h13                               " Set text font
 " Syntax highlighting tweaks
 syntax enable                                       " Enable syntax highlighting
 set showmatch                                       " Highlight matching [{()}]
+set conceallevel=2                                  " Hide concealled text, show replacement text
 
 " Rainbow Parentheses
 let g:rainbow_active = 0                            " Enable the rainbow toggle command, but don't activate
@@ -177,8 +175,7 @@ endif
 set laststatus=2                                    " Always show the status bar
 set noshowmode                                      " Don't show --insert-- and the like, it will be shown in the status line
 
-let g:lightline = {
-\ 'colorscheme': 'powerline'}
+let g:lightline = {'colorscheme': 'powerline'}
 
 " Components to show on the currently active window
 let g:lightline.active = {
@@ -245,15 +242,12 @@ augroup AutoMake
  " Ensure these commands are only loaded once
   autocmd!
 
-  " Add .nims as a nim file
-  autocmd BufNewFile,BufRead *.nims set filetype=nim
+  " Rearrange splits when vim is resized
+  autocmd VimResized * wincmd =
 
   " Turn on Limelight when using Goyo
   autocmd User GoyoEnter Limelight
   autocmd User GoyoLeave Limelight!
-
-  " Rearrange splits when vim is resized
-  autocmd VimResized * wincmd =
 augroup END
 
 " --------------------------- "
@@ -398,8 +392,6 @@ nnoremap <Leader>n :nohlsearch<CR>
 nnoremap <Leader>u :UndotreeToggle<CR>
 " Toggle line numbers
 nnoremap <Leader>l :set relativenumber!<CR>
-" Enter distraction free mode (or leave it)
-nnoremap <Leader>o :Goyo<CR>
 " Toggle rainbow parentheses
 nnoremap <Leader>[ :RainbowToggle<CR>
 " Open the netrw split
@@ -452,7 +444,7 @@ nnoremap <Leader>B :call fzf#run({'source': xolox#session#get_names(0), 'sink': 
 
 " Window Operations
 " -----------------
-" Map <Leader> M to the window command prefix
+" Map <Leader> m to the window command prefix
 nnoremap <Leader>m <C-W>
 
 " Close the current split
