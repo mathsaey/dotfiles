@@ -20,10 +20,10 @@ Plug 'junegunn/limelight.vim'                                                  "
 " Fzf
 Plug 'junegunn/fzf'                                                            " Install fzf as a plugin for portability
 Plug 'junegunn/fzf.vim'                                                        " Out of the box vim integration
+
 " Tools
 Plug 'w0rp/ale'                                                                " Asynchronous linter
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
-Plug 'mbbill/undotree'                                                         " Visual undo tree
 Plug 'mileszs/ack.vim'                                                         " Better file search
 Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
 Plug 'xolox/vim-session'                                                       " Session Management
@@ -32,7 +32,9 @@ Plug 'pbrisbin/vim-mkdir'                                                      "
 Plug 'tpope/vim-endwise'                                                       " Automatically insert matching end keyword
 Plug 'tpope/vim-surround'                                                      " Easily work with surrounding charachters
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
+Plug 'jiangmiao/auto-pairs'                                                    " Automatically close parentheses
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
+Plug 'simnalamburt/vim-mundo'                                                  " Visual undo tree
 Plug 'vim-scripts/ReplaceWithRegister'                                         " Replace without overwriting register
 Plug 'vim-scripts/DeleteTrailingWhitespace'                                    " Allow the automatic deletion of trailing whitespace
 
@@ -105,6 +107,8 @@ let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 " Show the netrw preview in a vertical split
 let g:netrw_preview=1
+" Size of netrw window
+let g:netrw_winsize = 25
 " Don't store netrw history
 let g:netrw_dirhistmax=0
 
@@ -395,7 +399,7 @@ nnoremap <Leader>w :update<CR>
 " Turn off search highlighting
 nnoremap <Leader>n :nohlsearch<CR>
 " Show the visual undo tree
-nnoremap <Leader>u :UndotreeToggle<CR>
+nnoremap <Leader>u :MundoToggle<CR>
 " Toggle line numbers
 nnoremap <Leader>l :set relativenumber!<CR>
 " Toggle rainbow parentheses
