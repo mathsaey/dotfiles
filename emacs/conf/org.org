@@ -43,7 +43,7 @@ Inserts an org link from some external program.
     (insert (grab-mac-link app 'org))))
 #+END_SRC
 
-By default, ~'org-switchb~ behaves differently depending on the prefix
+By default, ~org-switchb~ behaves differently depending on the prefix
 key that was used. We use the ~org-switchb~ on agenda files only, so
 we'll create a function that sets the appropriate prefix key first. 
 Based on [[https://stackoverflow.com/questions/6156286/emacs-lisp-call-function-with-prefix-argument-programmatically][this stackoverflow question]].
@@ -59,16 +59,18 @@ all org files, this should not be an issue.
 #+END_SRC
 
 * Files
-All of the org files will be stored in the [[file:~/org/][org folder]].
+
+All of the org files will be stored in the [[file:~/NextCloud/org/][org folder]].
 Capturing happens in dedicated files, archiving happens in its own folder.
 Archiving and capturing happens in dedicated directories.
 
 #+BEGIN_SRC emacs-lisp
-(defconst m-org-main-dir     (expand-file-name "~/org/"))
+(defconst m-org-main-dir     (expand-file-name "~/NextCloud/org/"))
 (defconst m-org-archive-dir  (expand-file-name "archive" m-org-main-dir))
 
 (defconst m-org-capture-todo     (expand-file-name "todo.org" m-org-main-dir))
 (defconst m-org-capture-notes    (expand-file-name "notes.org" m-org-main-dir))
+(defconst m-org-capture-journal  (expand-file-name "journal.org" m-org-main-dir))
 (defconst m-org-capture-meetings (expand-file-name "meetings.org" m-org-main-dir))
 #+END_SRC
 
@@ -126,6 +128,7 @@ Add some additional keybindings to =<localleader>= in org mode.
   :states  'normal
   :keymaps 'org-mode-map
   :prefix  localleader
+
   "r" 'org-refile
   "d" 'org-deadline
   "s" 'org-schedule
@@ -137,6 +140,9 @@ Add some additional keybindings to =<localleader>= in org mode.
   "l" 'org-open-at-point
   "a" 'org-archive-subtree
   "e" 'org-export-dispatch
+  "u" 'org-table-recalculate
+  "y" 'org-time-stamp
+  "Y" 'org-time-stamp-inactive
   "g" 'm/org-insert-external-link)
 #+END_SRC
 
@@ -364,7 +370,10 @@ We use the following (mutually exclusive) tags:
       "* %U %?")
     ("m" "Start a meeting note" entry
       (file ,m-org-capture-meetings)
-      "* %^t %^{Meeting Name}\n%?")))
+      "* %^t %^{Meeting Name}\n%?")
+    ("j" "Write today's journal entry" entry
+     (file ,m-org-capture-journal)
+     "* %u\n%?")))
 #+END_SRC
 
 Automatically enter insert mode when entering a capture buffer.
@@ -440,4 +449,20 @@ Finally, we want to be able to create new headings on the fly.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-refile-allow-creating-parent-nodes 'confirm)
+#+END_SRC
+
+** Identifiers and Links
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-id)
+#+END_SRC
+
+When creating an org-mode link, link to the id, create it if needed.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-id-link-to-org-use-id t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(setq org-id-method 'org)
 #+END_SRC
