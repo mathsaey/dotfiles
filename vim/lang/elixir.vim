@@ -1,10 +1,17 @@
-setlocal spelllang=en_uk   " Use uk English when we want to spellcheck comments
+" Spell set up
+setlocal spell             " The elixir syntax file marks spell regions, so always turn this on
+setlocal spelllang=en_gb   " Use uk English when we want to spellcheck comments
+
+" Formatting set up
 setlocal textwidth=80      " Wrap at 80 charachters
 setlocal formatprg=mix\ format\ -
 
 " MixFormat set up
 let g:mix_format_silent_errors = 1
 let g:mix_format_options = '--check-equivalent'
+
+" Tell gutentags that a project is an eliir project if a mix.exs file is present
+call add(g:gutentags_project_info, {'type': 'elixir', 'file': 'mix.exs'})
 
 " Disable ale for elixir for now due to two main issues:
 " - mix recompiles projects when a mix task does not exist (e.g. when credo is
@@ -28,6 +35,9 @@ let g:rainbow_conf.separately.elixir = {
       \   'end=;\(\s\|^\)end; ' .
       \   'fold'
       \ ]}
+
+" I find it awkward to type the pipe charachter.
+iabbrev p \|>
 
 " -------- "
 " Keybinds "
