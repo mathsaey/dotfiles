@@ -431,6 +431,9 @@ tnoremap `n <C-W>N
 " Move to the next window
 tnoremap `m <C-W><C-W>
 
+" Paste from the system clipboard
+tnoremap `p <C-W>"+
+
 " Spellcheck
 " ----------
 
