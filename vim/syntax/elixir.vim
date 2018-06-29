@@ -10,9 +10,13 @@ highlight  link elixirCustomOperators Operator
 highlight! link Conceal Operator
 
 " Special highlighting for skitter
-syntax keyword elixirCustomSkitterKeyword state
-syntax keyword elixirCustomSkitterDefine  effect fields
+syntax match elixirCustomSkitterOperator "\~>"
+syntax match elixirCustomSkitterOperator "<\~"
 
-highlight default link elixirCustomSkitterKeyword Identifier
-highlight default link elixirCustomSkitterDefine  Define
+syntax keyword elixirCustomSkitterDefine  effect fields
+syntax keyword elixirCustomSkitterDefine  init terminate react helper
+syntax keyword elixirCustomSkitterDefine  create_checkpoint restore_checkpoint clean_checkpoint
+
+highlight default link elixirCustomSkitterDefine   Define
+highlight default link elixirCustomSkitterOperator Operator
 
