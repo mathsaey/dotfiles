@@ -14,3 +14,7 @@ setlocal linebreak             " Turn on line wrapping
 
 let g:vimtex_latexmk_continuous = 1
 let g:vimtex_view_method = 'skim'
+
+" Vimtex seems to load its settings before /ftplugin/after is activated by vim
+" Manually reload the settings here to ensure they are applied
+VimtexReloadState
