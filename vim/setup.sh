@@ -20,7 +20,7 @@ mkdir -p ~/.vim/after
 
 # Create necessary symlinks
 ln -s $DIR/vimrc ~/.vimrc
-ln -s $DIR/lang/ ~/.vim/after/ftplugin
+ln -s $DIR/lang/ ~/.vim/ftplugin
 ln -s $DIR/syntax/ ~/.vim/after/syntax
 
 # Setup vim-plug

@@ -239,15 +239,6 @@ set smartcase                                       " Unless the search term con
 let g:ackprg = 'rg --vimgrep'                           " Use ripgrep for ack.vim
 let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs' " Use ripgrep as the default fzf file provider
 
-" ------------------------ "
-" Global Language Settings "
-" ------------------------ "
-
-" Settings for languages that should be loaded before the relevant
-" fptplugin/after file is loaded
-
-let g:tex_flavor = 'latex'                          " Always use latex
-
 " ------------ "
 " Autocommands "
 " ------------ "
