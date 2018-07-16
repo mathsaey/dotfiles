@@ -1,12 +1,12 @@
 function smux {
-  # Attach to a tmuxinator session with name $USER over ssh
-  ssh $1 -t tmuxinator $USER
-}
-
-function imux {
-  # Attach to a tmuxinator session with name $USER over ssh
-  # The session should have already started.
-  ssh $1 -t tmux -CC attach -t $USER
+  # Attach to a tmuxinator session (arg 2) for user (arg 3) on a server (arg 1).
+  # - if no server is provided, connect to brethil
+  # - if no session name is provided use the current username
+  # - if no user name is provided use the current username
+  srv=${1-brethil}
+  ses=${2-$USER}
+  usr=${3-$USER}
+  ssh $usr@$srv -t tmuxinator $ses
 }
 
 function highlight-snippet {
