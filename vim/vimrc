@@ -253,6 +253,9 @@ augroup AutoMake
   " Turn on Limelight when using Goyo
   autocmd User GoyoEnter Limelight
   autocmd User GoyoLeave Limelight!
+  " Turn off ale when leaving goyo
+  autocmd User GoyoEnter ALEDisable
+  autocmd User GoyoLeave ALEEnable
 augroup END
 
 " --------------------------- "
