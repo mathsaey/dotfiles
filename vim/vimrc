@@ -408,25 +408,28 @@ noremap <Leader>k :Lexplore<CR>
 " Terminal
 " --------
 
-" Open a terminal or tmuxinator project if it's available
-nnoremap <Leader>s :call OpenTerminalOrTmuxinatorProject()<CR>
-" Open a standard terminal
-nnoremap <Leader>S :terminal<CR>
+" Only enable this if our vim has terminal support
+if has('terminal')
+  " Open a terminal or tmuxinator project if it's available
+  nnoremap <Leader>s :call OpenTerminalOrTmuxinatorProject()<CR>
+  " Open a standard terminal
+  nnoremap <Leader>S :terminal<CR>
 
-" Detach from tmux
-tnoremap `d <C-b>d
-" Kill the current tmux session
-" As a hacky workaround, add a space after ':' to ensure tmux doesn't miss the
-" 'k' in 'kill-session'
-tnoremap `D <C-b>: kill-session<CR>
+  " Detach from tmux
+  tnoremap `d <C-b>d
+  " Kill the current tmux session
+  " As a hacky workaround, add a space after ':' to ensure tmux doesn't miss the
+  " 'k' in 'kill-session'
+  tnoremap `D <C-b>: kill-session<CR>
 
-" Go to terminal normal mode
-tnoremap `n <C-W>N
-" Move to the next window
-tnoremap `m <C-W><C-W>
+  " Go to terminal normal mode
+  tnoremap `n <C-W>N
+  " Move to the next window
+  tnoremap `m <C-W><C-W>
 
-" Paste from the system clipboard
-tnoremap `p <C-W>"+
+  " Paste from the system clipboard
+  tnoremap `p <C-W>"+
+endif
 
 " Spellcheck
 " ----------
