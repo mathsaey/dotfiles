@@ -4,7 +4,8 @@
 
 set-option -g status-position top
 
-set-window-option -g status-left " #S "
+set-window-option -g status-left " #S@#H "
+set-window-option -g status-left-length 20
 set-window-option -g status-right " %H:%M %d-%b-%y "
 set-window-option -g window-status-format " #I: #W "
 set-window-option -g window-status-current-format " #I: #W "
