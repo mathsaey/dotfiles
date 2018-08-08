@@ -13,5 +13,4 @@ alias egrep="egrep --color=auto"
 # Variables #
 # --------- #
 
-export EDITOR="vim"
 export PATH=~/.linuxbrew/bin:$PATH

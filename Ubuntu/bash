@@ -1,3 +1,2 @@
 source /etc/skel/.bashrc
-export PATH=$PATH:~/.linuxbrew/bin
-
+export PATH=~/.linuxbrew/bin:$PATH

@@ -1,3 +1,26 @@
+# This file contains exports and functions that should be available in
+# all shells.
+
+# ------- #
+# Exports #
+# ------- #
+
+# There is only one true editor
+export EDITOR="vim"
+
+# I don't like homebrew analytics
+export HOMEBREW_NO_ANALYTICS=1
+
+# Use ~/.bin for custom scripts
+export PATH=~/.bin:$PATH
+
+# Use ripgrep as the default fzf search provider
+export FZF_DEFAULT_COMMAND="rg --files"
+
+# -------- #
+# Commands #
+# -------- #
+
 function smux {
   # Attach to a tmuxinator session (arg 2) for user (arg 3) on a server (arg 1).
   # - if no server is provided, connect to brethil

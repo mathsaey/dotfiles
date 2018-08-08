@@ -13,18 +13,6 @@ export VISUAL="mvim"
 alias vim=mvim
 alias vim!="command vim"
 
-export PATH=$PATH:~/.bin
-
-# ----------------- #
-# Isabelle shortcut #
-# ----------------- #
-
-ISABELLE_ALL_CMD="csshx "
-ISABELLE_ALL_CMD+="isabelle-a isabelle-b isabelle-c isabelle-d isabelle-e "
-ISABELLE_ALL_CMD+="isabelle-f isabelle-g isabelle-h isabelle-i isabelle-j "
-
-alias isabelle-all=$ISABELLE_ALL_CMD
-
 # ----------------- #
 # Commands at Login #
 # ----------------- #
