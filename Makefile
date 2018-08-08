@@ -17,17 +17,6 @@ BUILD    := build
 
 build  = $(DOTFILES)/$(BUILD)/$(1)
 
-# ------------------ #
-# Determine Hostname #
-# ------------------ #
-
-ifeq ($(UNAME), Linux)
-	HOSTNAME := $(shell hostname)
-endif
-ifeq ($(UNAME), Darwin)
-	HOSTNAME := $(shell scutil --get ComputerName)
-endif
-
 # ------- #
 # Targets #
 # ------- #
@@ -97,7 +86,7 @@ clean-vim:
 # Host-specific Settings #
 # ---------------------- #
 
-$(DOTFILES)/$(BUILD)/% : $(DOTFILES)/% $(DOTFILES)/$(HOSTNAME)/%
+$(DOTFILES)/$(BUILD)/% : $(DOTFILES)/% $(DOTFILES)/$(UNAME)/%
 	mkdir -p $(dir $@)
 	cat $^ > $@
 $(DOTFILES)/$(BUILD)/% : $(DOTFILES)/%
