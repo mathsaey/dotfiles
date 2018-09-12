@@ -33,6 +33,7 @@ Plug 'pbrisbin/vim-mkdir'                                                      "
 Plug 'tpope/vim-endwise'                                                       " Automatically insert matching end keyword
 Plug 'markonm/traces.vim'                                                      " Substitute preview
 Plug 'tpope/vim-surround'                                                      " Easily work with surrounding charachters
+Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
 Plug 'jiangmiao/auto-pairs'                                                    " Automatically close parentheses
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
@@ -62,6 +63,7 @@ Plug 'slashmili/alchemist.vim'                                                 "
 Plug 'andyl/vim-textobj-elixir'                                                " Extra text objects for elixir
 Plug 'hdima/python-syntax'                                                     " Better syntax highlighting for python
 Plug 'vim-scripts/indentpython.vim'                                            " Better python indentation
+Plug 'mustache/vim-mustache-handlebars'                                        " handlebars support
 
 " Plugins with advanced setup
 
@@ -175,12 +177,13 @@ set listchars+=precedes:<                           " < to mark that a line star
 set listchars+=conceal:*                            " * to mark hidden characters
 set listchars+=nbsp:.                               " . to mark non-breakable spaces
 
-" Terminal colors in macvim
+" Touch Bar
 if has("gui_macvim")
-  let g:terminal_ansi_colors = [
-    \ '#171717', '#fe4386', '#a6e32d', '#e6da73', '#0094d9', '#9b37ff', '#50b7d9', '#c7c7c7',
-    \ '#686868', '#fa80ac', '#bde371', '#fff27f', '#00beff', '#be9eff', '#5ed7ff', '#ffffff'
-    \  ]
+  aunmenu TouchBar.
+  amenu icon=NSTouchBarSidebarTemplate TouchBar.SideBarToggle :NERDTreeToggle<CR>
+  amenu icon=NSTouchBarHistoryTemplate TouchBar.UndoTreeToggle :MundoToggle<CR>
+  amenu icon=NSTouchBarIconViewTemplate TouchBar.ShowSessions :call fzf#run({'source': xolox#session#get_names(0), 'sink': 'OpenSession'})<CR>
+  amenu icon=NSTouchBarColorPickerFont TouchBar.RainbowToggle :RainbowToggle<CR>
 endif
 
 " Status Line
@@ -403,7 +406,8 @@ nnoremap <Leader>l :set relativenumber!<CR>
 " Toggle rainbow parentheses
 nnoremap <Leader>[ :RainbowToggle<CR>
 " Open the netrw split
-noremap <Leader>k :Lexplore<CR>
+" noremap <Leader>k :Lexplore<CR>
+noremap <Leader>k :NERDTreeToggle<CR>
 
 " Terminal
 " --------
