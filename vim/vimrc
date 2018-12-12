@@ -177,6 +177,7 @@ set listchars+=precedes:<                           " < to mark that a line star
 set listchars+=conceal:*                            " * to mark hidden characters
 set listchars+=nbsp:.                               " . to mark non-breakable spaces
 
+
 " Touch Bar
 if has("gui_macvim")
   aunmenu TouchBar.
@@ -344,15 +345,37 @@ function! MoveOrCreateWindow(key) abort
     endif
   endfunction
 
+" See if there is a tmuxinator project with the name of the current session.
+" Return the name of the project if it exists; otherwise, return the empty
+" string.
+function! GetTmuxinatorProject() abort
+  let sname = fnamemodify(v:this_session, ":t:r")
+  if filereadable(expand("~/.tmuxinator/" . sname . ".yml"))
+    return sname
+  else
+    return ""
+  endif
+endfunction
+
 " Open a terminal, if a tmuxinator project exists with the name of the current
 " session, open that instead.
 function! OpenTerminalOrTmuxinatorProject() abort
-  let sname = fnamemodify(v:this_session, ":t:r")
-  if filereadable(expand("~/.tmuxinator/" . sname . ".yml"))
-    exec 'terminal ++close tmuxinator start ' . sname
+  let name = GetTmuxinatorProject()
+  if name != ""
+    exec 'terminal ++close tmuxinator start ' . name
   else
     exec 'terminal ++close'
   endif
+endfunction
+
+" Close the current tmuxinator project.
+" Should only be executed inside a terminal window with a running tmux.
+" The tmux session should have a shell running at the window with index 0.
+function! CloseTmuxinatorProject() abort
+  let name = GetTmuxinatorProject()
+  call term_sendkeys('', "\<c-b>0")
+  sleep 100m
+  call term_sendkeys('', "tmuxinator stop " . name . "\<CR>")
 endfunction
 
 " Find out if we are in a git repo
@@ -421,10 +444,8 @@ if has('terminal')
 
   " Detach from tmux
   tnoremap `d <C-b>d
-  " Kill the current tmux session
-  " As a hacky workaround, add a space after ':' to ensure tmux doesn't miss the
-  " 'k' in 'kill-session'
-  tnoremap `D <C-b>: kill-session<CR>
+  " Stop the current tmux session
+  tnoremap `D <C-W>: call CloseTmuxinatorProject()<CR>
 
   " Go to terminal normal mode
   tnoremap `n <C-W>N
