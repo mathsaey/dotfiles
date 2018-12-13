@@ -371,11 +371,16 @@ endfunction
 " Close the current tmuxinator project.
 " Should only be executed inside a terminal window with a running tmux.
 " The tmux session should have a shell running at the window with index 0.
+" If we're not in a tmuxinator project, send "exit" to the terminal intead.
 function! CloseTmuxinatorProject() abort
   let name = GetTmuxinatorProject()
-  call term_sendkeys('', "\<c-b>0")
-  sleep 100m
-  call term_sendkeys('', "tmuxinator stop " . name . "\<CR>")
+  if name != ""
+    call term_sendkeys('', "\<c-b>0")
+    sleep 100m
+    call term_sendkeys('', "tmuxinator stop " . name . "\<CR>")
+  else
+    call term_sendkeys('', "exit\<CR>")
+  endif
 endfunction
 
 " Find out if we are in a git repo
@@ -443,17 +448,17 @@ if has('terminal')
   nnoremap <Leader>S :terminal<CR>
 
   " Detach from tmux
-  tnoremap `d <C-b>d
+  tnoremap §d <C-b>d
   " Stop the current tmux session
-  tnoremap `D <C-W>: call CloseTmuxinatorProject()<CR>
+  tnoremap §D <C-W>: call CloseTmuxinatorProject()<CR>
 
   " Go to terminal normal mode
-  tnoremap `n <C-W>N
+  tnoremap §n <C-W>N
   " Move to the next window
-  tnoremap `m <C-W><C-W>
+  tnoremap §m <C-W><C-W>
 
   " Paste from the system clipboard
-  tnoremap `p <C-W>"+
+  tnoremap §p <C-W>"+
 endif
 
 " Spellcheck
