@@ -17,4 +17,7 @@ alias vim!="command vim"
 # Commands at Login #
 # ----------------- #
 
-neofetch
+# Only execute when we're not inside tmux
+if [ -z $TMUX ]; then
+  neofetch
+fi
