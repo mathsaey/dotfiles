@@ -33,6 +33,8 @@ function smux {
 }
 
 function highlight-snippet {
+  theme=${2-seashell}
+  fontsize=${3-12}
   # Highlight the current contents of the clipboard
-  pbpaste | highlight -O rtf -S $1 -s seashell -K 12 -k menlo --no-trailing-nl | pbcopy
+  pbpaste | highlight -O rtf -S $1 -s $theme -K $fontsize -k menlo --no-trailing-nl | pbcopy
 }
