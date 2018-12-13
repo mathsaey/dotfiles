@@ -37,7 +37,7 @@ let g:rainbow_conf.separately.elixir = {
       \ ]}
 
 " I find it awkward to type the pipe charachter.
-iabbrev p \|>
+iabbrev <buffer> pp \|>
 
 " -------- "
 " Keybinds "
