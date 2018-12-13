@@ -15,9 +15,16 @@ let g:terminal_ansi_colors = [
 " Remove existing icons from touch bar
 aunmenu TouchBar.
 
-" Add touch bar icons
+" Left touch bar icons
 amenu icon=NSTouchBarIconViewTemplate TouchBar.ShowSessions :call fzf#run({'source': xolox#session#get_names(0), 'sink': 'OpenSession'})<CR>
 amenu icon=NSTouchBarSidebarTemplate TouchBar.SideBarToggle :NERDTreeToggle<CR>
 amenu icon=NSTouchBarHistoryTemplate TouchBar.UndoTreeToggle :MundoToggle<CR>
+
+" Everything after this is aligned to the right
 amenu TouchBar.-flexspace- <Nop>
+
+" Right touch bar icons
+amenu icon=NSTouchBarTextJustifiedAlignTemplate TouchBar.Lines :Lines<CR>
+amenu icon=NSTouchBarTextListTemplate TouchBar.BufferLines :BLines<CR>
+amenu icon=NSTouchBarComposeTemplate TouchBar.SpellToggle :set spell!<CR>
 amenu icon=NSTouchBarColorPickerFont TouchBar.RainbowToggle :RainbowToggle<CR>
