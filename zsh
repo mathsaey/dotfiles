@@ -10,15 +10,27 @@ source ~/.dotfiles/shell.sh
 # Enable
 autoload -Uz compinit && compinit
 
-# ------ #
-# Prompt #
-# ------ #
+# Keybinds
+export KEYTIMEOUT=1
+bindkey -v
 
-source ~/.dotfiles/zsh_prompt.zsh-theme
+function zle-keymap-select {
+  case $KEYMAP in
+    (main)
+      ZLE_MODE="insert" ;;
+    (vicmd)
+      ZLE_MODE="normal" ;;
+    (*)
+      echo "Unknown keymap: " $KEYMAP
+  esac
+  zle reset-prompt
+}
 
+zle -N zle-keymap-select
+
+# Prompt
 setopt prompt_subst
-PROMPT='$(host) $(current_dir) $(prompt)'
-RPROMPT='$(bg_jobs) $(git_status)'
+source ~/.dotfiles/zsh_prompt.zsh-theme
 
 # ------- #
 # Plugins #

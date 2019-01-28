@@ -27,18 +27,43 @@
 # SOFTWARE.
 # ==============================================================================
 
-PROMPT_SYMBOL="❯"
+PROMPT='$(prompt)'
+RPROMPT='$(rprompt)'
+
+precmd() {
+  local left="$(host) ❯ $(current_dir)"
+  local right="$(git_status)"
+
+  local invisible='%([BSUbfksu]|([FBK]|){*})'
+  local left_length=${(%):-${(S)left//$~invisible}}
+  local right_length=${(%):-${(S)right//$~invisible}}
+  local width=$((COLUMNS-$#left_length-$#right_length))
+
+  print -P $left${(l:$width:)}$right
+}
+
+prompt() {
+  case $ZLE_MODE in
+    (normal)
+      echo -n "%F{green}[V]%f " ;;
+    (*)
+      echo -n "%F{magenta}❯❯❯%f " ;;
+  esac
+}
+
+rprompt() {
+  local error="%(?..%F{red}[!]%f)"
+  local tasks="%(1j.%F{yellow}[&%j]%f.)"
+  local priveleged="%(#.%F{green}[#]%f.)"
+  echo -n "$error$tasks$priveleged"
+}
 
 host() {
   echo -n "%F{green}%n@%m%f"
 }
 
 current_dir() {
-  echo -n "%F{blue}%c%f"
-}
-
-prompt() {
-  echo -n "%(?.%F{magenta}.%F{red})$PROMPT_SYMBOL%f "
+  echo -n "%F{blue}%~%f"
 }
 
 git_status() {
@@ -61,10 +86,4 @@ git_status() {
 
     echo -n "${message}"
 }
-
-bg_jobs() {
-  bg_status="%F{yellow}%(1j.↓%j .)%f"
-  echo -n $bg_status
-}
-
 
