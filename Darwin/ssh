@@ -8,6 +8,8 @@ Host brethil
 
 Host serenity
   HostName serenity.vub.ac.be
+Host spitter
+  HostName spitter.soft.vub.ac.be
 
 Host isabelle
   HostName isabelle.vub.ac.be
