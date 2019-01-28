@@ -14,13 +14,11 @@ autoload -Uz compinit && compinit
 # Prompt #
 # ------ #
 
+source ~/.dotfiles/zsh_prompt.zsh-theme
+
 setopt prompt_subst
-
-P_cont='%{%F{black}%K{white}%} %n@%m %{%f%k%}'
-P_dir='%{%F{black}%K{blue}%} $(pwd | sed -e "s,^$HOME,~,") %{%f%k%}'
-P_pre='%{%F{red}%}$ %{%f%k%}'
-
-PROMPT=$P_cont$P_dir$'\n'$P_pre
+PROMPT='$(host) $(current_dir) $(prompt)'
+RPROMPT='$(bg_jobs) $(git_status)'
 
 # ------- #
 # Plugins #
