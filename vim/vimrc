@@ -38,6 +38,7 @@ Plug 'tpope/vim-commentary'                                                    "
 Plug 'jiangmiao/auto-pairs'                                                    " Automatically close parentheses
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
 Plug 'simnalamburt/vim-mundo'                                                  " Visual undo tree
+Plug 'vim-scripts/TaskList.vim'                                                " Todo list summary
 Plug 'gavinbeatty/dragvisuals.vim'                                             " Easily move blocks of text around in visual mode
 Plug 'ludovicchabant/vim-gutentags'                                            " Automatic ctag generation
 Plug 'vim-scripts/ReplaceWithRegister'                                         " Replace without overwriting register
@@ -176,16 +177,6 @@ set listchars+=extends:>                            " > to mark that a line cont
 set listchars+=precedes:<                           " < to mark that a line starts beyond the left edge of the screen
 set listchars+=conceal:*                            " * to mark hidden characters
 set listchars+=nbsp:.                               " . to mark non-breakable spaces
-
-
-" Touch Bar
-if has("gui_macvim")
-  aunmenu TouchBar.
-  amenu icon=NSTouchBarSidebarTemplate TouchBar.SideBarToggle :NERDTreeToggle<CR>
-  amenu icon=NSTouchBarHistoryTemplate TouchBar.UndoTreeToggle :MundoToggle<CR>
-  amenu icon=NSTouchBarIconViewTemplate TouchBar.ShowSessions :call fzf#run({'source': xolox#session#get_names(0), 'sink': 'OpenSession'})<CR>
-  amenu icon=NSTouchBarColorPickerFont TouchBar.RainbowToggle :RainbowToggle<CR>
-endif
 
 " Status Line
 " -----------
