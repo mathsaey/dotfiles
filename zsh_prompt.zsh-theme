@@ -47,7 +47,7 @@ prompt() {
     (normal)
       echo -n "%F{green}[V]%f " ;;
     (*)
-      echo -n "%F{magenta}❯❯❯%f " ;;
+      echo -n "%F{red}❯❯❯%f " ;;
   esac
 }
 
