@@ -1,13 +1,6 @@
 Host *
     UseKeychain yes
 
-Match originalHost brethil exec "ipconfig getifaddr en0 | grep 10.0.3."
-  Hostname brethil.local
-Host brethil
-  HostName mathsaey.be
-Host gondolin
-  HostName gondolin.mathsaey.be
-
 Host serenity
   HostName serenity.vub.ac.be
 Host spitter
