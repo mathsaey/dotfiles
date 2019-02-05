@@ -1,4 +1,6 @@
 Host brethil
   HostName brethil.mathsaey.be
+  Port 54321
 Host gondolin
   HostName gondolin.mathsaey.be
+  Port 54321
