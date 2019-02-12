@@ -9,7 +9,5 @@ alias ls="ls -G"
 
 export EDITOR="mvim -f"
 export VISUAL="mvim"
-
 alias vim=mvim
-alias vim!="command vim"
 
