@@ -32,6 +32,11 @@ function smux {
   ssh $usr@$srv -t tmuxinator $ses
 }
 
+function ssh-decrypt {
+  host=$1
+  ssh root@$1 -p 2222 -i ~/.ssh/decrypt
+}
+
 function highlight-snippet {
   theme=${2-seashell}
   fontsize=${3-12}
