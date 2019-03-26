@@ -4,3 +4,6 @@
 [submodule "res/zsh-plugins/git-flow-completion"]
 	path = res/zsh-plugins/git-flow-completion
 	url = https://github.com/bobthecow/git-flow-completion
+[submodule "res/zsh-plugins/zsh-history-substring-search"]
+	path = res/zsh-plugins/zsh-history-substring-search
+	url = https://github.com/zsh-users/zsh-history-substring-search.git

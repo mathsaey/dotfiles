@@ -36,5 +36,6 @@ source ~/.dotfiles/zsh_prompt.zsh-theme
 # Plugins #
 # ------- #
 
+source ~/.dotfiles/res/zsh-plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 source ~/.dotfiles/res/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.dotfiles/res/zsh-plugins/git-flow-completion/git-flow-completion.zsh
