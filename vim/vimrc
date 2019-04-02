@@ -33,15 +33,12 @@ Plug 'pbrisbin/vim-mkdir'                                                      "
 Plug 'tpope/vim-endwise'                                                       " Automatically insert matching end keyword
 Plug 'markonm/traces.vim'                                                      " Substitute preview
 Plug 'tpope/vim-surround'                                                      " Easily work with surrounding charachters
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'                                                     " Better file browser
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
-Plug 'jiangmiao/auto-pairs'                                                    " Automatically close parentheses
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
 Plug 'simnalamburt/vim-mundo'                                                  " Visual undo tree
 Plug 'vim-scripts/TaskList.vim'                                                " Todo list summary
-Plug 'gavinbeatty/dragvisuals.vim'                                             " Easily move blocks of text around in visual mode
 Plug 'ludovicchabant/vim-gutentags'                                            " Automatic ctag generation
-Plug 'vim-scripts/ReplaceWithRegister'                                         " Replace without overwriting register
 Plug 'vim-scripts/DeleteTrailingWhitespace'                                    " Allow the automatic deletion of trailing whitespace
 
 " Text Objects
@@ -103,8 +100,8 @@ let g:signify_realtime = 1                          " Update the git markers mor
 " bclose configuration
 let g:no_plugin_maps = 1                            " Don't let Bclose bind <Leader>bd
 
-" File Browser
-" ------------
+" Netrw
+" -----
 
 " Don't show the netrw banner
 let g:netrw_banner = 0
@@ -515,9 +512,3 @@ nnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
 nnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 vnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
 vnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
-
-" Move text in visual (block) mode
-vmap <expr> H DVB_Drag('left')
-vmap <expr> L DVB_Drag('right')
-vmap <expr> J DVB_Drag('down')
-vmap <expr> K DVB_Drag('up')
