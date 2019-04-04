@@ -16,15 +16,15 @@ dotfiles:
     dst: ~/.tmux.conf
     link: true
 
-  f_ssh:
+  f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
 
-  f_git:
+  f_gitconfig:
     src: git/config
     dst: ~/.gitconfig
 
-  f_zsh:
+  f_zshrc:
     src: zsh/zshrc
     dst: ~/.zshrc
 
@@ -68,3 +68,26 @@ profiles:
     include:
       - nimrodel
 
+  linux:
+    dotfiles:
+      - f_tmuxconf
+      - f_ssh_config
+      - f_gitconfig
+      - f_zshrc
+      - f_bashrc
+      - f_bash_profile
+      - f_vimrc
+      - d_vim_lang
+      - d_vim_syntax
+  mirkwood:
+    include:
+      - linux
+  gondolin:
+    include:
+      - linux
+  serenity:
+    include:
+      - linux
+  isabelle:
+    include:
+      - linux
