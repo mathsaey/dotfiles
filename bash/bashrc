@@ -4,6 +4,11 @@
 # This file contains the main bash config, bashrc and bash_profile should
 # symlink to this file
 
+{%@@ if os == "Linux" @@%}
+# I don't use bash that often, source the distro defined skel file
+source /etc/skel/.bashrc
+{%@@ endif @@%}
+
 export PS1="\u@\h:\W$ "
 export EDITOR="vim"
 export VISUAL="vim"
