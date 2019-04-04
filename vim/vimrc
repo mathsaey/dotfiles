@@ -235,7 +235,7 @@ let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs' " Use ripgrep as the def
 " Autocommands "
 " ------------ "
 
-augroup AutoMake
+augroup window_hooks
  " Ensure these commands are only loaded once
   autocmd!
 
@@ -512,3 +512,10 @@ nnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
 nnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 vnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
 vnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
+
+" Vimrc tweaking
+" --------------
+
+" TODO: Add a mapping to open file specific ftplugin file
+nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
+nnoremap <Leader>vq :wq<CR>:source $MYVIMRC<CR>
