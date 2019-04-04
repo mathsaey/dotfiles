@@ -1,0 +1,25 @@
+# bash configuration
+# Mathijs Saey
+
+# This file contains the main bash config, bashrc and bash_profile should
+# symlink to this file
+
+export PS1="\u@\h:\W$ "
+export EDITOR="vim"
+export VISUAL="vim"
+
+# There is only one true editor
+{%@@ if os == "Darwin" @@%}
+export EDITOR="mvim -f"
+export VISUAL="mvim"
+{%@@ else @@%}
+export EDITOR="vim"
+export VISUAL="vim"
+{%@@ endif @@%}
+
+# Set the PATH
+{%@@ if os == "Linux" @@%}
+export PATH=~/.bin:~/.linuxbrew/bin:$PATH
+{%@@ else @@%}
+export PATH=~/.bin:$PATH
+{%@@ endif @@%}

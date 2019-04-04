@@ -1,2 +1,0 @@
-source /etc/skel/.bashrc
-export PATH=~/.linuxbrew/bin:$PATH

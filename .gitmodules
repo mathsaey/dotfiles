@@ -1,9 +1,9 @@
-[submodule "res/zsh-plugins/zsh-syntax-highlighting"]
-	path = res/zsh-plugins/zsh-syntax-highlighting
+[submodule "zsh/plugins/zsh-syntax-highlighting"]
+	path = zsh/plugins/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
-[submodule "res/zsh-plugins/git-flow-completion"]
-	path = res/zsh-plugins/git-flow-completion
-	url = https://github.com/bobthecow/git-flow-completion
-[submodule "res/zsh-plugins/zsh-history-substring-search"]
-	path = res/zsh-plugins/zsh-history-substring-search
+[submodule "zsh/plugins/zsh-history-substring-search"]
+	path = zsh/plugins/zsh-history-substring-search
 	url = https://github.com/zsh-users/zsh-history-substring-search.git
+[submodule "dotdrop"]
+	path = dotdrop
+	url = https://github.com/deadc0de6/dotdrop.git

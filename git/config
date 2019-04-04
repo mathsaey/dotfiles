@@ -2,7 +2,12 @@
 	name = Mathijs Saey
 	email = mathsaey@vub.ac.be
 [core]
-	excludesfile = ~/.dotfiles/gitignore
+	excludesfile = {{@@ _dotdrop_dotpath @@}}/git/ignore
+{%@@ if os == "Darwin" @@%}
+	editor = mvim -v
+{%@@ else @@%}
+	editor = vim
+{%@@ endif @@%}
 [push]
 	default = current
 [filter "media"]
