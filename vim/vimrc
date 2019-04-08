@@ -51,7 +51,6 @@ Plug 'michaeljsmith/vim-indent-object'                                         "
 Plug 'tpope/vim-scriptease'                                                    " Vimscript goodies
 Plug 'zah/nim.vim'                                                             " Nim support
 Plug 'lervag/vimtex'                                                           " Latex support
-Plug 'jceb/vim-orgmode'                                                        " Org mode for vim
 Plug 'dleonard0/pony-vim-syntax'                                               " Pony support
 Plug 'wlangstroth/vim-racket'                                                  " Racket support
 Plug 'gabrielelana/vim-markdown'                                               " Improved markdown support
@@ -62,6 +61,13 @@ Plug 'andyl/vim-textobj-elixir'                                                "
 Plug 'hdima/python-syntax'                                                     " Better syntax highlighting for python
 Plug 'vim-scripts/indentpython.vim'                                            " Better python indentation
 Plug 'mustache/vim-mustache-handlebars'                                        " handlebars support
+
+" Org mode + dependencies
+" Plug '~/Documents/Code/org.vim'
+
+Plug 'jceb/vim-orgmode'                                                        " Org mode for vim
+Plug 'vim-scripts/utl.vim'                                                     " Text linking
+Plug 'tpope/vim-speeddating'                                                   " Date increment / decrement
 
 " Plugins with advanced setup
 

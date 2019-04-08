@@ -2,59 +2,49 @@ config:
   dotpath: ~/.dotfiles
   backup: false
   banner: false
-  link_by_default: true
-  import_actions:
-    - vim/actions.yaml
 
 dynvariables:
   os: uname
 
+actions:
+  vim_make_dirs: mkdir -p ~/.tmp/vim/backup ~/.tmp/vim/swap ~/.tmp/vim/undo
+  vim_download_plug: curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  vim_install_plugins: vim +PlugInstall +qall now
+
 dotfiles:
 
-  f_tmuxconf:
+  tmuxconf:
     src: tmux/tmux
     dst: ~/.tmux.conf
-    link: true
+    link: link
 
-  f_ssh_config:
+  ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
 
-  f_gitconfig:
+  gitconfig:
     src: git/config
     dst: ~/.gitconfig
 
-  f_zshrc:
+  zsh:
     src: zsh/zshrc
     dst: ~/.zshrc
 
-  f_bashrc:
+  bashrc:
     src: bash/bashrc
     dst: ~/.bashrc
-  f_bash_profile:
+  bash_profile:
     src: bash/bashrc
     dst: ~/.bash_profile
 
-  f_vimrc:
-    src: vim/vimrc
-    dst: ~/.vimrc
-    link: true
+  vim:
+    src: vim
+    dst: ~/.vim/
+    link: link_children
     actions:
       - vim_make_dirs
       - vim_download_plug
       - vim_install_plugins
-  f_gvimrc:
-    src: vim/gvimrc
-    dst: ~/.gvimrc
-    link: true
-  d_vim_lang:
-    src: vim/lang
-    dst: ~/.vim/ftplugin
-    link: true
-  d_vim_syntax:
-    src: vim/syntax
-    dst: ~/.vim/after/syntax
-    link: true
 
 profiles:
 
@@ -70,15 +60,13 @@ profiles:
 
   linux:
     dotfiles:
-      - f_tmuxconf
-      - f_ssh_config
-      - f_gitconfig
-      - f_zshrc
-      - f_bashrc
-      - f_bash_profile
-      - f_vimrc
-      - d_vim_lang
-      - d_vim_syntax
+      - tmuxconf
+      - ssh_config
+      - gitconfig
+      - zsh
+      - bashrc
+      - bash_profile
+      - vim
   mirkwood:
     include:
       - linux

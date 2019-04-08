@@ -1,8 +1,0 @@
-# Actions to execute when installing vim
-actions:
-  pre:
-    vim_make_dirs: mkdir -p ~/.tmp/vim/backup ~/.tmp.vim/swap ~/.tmp/vim/undo
-    vim_download_plug: curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  post:
-    vim_install_plugins: vim +PlugInstall +qall now
-
