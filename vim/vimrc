@@ -52,6 +52,7 @@ Plug 'tpope/vim-scriptease'                                                    "
 Plug 'zah/nim.vim'                                                             " Nim support
 Plug 'lervag/vimtex'                                                           " Latex support
 Plug 'dleonard0/pony-vim-syntax'                                               " Pony support
+Plug 'rust-lang/rust.vim'                                                      " Rust support
 Plug 'wlangstroth/vim-racket'                                                  " Racket support
 Plug 'gabrielelana/vim-markdown'                                               " Improved markdown support
 Plug 'mhinz/vim-mix-format'                                                    " Elixir formatter
