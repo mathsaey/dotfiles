@@ -10,16 +10,8 @@ setlocal formatprg=mix\ format\ -
 let g:mix_format_silent_errors = 1
 let g:mix_format_options = '--check-equivalent'
 
-" Tell gutentags that a project is an eliir project if a mix.exs file is present
+" Tell gutentags that a project is an elixir project if a mix.exs file is present
 call add(g:gutentags_project_info, {'type': 'elixir', 'file': 'mix.exs'})
-
-" Disable ale for elixir for now due to two main issues:
-" - mix recompiles projects when a mix task does not exist (e.g. when credo is
-"   not a dependency for a specific project), this messes up phoenix auto
-"   reload.
-" - One of the linters seems to go a bit crazy, up to the point that the whole
-"   system can become unusable.
-let b:ale_linters = []
 
 " Match standard parens in elixir, also match do ... end and the like
 " We don't support with ... do and for ... do, as this seems to mess up the
