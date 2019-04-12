@@ -23,9 +23,10 @@ Plug 'junegunn/fzf.vim'                                                        "
 
 " Tools
 Plug 'w0rp/ale'                                                                " Asynchronous linter
-Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session
+Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session and vim-reload
 Plug 'mileszs/ack.vim'                                                         " Better file search
 Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
+Plug 'xolox/vim-reload'                                                        " Reload configuration after editing .vim files
 Plug 'godlygeek/tabular'                                                       " Easily align things
 Plug 'xolox/vim-session'                                                       " Session Management
 Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
@@ -338,7 +339,7 @@ function! MoveOrCreateWindow(key) abort
         endif
         exec "wincmd ".a:key
     endif
-  endfunction
+endfunction
 
 " See if there is a tmuxinator project with the name of the current session.
 " Return the name of the project if it exists; otherwise, return the empty
@@ -520,9 +521,10 @@ nnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 vnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
 vnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 
+" Split line (inverse of J)
+nnoremap gj i<CR><Esc>k$
+
 " Vimrc tweaking
 " --------------
 
-" TODO: Add a mapping to open file specific ftplugin file
 nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
-nnoremap <Leader>vq :wq<CR>:source $MYVIMRC<CR>
