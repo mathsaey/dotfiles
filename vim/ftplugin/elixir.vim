@@ -35,8 +35,8 @@ iabbrev <buffer> pp \|>
 " Keybinds "
 " -------- "
 
-map <LocalLeader>s :terminal ++close iex -S mix<CR>
-map <LocalLeader>S :terminal ++close iex<CR>
+nnoremap <LocalLeader>s :terminal ++close iex -S mix<CR>
+nnoremap <LocalLeader>S :terminal ++close iex<CR>
 
 map <LocalLeader>t :terminal ++noclose ++rows=20 mix test<CR>
 
