@@ -11,6 +11,8 @@ let g:tex_flavor = 'latex'
 let g:vimtex_view_method = 'skim'
 let g:vimtex_latexmk_continuous = 1
 
+" Open the pdf of the citekey under the cursor.
+" This requires zotero to be open + the zotxt plugin to be installed.
 function! OpenBibPdf()
   let l:key = expand("<cword>")
   let l:cmd =
