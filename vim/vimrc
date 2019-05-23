@@ -94,6 +94,9 @@ set undofile                                        " Save undo tree
 set wildmenu                                        " Shows the available autocompletes in command menu
 set backspace=indent,eol,start                      " Allow backspaces to remove more
 
+" Join behaviour
+set formatoptions+=j                                " Intelligently handle comments when joining lines
+
 " Whitespace
 let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace on save
 
