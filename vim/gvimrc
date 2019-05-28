@@ -2,7 +2,11 @@
 " Gui Look "
 " -------- "
 
-set guifont=Menlo:h13,Meslo\ LG\ M\ DZ:h13          " Set text font with fallback
+if has("gui_macvim")
+  set guifont=Menlo:h13
+else
+  set guifont=Meslo\ LG\ M\ DZ
+endif
 
 set guioptions-=m                                   " Hide menu bar
 set guioptions-=T                                   " Hide toolbar

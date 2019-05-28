@@ -144,7 +144,6 @@ let g:gutentags_cache_dir='~/.tmp/vim/tags/'        " Directory for ctags files
 
 " Theme and Font
 colorscheme molokai                                 " Set color scheme
-set guifont=Menlo:h13,Meslo\ LG\ M\ DZ:h13          " Set text font with fallback
 
 " Syntax highlighting tweaks
 syntax enable                                       " Enable syntax highlighting
