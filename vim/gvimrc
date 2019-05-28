@@ -1,3 +1,16 @@
+" -------- "
+" Gui Look "
+" -------- "
+
+set guifont=Menlo:h13,Meslo\ LG\ M\ DZ:h13          " Set text font with fallback
+
+set guioptions-=m                                   " Hide menu bar
+set guioptions-=T                                   " Hide toolbar
+set guioptions-=r                                   " Hide right scrollbar
+set guioptions-=l                                   " Hide left scrollbar
+set guioptions-=L                                   " Hide left scrollbar when multiple panels exist
+set guioptions-=e                                   " Don't use the GUI tab bar
+
 " ---------------- "
 " Terminal Colours "
 " ---------------- "
@@ -12,19 +25,21 @@ let g:terminal_ansi_colors = [
 " Touch Bar "
 " --------- "
 
-" Remove existing icons from touch bar
-aunmenu TouchBar.
+if has("gui_macvim")
+  " Remove existing icons from touch bar
+  aunmenu TouchBar.
 
-" Left touch bar icons
-amenu icon=NSTouchBarIconViewTemplate TouchBar.ShowSessions :call fzf#run({'source': xolox#session#get_names(0), 'sink': 'OpenSession'})<CR>
-amenu icon=NSTouchBarSidebarTemplate TouchBar.SideBarToggle :NERDTreeToggle<CR>
-amenu icon=NSTouchBarHistoryTemplate TouchBar.UndoTreeToggle :MundoToggle<CR>
+  " Left touch bar icons
+  amenu icon=NSTouchBarIconViewTemplate TouchBar.ShowSessions :call fzf#run({'source': xolox#session#get_names(0), 'sink': 'OpenSession'})<CR>
+  amenu icon=NSTouchBarSidebarTemplate TouchBar.SideBarToggle :NERDTreeToggle<CR>
+  amenu icon=NSTouchBarHistoryTemplate TouchBar.UndoTreeToggle :MundoToggle<CR>
 
-" Everything after this is aligned to the right
-amenu TouchBar.-flexspace- <Nop>
+  " Everything after this is aligned to the right
+  amenu TouchBar.-flexspace- <Nop>
 
-" Right touch bar icons
-amenu icon=NSTouchBarTextJustifiedAlignTemplate TouchBar.Lines :Lines<CR>
-amenu icon=NSTouchBarTextListTemplate TouchBar.BufferLines :BLines<CR>
-amenu icon=NSTouchBarComposeTemplate TouchBar.SpellToggle :set spell!<CR>
-amenu icon=NSTouchBarColorPickerFont TouchBar.RainbowToggle :RainbowToggle<CR>
+  " Right touch bar icons
+  amenu icon=NSTouchBarTextJustifiedAlignTemplate TouchBar.Lines :Lines<CR>
+  amenu icon=NSTouchBarTextListTemplate TouchBar.BufferLines :BLines<CR>
+  amenu icon=NSTouchBarComposeTemplate TouchBar.SpellToggle :set spell!<CR>
+  amenu icon=NSTouchBarColorPickerFont TouchBar.RainbowToggle :RainbowToggle<CR>
+endif

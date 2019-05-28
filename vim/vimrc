@@ -144,7 +144,7 @@ let g:gutentags_cache_dir='~/.tmp/vim/tags/'        " Directory for ctags files
 
 " Theme and Font
 colorscheme molokai                                 " Set color scheme
-set guifont=Menlo:h13                               " Set text font
+set guifont=Menlo:h13,Meslo\ LG\ M\ DZ:h13          " Set text font with fallback
 
 " Syntax highlighting tweaks
 syntax enable                                       " Enable syntax highlighting
@@ -167,10 +167,6 @@ set scrolloff=1                                     " Always show the line above
 set sidescrolloff=5
 
 " Scroll bars
-set guioptions-=r                                   " Hide right scrollbar
-set guioptions-=l                                   " Hide left scrollbar
-set guioptions-=L                                   " Hide left scrollbar when multiple panels exist
-set guioptions-=e                                   " Don't use the GUI tab bar
 
 " Wrapping behaviour
 set nowrap                                          " Don't auto-insert newlines when exceeding 80 characters
