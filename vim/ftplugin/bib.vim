@@ -1,9 +1,10 @@
-nnoremap <LocalLeader>o :call CreateNotesFile()<CR>
+nnoremap <LocalLeader>n :call CreateNotesFile()<CR>
 
 function! CreateNotesFile()
-  " Move cursor to citekey
+  " Fetch citekey and create file name
   execute "normal! ?@\<cr>f{l"
   let l:key = expand("<cword>")
+  let l:file = l:key . '.org'
 
   " Fetch title
   let l:register = @t
@@ -11,7 +12,9 @@ function! CreateNotesFile()
   let l:title = 'Notes on "' . substitute(@t, '[{}]', "", "g") . '"'
   let @t = l:register
 
-  " Create file
-  execute 'edit ' . l:key . '.org'
-  call append(0, "#+TITLE: " . l:title)
+  " Create file if needed
+  execute 'edit ' . l:file
+  if !filereadable(l:file)
+    call append(0, "#+TITLE: " . l:title)
+  endif
 endfunction
