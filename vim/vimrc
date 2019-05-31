@@ -394,6 +394,23 @@ function! FilesOrGFiles() abort
   endif
 endfunction
 
+" Open the pdf of a zotero paper which belongs to a citekey.
+" This requires zotero to be open + the zotxt plugin to be installed.
+" It probably only works on OSX (due to the use of `open`)
+function! OpenCiteKeyPdf(key) abort
+  let l:key = expand("<cword>")
+  let l:cmd =
+        \ 'curl --silent ' .
+        \ '''http://127.0.0.1:23119/zotxt/items?format=paths&betterbibtexkey=' .
+        \ a:key . "'"
+  let l:json = system(l:cmd)
+  if l:json != ""
+    silent exec '!open ' . shellescape(json_decode(l:json)[0].paths[0])
+  else
+    echohl WarningMsg | echom l:key "not found" | echohl None
+  endif
+endfunction
+
 " Commands
 " --------
 

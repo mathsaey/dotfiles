@@ -11,20 +11,4 @@ let g:tex_flavor = 'latex'
 let g:vimtex_view_method = 'skim'
 let g:vimtex_latexmk_continuous = 1
 
-" Open the pdf of the citekey under the cursor.
-" This requires zotero to be open + the zotxt plugin to be installed.
-function! OpenBibPdf()
-  let l:key = expand("<cword>")
-  let l:cmd =
-        \ 'curl --silent ' .
-        \ '''http://127.0.0.1:23119/zotxt/items?format=paths&betterbibtexkey=' .
-        \ l:key . "'"
-  let l:json = system(l:cmd)
-  if l:json != ""
-    silent exec '!open ' . shellescape(json_decode(l:json)[0].paths[0])
-  else
-    echohl WarningMsg | echom l:key "not found" | echohl None
-  endif
-endfunction
-
-nnoremap <LocalLeader>bo  :call OpenBibPdf()<CR>
+nnoremap <LocalLeader>bo  :call OpenCiteKeyPdf(expand("<cword>"))<CR>
