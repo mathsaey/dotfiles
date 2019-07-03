@@ -28,8 +28,9 @@ let g:rainbow_conf.separately.elixir = {
       \   'fold'
       \ ]}
 
-" I find it awkward to type the pipe charachter.
 iabbrev <buffer> pp \|>
+iabbrev <buffer> MM __MODULE__
+iabbrev <buffer> %M %__MODULE__{}<Left>
 
 " -------- "
 " Keybinds "
@@ -39,4 +40,6 @@ nnoremap <LocalLeader>s :terminal ++close iex -S mix<CR>
 nnoremap <LocalLeader>S :terminal ++close iex<CR>
 
 map <LocalLeader>t :terminal ++noclose ++rows=20 mix test<CR>
+
+map <LocalLeader>f :MixFormat<CR>
 
