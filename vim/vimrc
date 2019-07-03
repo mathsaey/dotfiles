@@ -30,12 +30,14 @@ Plug 'xolox/vim-reload'                                                        "
 Plug 'godlygeek/tabular'                                                       " Easily align things
 Plug 'xolox/vim-session'                                                       " Session Management
 Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
+Plug 'machakann/vim-swap'                                                      " Easily swap function arguments
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
 Plug 'tpope/vim-endwise'                                                       " Automatically insert matching end keyword
 Plug 'markonm/traces.vim'                                                      " Substitute preview
 Plug 'tpope/vim-surround'                                                      " Easily work with surrounding charachters
 Plug 'scrooloose/nerdtree'                                                     " Better file browser
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
+Plug 'RRethy/vim-illuminate'                                                   " Highlight word under cursor
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
 Plug 'simnalamburt/vim-mundo'                                                  " Visual undo tree
 Plug 'vim-scripts/TaskList.vim'                                                " Todo list summary
@@ -164,8 +166,6 @@ set colorcolumn=80                                  " Show a line on column 80
 " Cursor area
 set scrolloff=1                                     " Always show the line above the cursor
 set sidescrolloff=5
-
-" Scroll bars
 
 " Wrapping behaviour
 set nowrap                                          " Don't auto-insert newlines when exceeding 80 characters
