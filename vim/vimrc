@@ -29,9 +29,9 @@ Plug 'tpope/vim-repeat'                                                        "
 Plug 'godlygeek/tabular'                                                       " Easily align things
 Plug 'xolox/vim-session'                                                       " Session Management
 Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
+Plug 'tpope/vim-endwise'                                                       " Automatically insert matching end keyword
 Plug 'machakann/vim-swap'                                                      " Easily swap function arguments
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
-Plug 'tpope/vim-endwise'                                                       " Automatically insert matching end keyword
 Plug 'markonm/traces.vim'                                                      " Substitute preview
 Plug 'tpope/vim-surround'                                                      " Easily work with surrounding charachters
 Plug 'scrooloose/nerdtree'                                                     " Better file browser
