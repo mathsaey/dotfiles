@@ -26,7 +26,6 @@ Plug 'w0rp/ale'                                                                "
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session and vim-reload
 Plug 'mileszs/ack.vim'                                                         " Better file search
 Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
-Plug 'xolox/vim-reload'                                                        " Reload configuration after editing .vim files
 Plug 'godlygeek/tabular'                                                       " Easily align things
 Plug 'xolox/vim-session'                                                       " Session Management
 Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
