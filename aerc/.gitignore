@@ -1,0 +1,2 @@
+# Ensure account data does not leak
+accounts.conf

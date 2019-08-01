@@ -37,6 +37,13 @@ dotfiles:
     src: bash/bashrc
     dst: ~/.bash_profile
 
+  aerc_conf:
+    src: aerc/aerc.conf
+    dst: ~/.config/aerc/aerc.conf
+  aerc_binds:
+    src: aerc/binds.conf
+    dst: ~/.config/aerc/binds.conf
+
   vim:
     src: vim
     dst: ~/.vim/
