@@ -10,6 +10,9 @@ Host gondolin
   HostName gondolin.mathsaey.be
   Port 54321
 
+Host irc
+  Proxycommand ssh mirkwood nc %h %p
+
 {%@@ if os == "Darwin" @@%}
 Host serenity
   HostName serenity.vub.ac.be
