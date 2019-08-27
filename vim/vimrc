@@ -463,11 +463,14 @@ if has('terminal')
   " Stop the current tmux session
   tnoremap §D <C-W>: call CloseTmuxinatorProject()<CR>
 
-  " Go to terminal normal mode
-  tnoremap §n <C-W>N
-  " Move to the next window
-  tnoremap §m <C-W><C-W>
+  " Move to other windows easily
+  tnoremap §h <C-W>:call MoveOrCreateWindow('h')<CR>
+  tnoremap §j <C-W>:call MoveOrCreateWindow('j')<CR>
+  tnoremap §k <C-W>:call MoveOrCreateWindow('k')<CR>
+  tnoremap §l <C-W>:call MoveOrCreateWindow('l')<CR>
 
+  " Enter terminal normal mode
+  tnoremap §p <C-W>N
   " Paste from the system clipboard
   tnoremap §p <C-W>"+
 endif
