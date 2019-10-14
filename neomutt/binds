@@ -1,0 +1,143 @@
+# vim: set filetype=neomuttrc:
+
+# Neomutt keybinds
+# Try to use vim-like bindings to help my muscle memory
+
+# Generic Bindings
+# ----------------
+#
+# If a default keybinds exists for a given mode, that mode should be specified
+# as well, since binding noop does not suffice.
+
+bind generic [ previous-page
+bind generic ] next-page
+
+bind generic,index n search-next
+bind generic,index N search-opposite
+
+# Index & Pager
+# -------------
+
+# Unbind some functions so help bar shows the "proper" binds
+bind index,pager d noop
+bind index,pager s noop
+
+# i<char> will be used to switch to the inbox of a different account
+bind index,pager i noop
+
+bind pager - noop
+bind pager <space> noop
+
+# Index-specific navigation
+bind index g first-entry
+bind index G last-entry
+
+bind index { previous-thread
+bind index } next-thread
+
+bind index <space> collapse-thread
+bind index <tab> next-new-then-unread
+bind index <backtab> previous-new-then-unread
+
+# Pager-specific navigation
+bind pager g top
+bind pager G bottom
+
+bind pager [ previous-page
+bind pager ] next-page
+
+bind pager { half-up
+bind pager } half-down
+
+bind pager j next-line
+bind pager k previous-line
+
+bind pager <tab> next-undeleted
+bind pager <backtab> previous-undeleted
+
+# Sidebar navigation
+bind index,pager J sidebar-next
+bind index,pager K sidebar-prev
+bind index,pager O sidebar-open
+
+# Operations on selected/current message
+bind index,pager m noop
+bind index,pager mm mail
+bind index,pager mf forward-message
+bind index,pager mb bounce-message
+bind index,pager mu undelete-message
+bind index,pager ml edit-label
+bind index,pager m! flag-message
+bind index,pager mp pipe-message
+bind index,pager mt resend-message
+bind index,pager ms save-message
+bind index,pager mc copy-message
+bind index       mn toggle-new
+bind pager       mn mark-as-new
+
+# Mark deleted messages as read automatically
+macro index,pager md ':set resolve=no<enter><clear-flag>N:set resolve=yes<enter><delete-message>'
+macro index,pager mD ':set resolve=no<enter><clear-flag>N:set resolve=yes<enter><purge-message>'
+
+# Reply operations
+bind index,pager r noop
+bind index,pager rr reply
+bind index,pager ra group-reply
+bind index,pager rl list-reply
+
+# Batch operations
+bind index b noop
+bind index bl limit
+bind index bL show-limit
+bind index bd delete-pattern
+bind index bu undelete-pattern
+bind index b<space> collapse-all
+bind index bo sort-mailbox
+bind index bO sort-reverse
+bind index bt tag-pattern
+bind index bT untag-pattern
+
+# Tag operations
+bind index t noop
+bind index tt tag-entry
+bind index tT tag-prefix
+bind index t<space> tag-thread
+
+# Compose
+# -------
+
+bind compose E noop
+bind compose b noop
+bind compose c noop
+bind compose f noop
+bind compose s noop
+
+# Make accidentall sends a bit harder
+bind compose y noop
+bind compose Y send-message
+
+# Header operations
+bind compose h noop
+bind compose he edit-headers
+bind compose ht edit-to
+bind compose hc edit-cc
+bind compose hb edit-bcc
+bind compose hf edit-from
+bind compose hr edit-reply-to
+bind compose hs edit-subject
+
+# Attachment operations
+bind compose a noop
+bind compose aa attach-file
+bind compose ad detach-file
+bind compose ae edit-description
+bind compose ar rename-attachment
+bind compose k move-up
+bind compose j move-down
+
+# Tagging operations
+bind compose t noop
+bind compose tt tag-entry
+bind compose tg group-alternatives
+bind compose tl group-multilingual
+bind compose tT tag-prefix

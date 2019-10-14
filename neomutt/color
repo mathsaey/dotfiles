@@ -1,0 +1,102 @@
+# vim: set filetype=neomuttrc:
+
+# Colors picked from the excellent molokai theme for vim:
+# https://github.com/tomasr/molokai/
+
+# ------ #
+# Colors #
+# ------ #
+
+set my_background = color234
+set my_indicator = color236
+
+set my_default = color252
+set my_subtle = color244
+set my_subtle_dark = color59
+
+set my_purple = color141
+set my_yellow = color222
+set my_green  = color154
+set my_blue   = color81
+set my_red    = color197
+
+color normal $my_default $my_background
+color status $my_subtle_dark $my_indicator
+
+# ------- #
+# Sidebar #
+# ------- #
+
+color sidebar_divider $my_subtle_dark $my_background
+
+color sidebar_indicator $my_default $my_background
+color sidebar_highlight $my_default $my_indicator
+color sidebar_new       $my_yellow  $my_background
+color sidebar_flagged   $my_default $my_background
+color sidebar_ordinary  $my_subtle $my_background
+
+# ----- #
+# Index #
+# ----- #
+
+color index $my_subtle $my_background '~A'
+
+# Make the highlight indicator more subtle
+color indicator $my_default $my_indicator
+
+# Make flags subtle unless the mail is new or flagged.
+color index_flags $my_subtle_dark $my_background '~A'
+color index_flags $my_subtle      $my_background '~D'
+color index_flags $my_yellow      $my_background '~F'
+color index_flags $my_red         $my_background '~N'
+
+# Date should stand out less, subject should not be too fancy
+color index_date    $my_subtle  $my_background
+color index_subject $my_default $my_background '~A'
+
+# make thread amount stand out
+color index_collapsed $my_purple $my_background
+color tree            $my_purple $my_background
+
+# Highlight vips and mailing lists
+color index_author $my_yellow  $my_background '~A'
+color index_author $my_red     $my_background '%fvip'
+color index_author $my_blue    $my_background '%l'
+
+# ----- #
+# Pager #
+# ----- #
+
+# Headers
+# -------
+
+# Every header is subtle by default
+color header $my_subtle $my_background .*
+
+# Make the following headers more visible
+color header $my_yellow $my_background ^Date
+color header $my_purple $my_background ^From:
+color header $my_blue   $my_background ^Cc:
+color header $my_blue   $my_background ^To:
+color header $my_green  $my_background ^Subject:
+color header $my_red    $my_background ^X-Label:
+
+# Body
+# ----
+
+color signature $my_subtle $my_background
+
+# Make attachment separator visible yet subtle
+color attachment $my_subtle $my_indicator
+
+# Quoted text
+color quoted  $my_blue   $my_background
+color quoted1 $my_green  $my_background
+color quoted2 $my_yellow $my_background
+color quoted3 $my_purple $my_background
+
+# ------- #
+# Compose #
+# ------- #
+
+color compose header $my_subtle $my_background

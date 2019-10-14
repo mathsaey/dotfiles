@@ -25,11 +25,13 @@ Plug 'junegunn/fzf.vim'                                                        "
 Plug 'w0rp/ale'                                                                " Asynchronous linter
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session and vim-reload
 Plug 'mileszs/ack.vim'                                                         " Better file search
+Plug 'SirVer/ultisnips'                                                        " Snippet support
 Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
 Plug 'godlygeek/tabular'                                                       " Easily align things
 Plug 'xolox/vim-session'                                                       " Session Management
 Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
 Plug 'tpope/vim-endwise'                                                       " Automatically insert matching end keyword
+Plug 'tpope/vim-fugitive'                                                      " Git integration
 Plug 'machakann/vim-swap'                                                      " Easily swap function arguments
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
 Plug 'markonm/traces.vim'                                                      " Substitute preview
@@ -67,11 +69,11 @@ Plug 'vim-scripts/indentpython.vim'                                            "
 Plug 'mustache/vim-mustache-handlebars'                                        " handlebars support
 
 " Org mode + dependencies
-" Plug '~/Documents/Code/org.vim'
-
 Plug 'jceb/vim-orgmode'                                                        " Org mode for vim
+Plug 'mattn/calendar-vim'                                                      " Calendar view
 Plug 'vim-scripts/utl.vim'                                                     " Text linking
 Plug 'tpope/vim-speeddating'                                                   " Date increment / decrement
+Plug 'inkarkat/vim-SyntaxRange'                                                " Highlight embedded code
 
 " Plugins with advanced setup
 
@@ -112,6 +114,12 @@ let g:signify_realtime = 1                          " Update the git markers mor
 
 " bclose configuration
 let g:no_plugin_maps = 1                            " Don't let Bclose bind <Leader>bd
+
+" Snippets
+" --------
+
+let g:UltiSnipsEditSplit = "vertical"
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/snips']
 
 " Netrw
 " -----
@@ -236,6 +244,41 @@ set smartcase                                       " Unless the search term con
 " Global search
 let g:ackprg = 'rg --vimgrep'                           " Use ripgrep for ack.vim
 let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs' " Use ripgrep as the default fzf file provider
+
+" -------------- "
+" YCM & Snippets "
+" -------------- "
+
+" Make both YCM and Ultisnips work with <tab>
+
+" Regular keybinds
+let g:UltiSnipsJumpForwardTrigger  = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+" Can be used to manually trigger completion
+let g:UltiSnipsExpandTrigger       ="<c-tab>"
+
+" Take appropriate action after pressing <tab>:
+"   - If possible, expand snippet
+"   - If completion menu visible, go to next entry
+"   - If there is no completion window, go to next snippet anchor
+"   - If there is no anchor, insert a tab charachter
+function! TabAction()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips#JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+               return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
+
+" YCM has a hacky way to add keybinds, override the keybinds with an autocmd
+autocmd InsertEnter * exec "inoremap <silent> <tab> <C-R>=TabAction()<cr>"
 
 " ------------ "
 " Autocommands "
@@ -470,7 +513,7 @@ if has('terminal')
   tnoremap §l <C-W>:call MoveOrCreateWindow('l')<CR>
 
   " Enter terminal normal mode
-  tnoremap §p <C-W>N
+  tnoremap §n <C-W>N
   " Paste from the system clipboard
   tnoremap §p <C-W>"+
 endif

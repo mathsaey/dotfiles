@@ -1,0 +1,152 @@
+# ------- #
+# Visuals #
+# ------- #
+
+source ~/.config/neomutt/color
+source ~/.config/neomutt/binds
+
+# Sidebar
+# -------
+
+set sidebar_visible
+set mail_check_stats
+
+set sidebar_width = 20
+set sidebar_format = '%B %> %?F?[%!]? %?N?%N?'
+
+set sidebar_short_path
+set sidebar_folder_indent
+set sidebar_delim_chars = "/"
+set sidebar_indent_string=" "
+
+# Index
+# -----
+
+set date_format   = '%a %d/%m/%y %H:%M'
+set index_format  = '%Z %d %-20.20F %?M?(%2M)&    ? %s'
+set status_format = ' %f [messages: %m%?d?, deleted: %d?%?t?, tagged: %t?] %?V?{%V}? %> %r (%P) '
+
+# Threads
+# -------
+
+set sort = reverse-threads
+set sort_aux = last-date-received
+
+set narrow_tree
+unset hide_thread_subject
+
+set collapse_all
+unset collapse_unread
+unset collapse_flagged
+
+# Pager
+# -----
+
+set pager_format = ' (%C/%m) %f -- %s %> (%P) '
+
+set pager_index_lines = 5
+set pager_context = 3
+set pager_stop
+
+# Compose
+# -------
+
+set compose_format = ' [Compose] Attachments: %a Size: %l'
+
+# Header visibility
+ignore *
+unignore from to cc date subject X-Label
+
+unhdr_order *
+hdr_order from to cc date subject X-Label
+
+# -------------- #
+# Mail Behaviour #
+# -------------- #
+
+# Account details should not be available publicly.
+# Therefore, all of my account related settings are divided into various
+# `~/.config/neomutt/accounts.<account name>` files.
+#
+# The command below sources the "master" account file which sets the appropriate
+# account and folder hooks to make everything work.
+source ~/.config/neomutt/accounts
+
+# Imap
+# ----
+
+set ssl_force_tls
+
+set imap_idle
+unset imap_passive
+
+# GPG
+# ---
+
+set crypt_use_gpgme
+
+# SMTP
+# ----
+
+# MSMTP is used as follows: `msmtp -a <account>`. The correct account is set
+# by the appropriate folder hooks in accounts.
+
+# Derive envelop_from from from
+set use_envelope_from
+# Don't send from the local host when no domain is specified
+unset use_domain
+
+# --------- #
+# Composing #
+# --------- #
+
+# Use vim, the mail filetype has some specific tweaks
+set editor = 'vim -v'
+
+# Use format-flowed, remember to unset this when sending inline code.
+set text_flowed
+
+# Ask for confirmation before sending a mail without an attachment if it looks
+# like one should be added.
+set abort_noattach_regex = "\\<(attach(|ed|ments?)|bijlage)\\>"
+set abort_noattach = ask-yes
+
+# Use a more standard subject when forwarding
+set forward_format = 'Fwd: %s'
+
+# ------------- #
+# Miscellaneous #
+# ------------- #
+
+# Aliasing
+# --------
+
+set alias_file = ~/.config/neomutt/addresses
+source $alias_file # Make sure aliases are loaded at startup
+
+set sort_alias = alias # Sort on alias, not on email
+set reverse_alias = yes # Show alias instead of email when possible
+
+# Caches
+# ------
+
+# TODO: Automatically purge older messages from cache on startup
+set header_cache     = ~/.tmp/neomutt/cache/header
+set message_cachedir = ~/.tmp/neomutt/cache/message
+
+# Other
+# -----
+
+# Don't store duplicate commands in history
+set history_remove_dups
+
+# Don't differentiate between old and new unread
+unset mark_old
+
+# Don't ask confirmation before deleting or appending
+set delete
+unset confirmappend
+
+# Don't pause on status messages
+set sleep_time = 0
+

@@ -4,6 +4,7 @@
 
 if has("gui_macvim")
   set guifont=Menlo:h13
+  set macligatures
 else
   set guifont=Meslo\ LG\ M\ DZ
 endif
