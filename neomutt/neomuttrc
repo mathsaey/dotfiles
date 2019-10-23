@@ -72,6 +72,15 @@ hdr_order from to cc date subject X-Label
 # account and folder hooks to make everything work.
 source ~/.config/neomutt/accounts
 
+# MIME
+# ----
+
+# Inline a lynx-based html view, prefer plain text when available
+auto_view text/html
+alternative_order text/plain text/html
+
+set mailcap_path = "~/.config/neomutt/mailcap"
+
 # Imap
 # ----
 
