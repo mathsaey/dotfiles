@@ -59,6 +59,11 @@ dotfiles:
     src: _accounts/netrc
     dst: ~/.netrc
 
+  emacs:
+    src: emacs
+    dst: ~/.emacs.d/
+    link: link_children
+
   vim:
     src: vim
     dst: ~/.vim/

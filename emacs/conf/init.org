@@ -1,0 +1,270 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Mathijs Saey
+#+FILETAGS: :config:
+
+This file is the entry point for my emacs configuration. It gets
+loaded from [[file:~/.emacs.d/init.el][init.el]] by ~org-babel~.
+
+* Setup
+This section defines the basics of the configuration; it defines
+locations, and sets up the plugins which are used to manage plugins
+and keybinds.
+
+** Locations
+Keep things tidy; all configuration goes in the ~conf~
+directory. Temporary files are added to the ~/.tmp/emacs~ directory.
+
+#+BEGIN_SRC emacs-lisp
+  (defconst conf-dir (expand-file-name "conf" user-emacs-directory))
+  (defconst temp-dir (expand-file-name "~/.tmp/emacs"))
+#+END_SRC
+
+Let's keep customizations separate from =init.el=. We should also load
+customizations at startup. Permanent customizations should be added to
+the configuration.
+
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file (expand-file-name "customize.el" user-emacs-directory))
+  (load custom-file 1)
+#+END_SRC
+** Package Management
+We use [[https://github.com/raxod502/straight.el][straight.el]] to manage packages for us. Since straight.el is not
+included with emacs we should [[https://github.com/raxod502/straight.el#getting-started][install it if required]].
+
+#+BEGIN_SRC emacs-lisp
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+#+END_SRC
+
+We use [[https://github.com/jwiegley/use-package][use-package]] to configure, install and load packages.  We also
+set it up to use straight.el behind the scenes.
+
+#+BEGIN_SRC emacs-lisp
+(setq straight-use-package-by-default t)
+(straight-use-package 'use-package)
+(require 'use-package)
+#+END_SRC
+
+** Key Bindings
+We use [[https://github.com/noctuid/general.el#about][general.el]] to create keybinds. I like the idea of a leader and
+localleader that vim offers, set up =space= and =\= for this purpose.
+
+#+BEGIN_SRC emacs-lisp
+(use-package general)
+(require 'general)
+
+(setq leader "SPC")
+(setq localleader "\\")
+
+(general-create-definer leader-map :prefix leader :states 'normal)
+(general-create-definer local-map  :prefix localleader :states 'normal)
+#+END_SRC
+
+Use [[https://github.com/justbur/emacs-which-key][which-key]] to make it easier to remember those keybinds that are
+not used that often.
+
+#+BEGIN_SRC emacs-lisp
+(use-package which-key :config (which-key-mode))
+#+END_SRC
+* Visuals
+Set up the theme & Font; always highlight the current line.
+
+#+BEGIN_SRC emacs-lisp
+(use-package darkokai-theme
+  :init (setq darkokai-mode-line-padding 1)
+  :config (load-theme 'darkokai t))
+(set-face-attribute 'default t :font "Menlo")
+(set-face-attribute 'default t :height (* 10 12))
+(global-hl-line-mode t)
+#+END_SRC
+
+When programming, show line numbers and highlight matching
+parentheses.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook 'show-paren-mode)
+#+END_SRC
+
+Use rainbow brackets when dealing with lisp like languages.
+
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters
+  :config (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
+#+END_SRC
+
+I don't need to see the scroll, menu, or tool bar.
+On OSX the menu bar is visible anyway, so let's not disable it.
+
+#+BEGIN_SRC emacs-lisp
+(unless (string-equal system-type "darwin") (menu-bar-mode -1))
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+#+END_SRC
+
+Use [[https://github.com/dbordak/telephone-line][telephone-line]] as a modeline. Add a segment which displays the
+buffer path relative to the home dir. Modify this later to be relative
+to "project" root directory.
+
+#+BEGIN_SRC emacs-lisp
+(use-package telephone-line
+  :init
+  (telephone-line-defsegment path-segment ()
+    (if buffer-file-name
+	(file-relative-name buffer-file-name "~")
+      mode-line-buffer-identification))
+    (setq telephone-line-lhs
+	  '((evil .   (telephone-line-evil-tag-segment))
+	    (accent . (path-segment)))
+	  telephone-line-rhs
+	  '((nil    . (telephone-line-major-mode-segment))
+	    (accent . ((lambda () (telephone-line-atom-encoding-segment t))))
+	    (evil   . (telephone-line-airline-position-segment))))
+    (setq telephone-line-height 24
+	  telephone-line-primary-left-separator 'telephone-line-cubed-left
+	  telephone-line-primary-right-separator 'telephone-line-cubed-right
+	  telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left
+	  telephone-line-secondary-right-separator'telephone-line-cubed-hollow-right)
+    :config
+    (telephone-line-mode t))
+#+END_SRC
+* Editing Behaviour
+Let's use [[https://github.com/emacs-evil/evil][evil]] to get the best of vim in emacs.
+
+#+BEGIN_SRC emacs-lisp
+(use-package evil :config (evil-mode t))
+#+END_SRC
+
+Persist undo history; store the generated files out of the way along
+with auto-save and backup files.
+
+#+BEGIN_SRC emacs-lisp
+(setq undo-tree-auto-save-history t
+      backup-directory-alist
+      `((".*" . ,(expand-file-name "backup" temp-dir)))
+      undo-tree-history-directory-alist
+      `(("." . ,(expand-file-name "undo" temp-dir)))
+      auto-save-file-name-transforms
+      `((".*" ,(expand-file-name "autosave" temp-dir))))
+#+END_SRC
+* Miscellaneous
+Use [[https://github.com/emacs-helm/helm][helm]] for completion everywhere.
+
+#+BEGIN_SRC emacs-lisp
+(use-package helm
+  :config
+  (helm-autoresize-mode t))
+#+END_SRC
+
+* Keybinds
+Use =fj= or =jf= to exit insert mode.
+
+#+BEGIN_SRC emacs-lisp
+(use-package evil-escape
+  :init
+  (setq evil-escape-key-sequence "fj")
+  (setq evil-escape-unordered-key-sequence t)
+  :config (evil-escape-mode))
+#+END_SRC
+
+Some leader bindings:
+- ~w~ to write the current buffer
+- =b= to switch buffers
+
+#+BEGIN_SRC emacs-lisp
+(leader-map
+  "w" 'save-buffer
+  "b" 'helm-buffers-list)
+#+END_SRC
+
+Add bindings to increase and reduce font size.
+
+#+BEGIN_SRC emacs-lisp
+(general-define-key
+  "s-=" 'text-scale-increase
+  "s--" 'text-scale-decrease)
+#+END_SRC
+
+** Window creation and movement
+To easily switch between open windows, we use the home-row movement
+keys (hjkl) to move in a given direction, or to create a window in the
+given direction if it does not exist. For discoverability, we give
+each of the directions a unique function name.
+
+#+BEGIN_SRC emacs-lisp
+(require 'windmove)
+
+(defun move-window-or-create (direction)
+  (if (window-in-direction direction)
+      (cond
+        ((eq direction 'above) (windmove-up))
+        ((eq direction 'below) (windmove-down))
+        ((eq direction 'left) (windmove-left))
+        ((eq direction 'right) (windmove-right)))
+      (cond
+        ((eq direction 'above) (split-window-vertically) (windmove-up))
+        ((eq direction 'below) (split-window-vertically) (windmove-down))
+        ((eq direction 'left) (split-window-horizontally) (windmove-left))
+        ((eq direction 'right) (split-window-horizontally) (windmove-right)))))
+
+(defun move-or-create-up    () (interactive) (move-window-or-create 'above))
+(defun move-or-create-down  () (interactive) (move-window-or-create 'below))
+(defun move-or-create-left  () (interactive) (move-window-or-create 'left))
+(defun move-or-create-right () (interactive) (move-window-or-create 'right))
+#+END_SRC
+
+We map these functions to the =<leader>m= prefix (mnemonic: (m)ove).
+
+#+BEGIN_SRC emacs-lisp
+(leader-map
+ "mh" 'move-or-create-left
+ "mj" 'move-or-create-down
+ "mk" 'move-or-create-up
+ "ml" 'move-or-create-right
+ "mx" 'delete-window)
+#+END_SRC
+
+** Mac Keybinds
+The mac port of emacs maps command to meta by default. Change this and
+use the option key instead.
+
+#+BEGIN_SRC emacs-lisp
+(when (string-equal system-type "darwin")
+  (setq mac-command-modifier 'super
+	mac-option-modifier 'meta))
+#+END_SRC
+* Miscellaneous configuration.
+** Other packages
+#+BEGIN_SRC emacs-lisp
+(when (string-equal system-type "darwin")
+  (use-package exec-path-from-shell
+    :config
+      (exec-path-from-shell-initialize)))
+#+END_SRC
+** Language Specific packages
+
+#+BEGIN_SRC emacs-lisp
+(use-package elixir-mode)
+#+END_SRC
+
+* Language specific configuration
+Let's keep language specific configuration seperate.
+
+#+BEGIN_SRC emacs-lisp
+  (org-babel-load-file (expand-file-name "org.org" conf-dir))
+#+END_SRC
+
+* [0/3] To do
+  - [ ] Linters, autocompleters
+  - [ ] Spellcheck
+  - [ ] make esc work in helm buffers
