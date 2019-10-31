@@ -64,9 +64,9 @@ Plug 'mhinz/vim-mix-format'                                                    "
 Plug 'elixir-lang/vim-elixir'                                                  " Basic support for Elixir
 Plug 'slashmili/alchemist.vim'                                                 " IDE like tools for Elixir
 Plug 'andyl/vim-textobj-elixir'                                                " Extra text objects for elixir
+Plug 'RubenSerradas/vim-leex-yecc'                                             " Erlang style lex and yac support.
 Plug 'hdima/python-syntax'                                                     " Better syntax highlighting for python
 Plug 'vim-scripts/indentpython.vim'                                            " Better python indentation
-Plug 'mustache/vim-mustache-handlebars'                                        " handlebars support
 
 " Org mode + dependencies
 Plug 'jceb/vim-orgmode'                                                        " Org mode for vim
@@ -74,6 +74,7 @@ Plug 'mattn/calendar-vim'                                                      "
 Plug 'vim-scripts/utl.vim'                                                     " Text linking
 Plug 'tpope/vim-speeddating'                                                   " Date increment / decrement
 Plug 'inkarkat/vim-SyntaxRange'                                                " Highlight embedded code
+Plug 'KeitaNakamura/tex-conceal.vim'                                           " More conceal for tex
 
 " Plugins with advanced setup
 
@@ -108,6 +109,7 @@ let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace
 let g:session_autosave = 'yes'                      " Always save sessions when quitting vim
 let g:session_autoload = 'no'                       " Don't prompt for opening old sessions
 let g:session_autosave_periodic = 1                 " Save session every minute
+let g:session_autosave_silent = 1                   " Be quiet when autosaving
 
 " vim-signify configuration
 let g:signify_realtime = 1                          " Update the git markers more frequently

@@ -5,8 +5,8 @@ nnoremap <LocalLeader>bo :call OpenCiteKeyPdf(expand("%:r"))<CR>
 setlocal concealcursor=""
 let g:tex_conceal = 'abdmg'
 
-nnoremap <silent> <LocalLeader>zz :set opfunc=ConvertPinyin<CR>g@
-vnoremap <silent> <LocalLeader>zz :<C-U>call ConvertPinyin(visualmode(), 1)<CR>
+nnoremap <silent> <LocalLeader>z :set opfunc=ConvertPinyin<CR>g@
+vnoremap <silent> <LocalLeader>z :<C-U>call ConvertPinyin(visualmode(), 1)<CR>
 
 " Converts motion or visually selected text to pinyin
 function! ConvertPinyin(type, ...)
@@ -24,7 +24,12 @@ function! ConvertPinyin(type, ...)
     normal! `[v`]y
   endif
 
+  " TODO: Join lines to make paragraphs possible
+  " Fix visual block mode
+  " Fix spacing in char to pinyin
+
   let chars = system(l:script_path . " " . @@)
+  let @p = chars
   echom chars
 
   let @@ = l:reg
