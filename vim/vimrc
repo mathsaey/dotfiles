@@ -25,6 +25,7 @@ Plug 'junegunn/fzf.vim'                                                        "
 Plug 'w0rp/ale'                                                                " Asynchronous linter
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session and vim-reload
 Plug 'mileszs/ack.vim'                                                         " Better file search
+Plug 'romainl/vim-cool'                                                        " Disable highlight after search
 Plug 'SirVer/ultisnips'                                                        " Snippet support
 Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
 Plug 'godlygeek/tabular'                                                       " Easily align things
@@ -41,6 +42,7 @@ Plug 'tpope/vim-commentary'                                                    "
 Plug 'RRethy/vim-illuminate'                                                   " Highlight word under cursor
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
 Plug 'simnalamburt/vim-mundo'                                                  " Visual undo tree
+Plug 'liuchengxu/vim-which-key'                                                " Key discovery aid
 Plug 'vim-scripts/TaskList.vim'                                                " Todo list summary
 Plug 'ludovicchabant/vim-gutentags'                                            " Automatic ctag generation
 Plug 'editorconfig/editorconfig-vim'                                           " Respect .editorconfig files
@@ -64,7 +66,6 @@ Plug 'mhinz/vim-mix-format'                                                    "
 Plug 'elixir-lang/vim-elixir'                                                  " Basic support for Elixir
 Plug 'slashmili/alchemist.vim'                                                 " IDE like tools for Elixir
 Plug 'andyl/vim-textobj-elixir'                                                " Extra text objects for elixir
-Plug 'RubenSerradas/vim-leex-yecc'                                             " Erlang style lex and yac support.
 Plug 'hdima/python-syntax'                                                     " Better syntax highlighting for python
 Plug 'vim-scripts/indentpython.vim'                                            " Better python indentation
 
@@ -146,6 +147,7 @@ let g:netrw_dirhistmax=0
 set backupdir=~/.tmp/vim/backup//                   " Directory for file backups
 set directory=~/.tmp/vim/swap//                     " Directory for swap files
 set undodir=~/.tmp/vim/undo//                       " Directory for undo files
+set viewdir=~/.tmp/vim/view//                       " Directory for view files
 
 let g:session_directory='~/.tmp/vim/sessions/'      " Directory for session files
 let g:gutentags_cache_dir='~/.tmp/vim/tags/'        " Directory for ctags files
@@ -181,6 +183,7 @@ set sidescrolloff=5
 set nowrap                                          " Don't auto-insert newlines when exceeding 80 characters
 set sidescroll=1                                    " Scroll per charachter when sidescrolling
 set wrapmargin=0                                    " Don't wrap based on screen edge
+let &showbreak="\u21aa "                            " Symbol to show when soft wrapping
 
 " hidden charachters
 set list                                            " Visualize tabs, trailing spaces and various elements
@@ -239,6 +242,8 @@ set incsearch                                       " Highlight characters as th
 set hlsearch                                        " Highlight matches
 set gdefault                                        " Always use global substitute
 
+let g:CoolTotalMatches = 1                          " Show total matches
+
 " Search Case Behaviour
 set ignorecase                                      " Don't match case
 set smartcase                                       " Unless the search term contains uppercase
@@ -246,6 +251,10 @@ set smartcase                                       " Unless the search term con
 " Global search
 let g:ackprg = 'rg --vimgrep'                           " Use ripgrep for ack.vim
 let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs' " Use ripgrep as the default fzf file provider
+
+" Folding
+set foldopen=hor,insert,mark,percent,quickfix,search,tag,undo " Don't open folds when moving vertically
+
 
 " -------------- "
 " YCM & Snippets "
@@ -296,9 +305,11 @@ augroup window_hooks
   " Turn on Limelight when using Goyo
   autocmd User GoyoEnter Limelight
   autocmd User GoyoLeave Limelight!
-  " Turn off ale when leaving goyo
+  " Turn off ale and signify when entering goyo
   autocmd User GoyoEnter ALEDisable
   autocmd User GoyoLeave ALEEnable
+  autocmd User GoyoEnter SignifyDisable
+  autocmd User GoyoLeave SignifyEnable
 augroup END
 
 " --------------------------- "
@@ -330,6 +341,14 @@ function! CommentLine(msg) abort
 
   call append('.', sur)
   call append('.', mid)
+endfunction
+
+function! ToggleFoldColumn()
+  if &foldcolumn
+    set foldcolumn=0
+  else
+    set foldcolumn=6
+  endif
 endfunction
 
 " Get the currently selected text
@@ -472,6 +491,23 @@ let mapleader = "\<Space>"
 " Use backslash as local leader
 let maplocalleader = "\\"
 
+" WhichKey
+" --------
+
+" Use which key for discoverability
+
+nnoremap <silent> <Leader> :<c-u>WhichKey '<Space>'<CR>
+vnoremap <silent> <Leader> :<c-u>WhichKeyVisual '<Space>'<CR>
+nnoremap <silent> <LocalLeader> :<c-u>WhichKey '\'<CR>
+vnoremap <silent> <LocalLeader> :<c-u>WhichKeyVisual '\'<CR>
+
+" Set up dictionaries to give better names to mappings
+let g:wk_leader_map =  {}
+let g:wk_local_map =  {}
+
+call which_key#register('<Space>', "g:wk_leader_map")
+call which_key#register('\', "g:wk_local_map")
+
 " Command Shortcuts
 " -----------------
 "
@@ -481,23 +517,37 @@ let maplocalleader = "\\"
 
 " Update file
 nnoremap <Leader>w :update<CR>
-" Turn off search highlighting
-nnoremap <Leader>n :nohlsearch<CR>
-" Show the visual undo tree
-nnoremap <Leader>u :MundoToggle<CR>
-" Toggle line numbers
-nnoremap <Leader>l :set relativenumber!<CR>
-" Toggle rainbow parentheses
-nnoremap <Leader>[ :RainbowToggle<CR>
-" Open the netrw split
-" noremap <Leader>k :Lexplore<CR>
-noremap <Leader>k :NERDTreeToggle<CR>
+
+
+let g:wk_leader_map.v = {
+      \ 'name' : 'view',
+      \ 'u' : 'undo tree',
+      \ 'l' : 'line numbers (relative/normal)',
+      \ 'n' : 'line numbers (visible/invisible)',
+      \ 'r' : 'rainbow parentheses',
+      \ 'k' : 'NerdTree',
+      \ 'g' : 'Distraction Free (Goyo)',
+      \ 'z' : 'fold column',
+      \ 's' : 'vcs status',
+\}
+
+nnoremap <Leader>vu :MundoToggle<CR>
+nnoremap <Leader>vl :set relativenumber!<CR>
+nnoremap <Leader>vn :set number!<CR>
+nnoremap <Leader>vr :RainbowToggle<CR>
+nnoremap <Leader>vk :NERDTreeToggle<CR>
+nnoremap <Leader>vg :Goyo<CR>
+nnoremap <Leader>vz :call ToggleFoldColumn()<CR>
+nnoremap <Leader>vs :SignifyToggle<CR>
 
 " Terminal
 " --------
 
 " Only enable this if our vim has terminal support
 if has('terminal')
+  let g:wk_leader_map.s = 'Tmuxinator terminal'
+  let g:wk_leader_map.S = 'Terminal'
+
   " Open a terminal or tmuxinator project if it's available
   nnoremap <Leader>s :call OpenTerminalOrTmuxinatorProject()<CR>
   " Open a standard terminal
@@ -523,6 +573,15 @@ endif
 " Spellcheck
 " ----------
 
+let g:wk_leader_map.z = {
+      \ 'name' : 'spell',
+      \ 'o' : 'toggle',
+      \ 'n' : 'Nederlands',
+      \ 'e' : {
+      \   'name' : 'English', 'b' : 'British English', 'a': 'American English'
+      \}
+\}
+
 nnoremap <Leader>zo  :set spell!<CR>
 nnoremap <Leader>zn  :setlocal spelllang=nl<CR>
 nnoremap <Leader>zeb :setlocal spelllang=en_gb<CR>
@@ -531,24 +590,31 @@ nnoremap <Leader>zea :setlocal spelllang=en_us<CR>
 " Fuzzy finding
 " -------------
 
+let g:wk_leader_map.b = 'Find buffer'
+let g:wk_leader_map.f = 'Find git files'
+let g:wk_leader_map.f = 'Find all files'
+let g:wk_leader_map.B = 'Find Session'
+
 " Find a buffer
 nnoremap <Leader>b :Buffers<CR>
+" Fuzzy find a session to open
+nnoremap <Leader>B :call fzf#run({'source': xolox#session#get_names(0), 'sink': 'OpenSession'})<CR>
 
 " Find a file from git or from all files
 nnoremap <Leader>f :call FilesOrGFiles()<CR>
 nnoremap <Leader>F :Files<CR>
 
-" Find a line in the current buffer or in all the buffers
-nnoremap <Leader>g :Lines<CR>
-nnoremap <Leader>G :BLines<CR>
-
-" Fuzzy find a session to open
-nnoremap <Leader>B :call fzf#run({'source': xolox#session#get_names(0), 'sink': 'OpenSession'})<CR>
-
 " Window Operations
 " -----------------
-" Map <Leader> m to the window command prefix
-nnoremap <Leader>m <C-W>
+
+let g:wk_leader_map.m = {
+      \ 'name' : 'move windows',
+      \ 'x' : 'close current',
+      \ 'h' : 'move/create left',
+      \ 'j' : 'move/create down',
+      \ 'k' : 'move/create up',
+      \ 'l' : 'move/create right',
+\}
 
 " Close the current split
 nnoremap <silent> <Leader>mx :quit<CR>
@@ -559,18 +625,34 @@ nnoremap <silent> <Leader>mj :call MoveOrCreateWindow('j')<CR>
 nnoremap <silent> <Leader>mk :call MoveOrCreateWindow('k')<CR>
 nnoremap <silent> <Leader>ml :call MoveOrCreateWindow('l')<CR>
 
+" Quickfix
+" --------
+
+let g:wk_leader_map.c = {
+      \ 'name' : 'quickfix',
+      \ 'c' : 'goto current error',
+      \ 'C' : 'goto current error!',
+      \ 'n' : 'goto next error',
+      \ 'N' : 'goto next error!',
+      \ 'p' : 'goto previous error',
+      \ 'P' : 'goto previous error!',
+      \ 'q' : 'close quickfix window',
+\}
+
+nnoremap <silent> <Leader>cc :cc<CR>
+nnoremap <silent> <Leader>cC :cc!<CR>
+nnoremap <silent> <Leader>cn :cnext<CR>
+nnoremap <silent> <Leader>cN :cnext!<CR>
+nnoremap <silent> <Leader>cp :cprevious<CR>
+nnoremap <silent> <Leader>cP :cprevious!<CR>
+nnoremap <silent> <Leader>cq :cclose<CR>
+
 " Editing
 " -------
 
 " Easily get out of insert mode
 inoremap fj <Esc>
 inoremap jf <Esc>
-
-" Disable arrow keys in normal mode
-noremap <up>    : echoe "use k"<CR>
-noremap <down>  : echoe "use j"<CR>
-noremap <left>  : echoe "use h"<CR>
-noremap <right> : echoe "use l"<CR>
 
 " Copy to system clipboard
 nnoremap <Leader>y "+y
@@ -585,9 +667,4 @@ vnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
 vnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 
 " Split line (inverse of J)
-nnoremap gj i<CR><Esc>k$
-
-" Vimrc tweaking
-" --------------
-
-nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
+nnoremap <Leader>j i<CR><Esc>k$
