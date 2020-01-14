@@ -2,6 +2,8 @@
 " that is identical to the basename of the current file.
 nnoremap <LocalLeader>bo :call OpenCiteKeyPdf(expand("%:r"))<CR>
 
+setlocal nonumber
+
 setlocal concealcursor=""
 let g:tex_conceal = 'abdmg'
 
