@@ -1,35 +1,22 @@
 #+TITLE: Emacs Configuration
 #+AUTHOR: Mathijs Saey
 #+FILETAGS: :config:
+#+PROPERTY: header-args :tangle (expand-file-name "init.el" user-emacs-directory)
 
-This file is the entry point for my emacs configuration. It gets
-loaded from [[file:~/.emacs.d/init.el][init.el]] by ~org-babel~.
-
-* Setup
-This section defines the basics of the configuration; it defines
-locations, and sets up the plugins which are used to manage plugins
-and keybinds.
-
-** Locations
-Keep things tidy; all configuration goes in the ~conf~
-directory. Temporary files are added to the ~/.tmp/emacs~ directory.
+This file contains my emacs configuration. Running ~org-babel-tangle~
+will write the required files to [[file:~/.emacs.d/init.el]].
 
 #+BEGIN_SRC emacs-lisp
-  (defconst conf-dir (expand-file-name "conf" user-emacs-directory))
-  (defconst temp-dir (expand-file-name "~/.tmp/emacs"))
+;;; This file is auto-generated based on configuration.org.
+;;; Any change made to this file will automatically be overwritten.
+
 #+END_SRC
 
-Let's keep customizations separate from =init.el=. We should also load
-customizations at startup. Permanent customizations should be added to
-the configuration.
+* Package setup
+We use [[https://github.com/raxod502/straight.el][straight.el]] and [[https://github.com/jwiegley/use-package][use-package]] to manage our packages.
 
-#+BEGIN_SRC emacs-lisp
-  (setq custom-file (expand-file-name "customize.el" user-emacs-directory))
-  (load custom-file 1)
-#+END_SRC
-** Package Management
-We use [[https://github.com/raxod502/straight.el][straight.el]] to manage packages for us. Since straight.el is not
-included with emacs we should [[https://github.com/raxod502/straight.el#getting-started][install it if required]].
+Since straight.el is not included with emacs we should [[https://github.com/raxod502/straight.el#getting-started][install it if
+required]].
 
 #+BEGIN_SRC emacs-lisp
 (defvar bootstrap-version)
@@ -46,8 +33,7 @@ included with emacs we should [[https://github.com/raxod502/straight.el#getting-
   (load bootstrap-file nil 'nomessage))
 #+END_SRC
 
-We use [[https://github.com/jwiegley/use-package][use-package]] to configure, install and load packages.  We also
-set it up to use straight.el behind the scenes.
+Set up use-package to use straight.el.
 
 #+BEGIN_SRC emacs-lisp
 (setq straight-use-package-by-default t)
@@ -55,28 +41,8 @@ set it up to use straight.el behind the scenes.
 (require 'use-package)
 #+END_SRC
 
-** Key Bindings
-We use [[https://github.com/noctuid/general.el#about][general.el]] to create keybinds. I like the idea of a leader and
-localleader that vim offers, set up =space= and =\= for this purpose.
-
-#+BEGIN_SRC emacs-lisp
-(use-package general)
-(require 'general)
-
-(setq leader "SPC")
-(setq localleader "\\")
-
-(general-create-definer leader-map :prefix leader :states 'normal)
-(general-create-definer local-map  :prefix localleader :states 'normal)
-#+END_SRC
-
-Use [[https://github.com/justbur/emacs-which-key][which-key]] to make it easier to remember those keybinds that are
-not used that often.
-
-#+BEGIN_SRC emacs-lisp
-(use-package which-key :config (which-key-mode))
-#+END_SRC
 * Visuals
+** Theme & Font
 Set up the theme & Font; always highlight the current line.
 
 #+BEGIN_SRC emacs-lisp
@@ -88,6 +54,7 @@ Set up the theme & Font; always highlight the current line.
 (global-hl-line-mode t)
 #+END_SRC
 
+** Parentheses
 When programming, show line numbers and highlight matching
 parentheses.
 
@@ -103,6 +70,7 @@ Use rainbow brackets when dealing with lisp like languages.
   :config (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
 
+** GUI
 I don't need to see the scroll, menu, or tool bar.
 On OSX the menu bar is visible anyway, so let's not disable it.
 
@@ -112,6 +80,7 @@ On OSX the menu bar is visible anyway, so let's not disable it.
 (tool-bar-mode -1)
 #+END_SRC
 
+** Modeline
 Use [[https://github.com/dbordak/telephone-line][telephone-line]] as a modeline. Add a segment which displays the
 buffer path relative to the home dir. Modify this later to be relative
 to "project" root directory.
@@ -138,26 +107,31 @@ to "project" root directory.
     :config
     (telephone-line-mode t))
 #+END_SRC
-* Editing Behaviour
-Let's use [[https://github.com/emacs-evil/evil][evil]] to get the best of vim in emacs.
+
+* Tweaks
+** Temporary files
+Keep temporary files out of the way inside the =~/.tmp/emacs/=
+folder.
 
 #+BEGIN_SRC emacs-lisp
-(use-package evil :config (evil-mode t))
+(defconst temp-dir (expand-file-name "~/.tmp/emacs"))
+(setq backup-directory-alist
+      `((".*" . ,(expand-file-name "backup/" temp-dir)))
+      auto-save-list-file-prefix
+      (expand-file-name "autosave/" temp-dir))
 #+END_SRC
 
-Persist undo history; store the generated files out of the way along
-with auto-save and backup files.
+** Customize
+~tangle~ will overwrite =init.el= and I prefer to keep my configuration in
+a single file anyway. Store customize.el settings as a temporary
+file. Load it in case I want to experiment with it anyway.
 
 #+BEGIN_SRC emacs-lisp
-(setq undo-tree-auto-save-history t
-      backup-directory-alist
-      `((".*" . ,(expand-file-name "backup" temp-dir)))
-      undo-tree-history-directory-alist
-      `(("." . ,(expand-file-name "undo" temp-dir)))
-      auto-save-file-name-transforms
-      `((".*" ,(expand-file-name "autosave" temp-dir))))
+(setq custom-file (expand-file-name "customize.el" temp-dir))
+(load custom-file 1)
 #+END_SRC
-* Miscellaneous
+
+** Completion
 Use [[https://github.com/emacs-helm/helm][helm]] for completion everywhere.
 
 #+BEGIN_SRC emacs-lisp
@@ -166,7 +140,64 @@ Use [[https://github.com/emacs-helm/helm][helm]] for completion everywhere.
   (helm-autoresize-mode t))
 #+END_SRC
 
+*** TODO Make esc work in helm buffers
+** $PATH on OSX
+GUI applications don't inherit environment variables in OSX. Use a
+package to ensure the $PATH gets set correctly.
+
+#+BEGIN_SRC emacs-lisp
+(when (string-equal system-type "darwin")
+  (use-package exec-path-from-shell
+    :config
+      (exec-path-from-shell-initialize)))
+#+END_SRC
+
+* Editing Behaviour
+** Persistent Undo
+Persist undo history in the tmp files
+
+#+BEGIN_SRC emacs-lisp
+(setq undo-tree-auto-save-history t
+      undo-tree-history-directory-alist
+      `(("." . ,(expand-file-name "undo/" temp-dir))))
+#+END_SRC
+** TODO Search options
+** TODO Spell check
+** TODO Linting & autocompletion
 * Keybinds
+** General set up
+We use [[https://github.com/noctuid/general.el#about][general.el]] to create keybinds.
+
+#+BEGIN_SRC emacs-lisp
+(use-package general)
+(require 'general)
+#+END_SRC
+
+I like the idea of a leader and localleader that vim offers, set up
+=space= and =\= for this purpose.
+
+#+BEGIN_SRC emacs-lisp
+(setq leader "SPC")
+(setq localleader "\\")
+(general-create-definer leader-map :prefix leader :states 'normal)
+(general-create-definer local-map  :prefix localleader :states 'normal)
+#+END_SRC
+
+** Keybind Hints
+Use [[https://github.com/justbur/emacs-which-key][which-key]] to make it easier to remember those keybinds that are
+not used that often.
+
+#+BEGIN_SRC emacs-lisp
+(use-package which-key :config (which-key-mode))
+#+END_SRC
+** Evil mode
+I don't like emacs-style keybinds, let's use [[https://github.com/emacs-evil/evil][evil]] to get the best of
+vim in emacs.
+
+#+BEGIN_SRC emacs-lisp
+(use-package evil :config (evil-mode t))
+#+END_SRC
+
 Use =fj= or =jf= to exit insert mode.
 
 #+BEGIN_SRC emacs-lisp
@@ -177,25 +208,18 @@ Use =fj= or =jf= to exit insert mode.
   :config (evil-escape-mode))
 #+END_SRC
 
-Some leader bindings:
-- ~w~ to write the current buffer
-- =b= to switch buffers
+** Window bindings
+Add window bindings under the leader key:
+
+- =b= to change buffers
 
 #+BEGIN_SRC emacs-lisp
-(leader-map
-  "w" 'save-buffer
-  "b" 'helm-buffers-list)
+(leader-map "b" 'helm-buffers-list)
 #+END_SRC
 
-Add bindings to increase and reduce font size.
+*** TODO close buffer
 
-#+BEGIN_SRC emacs-lisp
-(general-define-key
-  "s-=" 'text-scale-increase
-  "s--" 'text-scale-decrease)
-#+END_SRC
-
-** Window creation and movement
+*** Movement and creation
 To easily switch between open windows, we use the home-row movement
 keys (hjkl) to move in a given direction, or to create a window in the
 given direction if it does not exist. For discoverability, we give
@@ -233,6 +257,13 @@ We map these functions to the =<leader>m= prefix (mnemonic: (m)ove).
  "ml" 'move-or-create-right
  "mx" 'delete-window)
 #+END_SRC
+** Other
+Add some other useful leader bindings:
+- ~w~ to write the current buffer
+
+#+BEGIN_SRC emacs-lisp
+(leader-map "w" 'save-buffer)
+#+END_SRC
 
 ** Mac Keybinds
 The mac port of emacs maps command to meta by default. Change this and
@@ -243,28 +274,30 @@ use the option key instead.
   (setq mac-command-modifier 'super
 	mac-option-modifier 'meta))
 #+END_SRC
-* Miscellaneous configuration.
-** Other packages
+
+Add some keybinds which are common to most OSX Applications:
+
 #+BEGIN_SRC emacs-lisp
 (when (string-equal system-type "darwin")
-  (use-package exec-path-from-shell
-    :config
-      (exec-path-from-shell-initialize)))
+    (general-define-key
+    "s-=" 'text-scale-increase
+    "s--" 'text-scale-decrease))
 #+END_SRC
-** Language Specific packages
+*** TODO cmd + v in insert mode, cmd + q to quit
+* Language specific configuration
+Store language specific configuration in a seperate directory. Only
+load the configuration when required.
+
+#+BEGIN_SRC emacs-lisp
+  (defconst lang-dir (expand-file-name "~/.emacs.d/lang/"))
+  (defun lang (name)
+    (org-babel-load-file (expand-file-name (concat name ".org") lang-dir)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(lang "org")
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
 (use-package elixir-mode)
 #+END_SRC
-
-* Language specific configuration
-Let's keep language specific configuration seperate.
-
-#+BEGIN_SRC emacs-lisp
-  (org-babel-load-file (expand-file-name "org.org" conf-dir))
-#+END_SRC
-
-* [0/3] To do
-  - [ ] Linters, autocompleters
-  - [ ] Spellcheck
-  - [ ] make esc work in helm buffers

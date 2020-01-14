@@ -1,5 +1,6 @@
 #+TITLE: Org mode config
 #+AUTHOR: Mathijs Saey
+#+FILETAGS: :config:
 
 * Packages
 We use [[https://github.com/Somelauw/evil-org-mode/blob/master/doc/keythemes.org][evil-org]] to add a bunch of vim-like keybindings to org-mode.
@@ -300,6 +301,12 @@ Use more sane settings in =BEGIN_SRC= blocks.
 (setq org-src-fontify-natively t)
 (setq org-src-tab-acts-natively t)
 (setq org-edit-src-content-indentation 0)
+#+END_SRC
+
+Scale up inline latex.
+
+#+BEGIN_SRC emacs-lisp
+(plist-put org-format-latex-options :scale 1.5)
 #+END_SRC
 
 * Workflow

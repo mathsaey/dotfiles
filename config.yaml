@@ -12,6 +12,8 @@ actions:
   vim_download_plug: curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   vim_install_plugins: vim +PlugInstall +qall now
 
+  emacs_install_config: emacs -nw -Q ~/.emacs.d/configuration.org --eval '(org-babel-tangle)' --eval '(kill-emacs)'
+
 dotfiles:
 
   tmuxconf:
@@ -63,6 +65,8 @@ dotfiles:
     src: emacs
     dst: ~/.emacs.d/
     link: link_children
+    actions:
+      - emacs_install_config
 
   vim:
     src: vim
