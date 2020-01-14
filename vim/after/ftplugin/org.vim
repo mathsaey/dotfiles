@@ -26,13 +26,11 @@ function! ConvertPinyin(type, ...)
     normal! `[v`]y
   endif
 
-  " TODO: Join lines to make paragraphs possible
-  " Fix visual block mode
-  " Fix spacing in char to pinyin
+  let chars = systemlist(l:script_path . " '" . @@ . "'")
+  let @p = join(chars, "\n")
 
-  let chars = system(l:script_path . " " . @@)
-  let @p = chars
-  echom chars
+  call popup_clear()
+  call popup_atcursor(chars, {'padding': [0,1,0,1], 'border': [1,1,1,1]})
 
   let @@ = l:reg
   let &selection = sel
