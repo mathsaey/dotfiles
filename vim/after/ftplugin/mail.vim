@@ -17,10 +17,9 @@ setlocal nomodeline
 " - handle comment (quote) charachter
 " - allow gq to format comments
 " - Format-flowed: trailing white space indicates paragraph continue next line
-" - Nicely indent (numbered) lists
 " - Don't reformat long lines when entering insert mode
 setlocal colorcolumn=72
-setlocal formatoptions=tcqwnl
+setlocal formatoptions=tcqwl
 
 " Reformat the text make it flow, requires `par`.
 " Handy when replying to emails.

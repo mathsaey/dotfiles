@@ -117,7 +117,7 @@ set text_flowed
 
 # Ask for confirmation before sending a mail without an attachment if it looks
 # like one should be added.
-set abort_noattach_regex = "\\<(attach(|ed|ments?)|bijlage)\\>"
+set abort_noattach_regex = "\\<(attach(ed|ments?)|bijlage)\\>"
 set abort_noattach = ask-yes
 
 # Use a more standard subject when forwarding
