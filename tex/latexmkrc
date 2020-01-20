@@ -1,0 +1,4 @@
+# All additional class and sty files are stored in ~/.tex/, load them
+$ENV{'TEXINPUTS'}='~/.tex/:' . $ENV{'TEXINPUTS'};
+# Move build output to its own folder to avoid clutter in the main directory
+$out_dir = '_build';

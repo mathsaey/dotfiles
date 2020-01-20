@@ -77,6 +77,13 @@ dotfiles:
       - vim_download_plug
       - vim_install_plugins
 
+  latexmkrc:
+    src: tex/latexmkrc
+    dst: ~/.latexmkrc
+  tex:
+    src: tex/packages/
+    dst: ~/.tex
+
 profiles:
 
   darwin:
