@@ -22,7 +22,7 @@ dotfiles:
     link: link
 
   ssh_config:
-    src: ssh/config
+    src: _accounts/ssh/config
     dst: ~/.ssh/config
 
   gitconfig:
