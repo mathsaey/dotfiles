@@ -51,7 +51,7 @@ export VISUAL="vim"
 
 # Set the PATH
 {%@@ if os == "Linux" @@%}
-export PATH=~/.bin:~/.linuxbrew/bin:$PATH
+export PATH=~/.bin:~/.cargo/bin:~/.linuxbrew/bin:$PATH
 {%@@ else @@%}
 export PATH=~/.bin:$PATH
 {%@@ endif @@%}
