@@ -49,9 +49,9 @@ dotfiles:
     dst: ~/.config/neomutt
     link: link_children
 
-  offlineimap:
-    src: _accounts/offlineimap/config.conf
-    dst: ~/.config/offlineimap/config
+  mailcap:
+    src: mailcap/mailcap
+    dst: ~/.mailcap
 
   msmtp:
     src: _accounts/msmtp/config
