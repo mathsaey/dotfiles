@@ -14,6 +14,8 @@ actions:
 
   emacs_install_config: emacs -nw -Q ~/.emacs.d/configuration.org --eval '(org-babel-tangle)' --eval '(kill-emacs)'
 
+  mbsync_create_maildirs: ~/.dotfiles/_accounts/mbsync/create_dirs.sh
+
 dotfiles:
 
   tmuxconf:
@@ -52,6 +54,12 @@ dotfiles:
   mailcap:
     src: mailcap/mailcap
     dst: ~/.mailcap
+
+  mbsync:
+    src: _accounts/mbsync/mbsyncrc
+    dst: ~/.mbsyncrc
+    actions:
+      - mbsync_create_maildirs
 
   msmtp:
     src: _accounts/msmtp/config

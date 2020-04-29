@@ -8,8 +8,9 @@ source ~/.config/neomutt/binds
 # Sidebar
 # -------
 
-set sidebar_visible
 set mail_check_stats
+set sidebar_visible
+set sidebar_new_mail_only
 
 set sidebar_width = 20
 set sidebar_format = '%B %> %?F?[%!]? %?N?%N?'
@@ -79,8 +80,6 @@ source ~/.config/neomutt/accounts
 auto_view text/html
 alternative_order text/plain text/html
 
-set mailcap_path = "~/.config/neomutt/mailcap"
-
 # Imap
 # ----
 
@@ -139,9 +138,7 @@ set reverse_alias = yes # Show alias instead of email when possible
 # Caches
 # ------
 
-# TODO: Automatically purge older messages from cache on startup
 set header_cache     = ~/.tmp/neomutt/cache/header
-set message_cachedir = ~/.tmp/neomutt/cache/message
 
 # Other
 # -----
