@@ -48,6 +48,11 @@
 % Beamer Setup %
 % ------------ %
 
+% Needed to fix a xetex bug. The framenotesbegin workaround causes issues with
+% standout frames, so use this workaround instead.
+%   https://github.com/matze/mtheme/issues/191#issuecomment-258044147
+\def\pgfsysdriver{pgfsys-dvipdfm.def}
+
 \LoadClass{beamer}
 
 % Show a "preview" of \covered content.
@@ -63,11 +68,46 @@
 % Avoid a vbox warning on title page
 \def\titlepage{\usebeamertemplate{title page}}
 
+% Extra Packages
+% --------------
+% Loaded after beamer/metropolis to avoid issues
+
+\RequirePackage{tikz}
+\RequirePackage{booktabs}
+
+% Tikz libraries
+\usetikzlibrary[positioning]
+
+% Appendix
+% --------
+
+% Ensure progress bar stops before appendix
+\RequirePackage{appendixnumberbeamer}
+% Avoid a hyperref warning when using appendix
+\renewcommand{\appendixname}{\texorpdfstring{\translate{Appendix}}{Appendix}}
+
+% Display math spacing
+% --------------------
+
+\DeclareRobustCommand{\@setskip}{%
+  \setlength{\abovedisplayskip}{0.2\abovedisplayskip}
+  \setlength{\belowdisplayskip}{0.2\belowdisplayskip}
+  \setlength{\abovedisplayshortskip}{0.2\abovedisplayshortskip}
+  \setlength{\belowdisplayshortskip}{0.2\belowdisplayshortskip}
+}
+
+% Reduce spacing of display math in blocks
+\addtobeamertemplate{block begin}{\@setskip}{}
+\addtobeamertemplate{block example begin}{\@setskip}{}
+\addtobeamertemplate{block alerted begin}{\@setskip}{}
+
 % Don't show section slides
 % -------------------------
 
-\iftoggle{showsections}{}{%
-  \AtBeginSection{}
+\iftoggle{showsections}{%
+  \metroset{sectionpage=progressbar,subsectionpage=none}
+}{%
+  \metroset{sectionpage=none,subsectionpage=none}
 }
 
 % Presenter Notes Display
@@ -79,16 +119,6 @@
 \iftoggle{twoscreen}{%
   \RequirePackage{pgfpages}
   \setbeameroption{show notes on second screen}
-
-  % Workaround for a xelatex bug
-  % https://tex.stackexchange.com/questions/213053/text-is-white-coloured-after-beamer-note-pages-when-compiled-with-xelatex
-  \makeatletter
-  \def\beamer@framenotesbegin{
-      \usebeamercolor[fg]{normal text}
-      \gdef\beamer@noteitems{}
-      \gdef\beamer@notes{}
-  }
-  \makeatother
 }
 
 % Handouts
@@ -109,11 +139,62 @@
   % Create a blank note page when no notes are present
   % https://tex.stackexchange.com/questions/11708/run-macro-on-each-frame-in-beamer/11724#11724
   \makeatletter
-    \def\beamer@framenotesbegin{
+  \def\beamer@framenotesbegin{
     \gdef\beamer@noteitems{}%
     \gdef\beamer@notes{{}}
   }
   \makeatother
+}
+
+% ------ %
+% Macros %
+% ------ %
+
+\DeclareRobustCommand{\righttext}[1]{\hspace*{\fill}#1}
+
+\DeclareRobustCommand{\taggedtext}[2]{#1: \righttext{\textsc{(#2)}}}
+\DeclareRobustCommand{\suchthat}[1]{\taggedtext{Such that}{#1}}
+\DeclareRobustCommand{\taggedand}[1]{\taggedtext{And}{#1}}
+
+\DeclareRobustCommand{\subtle}[1]{\textcolor{gray}{#1}}
+
+% Notes
+% -----
+
+\let\oldnote\note%
+\DeclareRobustCommand{\note}[1]{\oldnote[item]{#1}}
+
+\DeclareRobustCommand{\todo}[1]{\note{\textbf{Todo:} #1}}
+\DeclareRobustCommand{\recap}[1]{\note{\textbf{Recap:} #1}}
+\DeclareRobustCommand{\discuss}[1]{\note{\textbf{Feedback:} #1}}
+\DeclareRobustCommand{\notation}[1]{\note{\textbf{Notation:} #1}}
+
+% Inline Graphics
+% ---------------
+
+\newlength{\ilgfxheight}
+\newlength{\ilgfxdepth}
+
+\DeclareRobustCommand*\inlinegraphics[1]{%
+  \settototalheight{\ilgfxheight}{logo skitter}%
+  \settodepth{\ilgfxdepth}{logo skitter}%
+  \raisebox{-\ilgfxdepth}{\includegraphics[height=\ilgfxheight]{#1}}%
+}
+
+% Markers
+% -------
+
+% http://www.texample.net/tikz/examples/global-nodes/
+% Add macro to draw between nodes?
+
+% https://tex.stackexchange.com/questions/42800/global-variables-for-all-tikz-drawings-in-a-document
+% Come up with global tikz style
+
+\DeclareRobustCommand{\markm}[3][]{\mark[#1]{#2}{\ensuremath{#3}}}
+\DeclareRobustCommand{\mark}[3][]{%
+  \tikz{%
+    \node[fill=#2!30] (#1) {#3};
+  }
 }
 
 \endinput
