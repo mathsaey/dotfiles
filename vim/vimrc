@@ -644,6 +644,7 @@ nnoremap <silent> <Leader>cN :cnext!<CR>
 nnoremap <silent> <Leader>cp :cprevious<CR>
 nnoremap <silent> <Leader>cP :cprevious!<CR>
 nnoremap <silent> <Leader>cq :cclose<CR>
+nnoremap <silent> <Leader>co :copen<CR>
 
 " Editing
 " -------
