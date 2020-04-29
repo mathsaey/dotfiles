@@ -29,6 +29,9 @@ bind pager - noop
 bind pager <space> noop
 
 # Index-specific navigation
+bind index j next-entry
+bind index k previous-entry
+
 bind index g first-entry
 bind index G last-entry
 
@@ -63,6 +66,8 @@ bind index,pager O sidebar-open
 # Operations on selected/current message
 bind index,pager m noop
 bind index,pager mm mail
+bind index,pager md delete-message
+bind index,pager mD purge-message
 bind index,pager mf forward-message
 bind index,pager mb bounce-message
 bind index,pager mu undelete-message
@@ -76,8 +81,8 @@ bind index       mn toggle-new
 bind pager       mn mark-as-new
 
 # Mark deleted messages as read automatically
-macro index,pager md ':set resolve=no<enter><clear-flag>N:set resolve=yes<enter><delete-message>'
-macro index,pager mD ':set resolve=no<enter><clear-flag>N:set resolve=yes<enter><purge-message>'
+# macro index,pager md ':set resolve=no<enter><clear-flag>N:set resolve=yes<enter><delete-message>'
+# macro index,pager mD ':set resolve=no<enter><clear-flag>N:set resolve=yes<enter><purge-message>'
 
 # Reply operations
 bind index,pager r noop

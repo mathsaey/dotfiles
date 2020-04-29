@@ -15,6 +15,7 @@ actions:
   emacs_install_config: emacs -nw -Q ~/.emacs.d/configuration.org --eval '(org-babel-tangle)' --eval '(kill-emacs)'
 
   mbsync_create_maildirs: ~/.dotfiles/_accounts/mbsync/create_dirs.sh
+  neomutt_create_cache_dir: mkdir -p ~/.tmp/neomutt/cache/header/
 
 dotfiles:
 
@@ -46,6 +47,8 @@ dotfiles:
     src: neomutt
     dst: ~/.config/neomutt
     link: link_children
+    actions:
+      - neomutt_create_cache_dir
   neomutt_accounts:
     src: _accounts/neomutt
     dst: ~/.config/neomutt
