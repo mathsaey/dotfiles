@@ -2,9 +2,14 @@
 	name = Mathijs Saey
 	email = mathijs@mathsaey.be
 [sendemail]
-	smtpserver = msmtp
-	smtpserveroption=-a
-	smtpserveroption=mathsaey.be
+{%@@ if os == "Darwin" @@%}
+	smtpserver = /usr/local/bin/msmtp
+{%@@ else @@%}
+	smtpserver = /usr/bin/msmtp
+{%@@ endif @@%}
+	smtpserveroption = -a
+	smtpserveroption = mathsaey.be
+  envelopeSender = auto
 [core]
 	excludesfile = {{@@ _dotdrop_dotpath @@}}/git/ignore
 {%@@ if os == "Darwin" @@%}
