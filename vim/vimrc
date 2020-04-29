@@ -49,8 +49,6 @@ Plug 'editorconfig/editorconfig-vim'                                           "
 Plug 'vim-scripts/DeleteTrailingWhitespace'                                    " Allow the automatic deletion of trailing whitespace
 
 " Text Objects
-Plug 'kana/vim-textobj-line'                                                   " Line text object
-Plug 'kana/vim-textobj-user'                                                   " Required for elixir text objects
 Plug 'vim-scripts/argtextobj.vim'                                              " Text objects that deal with function arguments
 Plug 'michaeljsmith/vim-indent-object'                                         " Text object for indented content
 
@@ -65,7 +63,6 @@ Plug 'gabrielelana/vim-markdown'                                               "
 Plug 'mhinz/vim-mix-format'                                                    " Elixir formatter
 Plug 'elixir-lang/vim-elixir'                                                  " Basic support for Elixir
 Plug 'slashmili/alchemist.vim'                                                 " IDE like tools for Elixir
-Plug 'andyl/vim-textobj-elixir'                                                " Extra text objects for elixir
 Plug 'hdima/python-syntax'                                                     " Better syntax highlighting for python
 Plug 'vim-scripts/indentpython.vim'                                            " Better python indentation
 
