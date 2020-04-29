@@ -250,6 +250,7 @@ let g:ackprg = 'rg --vimgrep'                           " Use ripgrep for ack.vi
 let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs' " Use ripgrep as the default fzf file provider
 
 " Folding
+set foldlevel=99
 set foldopen=hor,insert,mark,percent,quickfix,search,tag,undo " Don't open folds when moving vertically
 
 
