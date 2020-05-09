@@ -44,10 +44,10 @@ Plug 'rbgrouleff/bclose.vim'                                                   "
 Plug 'simnalamburt/vim-mundo'                                                  " Visual undo tree
 Plug 'liuchengxu/vim-which-key'                                                " Key discovery aid
 Plug 'vim-scripts/TaskList.vim'                                                " Todo list summary
+Plug 'triglav/vim-visual-increment'                                            " Increment a visual block
 Plug 'ludovicchabant/vim-gutentags'                                            " Automatic ctag generation
 Plug 'editorconfig/editorconfig-vim'                                           " Respect .editorconfig files
 Plug 'vim-scripts/DeleteTrailingWhitespace'                                    " Allow the automatic deletion of trailing whitespace
-
 " Text Objects
 Plug 'vim-scripts/argtextobj.vim'                                              " Text objects that deal with function arguments
 Plug 'michaeljsmith/vim-indent-object'                                         " Text object for indented content
@@ -92,6 +92,8 @@ call plug#end()                                                                "
 " ---------------------- "
 " Miscellaneous Settings "
 " ---------------------- "
+
+set mouse=a                                         " Allow mouse support
 
 set undofile                                        " Save undo tree
 set wildmenu                                        " Shows the available autocompletes in command menu
