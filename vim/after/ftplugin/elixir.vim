@@ -3,11 +3,12 @@ setlocal spell             " The elixir syntax file marks spell regions, so alwa
 setlocal spelllang=en_gb   " Use uk English when we want to spellcheck comments
 
 " Formatting set up
-setlocal textwidth=80      " Wrap at 80 charachters
-setlocal formatprg=mix\ format\ -
+setlocal textwidth=98      " Wrap at 98 charachters, based on default formatting parameters
+setlocal colorcolumn=98    " Highlight wrap line
 
 " MixFormat set up
 let g:mix_format_silent_errors = 1
+let g:mix_format_on_save = 1
 let g:mix_format_options = '--check-equivalent'
 
 " Tell gutentags that a project is an elixir project if a mix.exs file is present
