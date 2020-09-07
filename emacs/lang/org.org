@@ -75,6 +75,7 @@ Exports are stored in the [[file:~/Nextcloud/org/exports/][exports folder]].
 
 (defconst m-org-capture-todo     (expand-file-name "todo.org" m-org-main-dir))
 (defconst m-org-capture-notes    (expand-file-name "notes.org" m-org-main-dir))
+(defconst m-org-capture-journal  (expand-file-name "journal.org" m-org-main-dir))
 (defconst m-org-capture-meetings (expand-file-name "meetings.org" m-org-main-dir))
 #+END_SRC
 
@@ -160,6 +161,7 @@ Add some additional keybindings to =<localleader>= in org mode.
   "u" 'org-table-recalculate
   "y" 'org-time-stamp
   "Y" 'org-time-stamp-inactive
+  "ol" 'org-insert-link
   "g" 'm/org-insert-external-link)
 #+END_SRC
 
@@ -381,6 +383,9 @@ We use the following (mutually exclusive) tags:
 #+END_SRC
 
 ** Capture 
+:PROPERTIES:
+:ID:       0fmdfwa0cpi0
+:END:
 
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
@@ -393,7 +398,10 @@ We use the following (mutually exclusive) tags:
       "* %U %?")
     ("m" "Start a meeting note" entry
       (file ,m-org-capture-meetings)
-      "* %^t %^{Meeting Name}\n%?")))
+      "* %^t %^{Meeting Name}\n%?")
+    ("j" "Add a journal entry" entry
+     (file+olp+datetree ,m-org-capture-journal)
+     "** Planning\n** :work:\n%?\n** :personal:\n** :meta:\n")))
 #+END_SRC
 
 Automatically enter insert mode when entering a capture buffer.
@@ -471,21 +479,6 @@ Finally, we want to be able to create new headings on the fly.
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 #+END_SRC
 
-** Identifiers and Links
-
-#+BEGIN_SRC emacs-lisp
-(require 'org-id)
-#+END_SRC
-
-When creating an org-mode link, link to the id, create it if needed.
-
-#+BEGIN_SRC emacs-lisp
-(setq org-id-link-to-org-use-id t)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(setq org-id-method 'org)
-#+END_SRC
 * Export
 Use [[https://github.com/fniessen/org-html-themes/][ReadTheOrg]] for export.
 
