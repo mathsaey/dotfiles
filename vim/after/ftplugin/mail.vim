@@ -11,6 +11,9 @@ setlocal noswapfile
 " Ensure we don't modify settings based on mail content
 setlocal nomodeline
 
+" Line numbers are pretty pointless for mails
+setlocal nonumber
+
 " Formatting:
 " - mail width is 72 chars
 " - auto wrap based on text width
