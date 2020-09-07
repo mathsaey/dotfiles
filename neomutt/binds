@@ -58,14 +58,10 @@ bind pager k previous-line
 bind pager <tab> next-undeleted
 bind pager <backtab> previous-undeleted
 
-# Sidebar navigation
-bind index,pager J sidebar-next
-bind index,pager K sidebar-prev
-bind index,pager O sidebar-open
-
 # Operations on selected/current message
 bind index,pager m noop
 bind index,pager mm mail
+bind index,pager mM resend-message
 bind index,pager md delete-message
 bind index,pager mD purge-message
 bind index,pager mf forward-message
@@ -74,7 +70,6 @@ bind index,pager mu undelete-message
 bind index,pager ml edit-label
 bind index,pager m! flag-message
 bind index,pager mp pipe-message
-bind index,pager mt resend-message
 bind index,pager ms save-message
 bind index,pager mc copy-message
 bind index       mn toggle-new

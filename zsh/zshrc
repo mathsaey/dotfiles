@@ -84,6 +84,11 @@ alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 {%@@ endif @@%}
 
+# Shortcuts for commonly used maildirs
+alias muttm="mutt mathsaey.be"
+alias muttvv="mutt vub.ac.be"
+alias muttvo="mutt vub.be"
+
 # --------------- #
 # Custom Commands #
 # --------------- #
@@ -109,4 +114,10 @@ function highlight-snippet {
   fontsize=${3-12}
   # Highlight the current contents of the clipboard
   pbpaste | highlight -O rtf -S $1 -s $theme -K $fontsize -k menlo --no-trailing-nl | pbcopy
+}
+
+function mutt {
+  mbsync -q $1
+  neomutt -f ~/.mail/$1/Inbox
+  mbsync -q $1
 }

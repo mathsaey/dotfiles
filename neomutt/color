@@ -39,23 +39,31 @@ color sidebar_ordinary  $my_subtle $my_background
 # Index #
 # ----- #
 
-color index $my_subtle $my_background '~A'
+# Use subtle coloring for everything not explicitly highlighted
+color index         $my_subtle  $my_background '~A'
+color index_subject $my_default $my_background '~A'
 
 # Make the highlight indicator more subtle
 color indicator $my_default $my_indicator
 
-# Make flags subtle unless the mail is new or flagged.
-color index_flags $my_subtle_dark $my_background '~A'
-color index_flags $my_subtle      $my_background '~D'
-color index_flags $my_yellow      $my_background '~F'
-color index_flags $my_red         $my_background '~N'
+# Mark new emails as red
+color index         $my_red $my_background '~N'
+color index_flags   $my_red $my_background '~N'
+color index_subject $my_red $my_background '~N'
 
-# Date should stand out less, subject should not be too fancy
-color index_date    $my_subtle  $my_background
-color index_subject $my_default $my_background '~A'
+# Mark flagged emails yellow
+color index         $my_yellow $my_background '~F'
+color index_flags   $my_yellow $my_background '~F'
+color index_subject $my_yellow $my_background '~F'
 
-# make thread amount stand out
+# Mark deleted emails purple
+color index         $my_purple $my_background '~D'
+color index_flags   $my_purple $my_background '~D'
+color index_subject $my_purple $my_background '~D'
+
+# make thread amount, tags, thread three stand out
 color index_collapsed $my_purple $my_background
+color index_tags      $my_purple $my_background
 color tree            $my_purple $my_background
 
 # Highlight vips and mailing lists

@@ -8,8 +8,9 @@ source ~/.config/neomutt/binds
 # Sidebar
 # -------
 
+# set sidebar_visible
+
 set mail_check_stats
-set sidebar_visible
 set sidebar_new_mail_only
 
 set sidebar_width = 20
@@ -24,7 +25,7 @@ set sidebar_indent_string=" "
 # -----
 
 set date_format   = '%a %d/%m/%y %H:%M'
-set index_format  = '%Z %d %-20.20F %?M?(%2M)&    ? %s'
+set index_format  = '%Z %d %-20.20F %?M?(%2M)&    ? %s %> %?g?[%g]?'
 set status_format = ' %f [messages: %m%?d?, deleted: %d?%?t?, tagged: %t?] %?V?{%V}? %> %r (%P) '
 
 # Threads
@@ -126,6 +127,8 @@ set forward_format = 'Fwd: %s'
 # Miscellaneous #
 # ------------- #
 
+set mbox_type = Maildir
+
 # Aliasing
 # --------
 
@@ -150,9 +153,8 @@ set history_remove_dups
 unset mark_old
 
 # Don't ask confirmation before deleting or appending
-set delete
+# set delete
 unset confirmappend
 
 # Don't pause on status messages
-set sleep_time = 0
-
+set sleep_time = 1
