@@ -34,7 +34,7 @@ source {{@@ _dotdrop_dotpath @@}}/zsh/prompt.zsh-theme
 # ------- #
 
 source {{@@ _dotdrop_dotpath @@}}/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source {{@@ _dotdrop_dotpath @@}}/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+source {{@@ _dotdrop_dotpath @@}}/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # ------- #
 # Exports #
