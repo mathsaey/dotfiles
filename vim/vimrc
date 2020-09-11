@@ -20,7 +20,6 @@ Plug 'junegunn/limelight.vim'                                                  "
 " Fzf
 Plug 'junegunn/fzf'                                                            " Install fzf as a plugin for portability
 Plug 'junegunn/fzf.vim'                                                        " Out of the box vim integration
-
 " Tools
 Plug 'w0rp/ale'                                                                " Asynchronous linter
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session and vim-reload
@@ -39,6 +38,7 @@ Plug 'markonm/traces.vim'                                                      "
 Plug 'tpope/vim-surround'                                                      " Easily work with surrounding charachters
 Plug 'scrooloose/nerdtree'                                                     " Better file browser
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
+Plug 'junegunn/vim-peekaboo'
 Plug 'RRethy/vim-illuminate'                                                   " Highlight word under cursor
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
 Plug 'simnalamburt/vim-mundo'                                                  " Visual undo tree
@@ -113,6 +113,9 @@ let g:session_autosave_silent = 1                   " Be quiet when autosaving
 
 " vim-signify configuration
 let g:signify_realtime = 1                          " Update the git markers more frequently
+
+" vim-peekaboo
+let g:peekaboo_delay = 100                          " Don't show the register preview if I already know what to do
 
 " bclose configuration
 let g:no_plugin_maps = 1                            " Don't let Bclose bind <Leader>bd
