@@ -5,40 +5,44 @@
 " Plugins "
 " ------- "
 
-call plug#begin('~/.vim/bundle')                                               " Start plugin list
-
-" Plugin list
-" -----------
+call plug#begin('~/.vim/bundle')
 
 " Visuals
+" -------
+
 Plug 'tomasr/molokai'                                                          " Color scheme
 Plug 'junegunn/goyo.vim'                                                       " Distraction free mode
 Plug 'luochen1990/rainbow'                                                     " Colour parentheses
 Plug 'itchyny/lightline.vim'                                                   " Status bar
 Plug 'junegunn/limelight.vim'                                                  " Only color current paragraph
 
+" Tools
+" -----
+
 " Fzf
 Plug 'junegunn/fzf'                                                            " Install fzf as a plugin for portability
 Plug 'junegunn/fzf.vim'                                                        " Out of the box vim integration
-" Tools
-Plug 'w0rp/ale'                                                                " Asynchronous linter
+
+" Text Objects
+Plug 'vim-scripts/argtextobj.vim'                                              " Text objects that deal with function arguments
+Plug 'michaeljsmith/vim-indent-object'                                         " Text object for indented content
+
+" vim-session
 Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session and vim-reload
-Plug 'mileszs/ack.vim'                                                         " Better file search
-Plug 'romainl/vim-cool'                                                        " Disable highlight after search
-Plug 'SirVer/ultisnips'                                                        " Snippet support
-Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
-Plug 'godlygeek/tabular'                                                       " Easily align things
 Plug 'xolox/vim-session'                                                       " Session Management
+
+" Tools
+Plug 'romainl/vim-cool'                                                        " Disable highlight after search
+Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
 Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
 Plug 'tpope/vim-endwise'                                                       " Automatically insert matching end keyword
-Plug 'tpope/vim-fugitive'                                                      " Git integration
 Plug 'machakann/vim-swap'                                                      " Easily swap function arguments
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
 Plug 'markonm/traces.vim'                                                      " Substitute preview
 Plug 'tpope/vim-surround'                                                      " Easily work with surrounding charachters
 Plug 'scrooloose/nerdtree'                                                     " Better file browser
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
-Plug 'junegunn/vim-peekaboo'
+Plug 'junegunn/vim-peekaboo'                                                   " Preview register contents
 Plug 'RRethy/vim-illuminate'                                                   " Highlight word under cursor
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
 Plug 'simnalamburt/vim-mundo'                                                  " Visual undo tree
@@ -48,46 +52,50 @@ Plug 'triglav/vim-visual-increment'                                            "
 Plug 'ludovicchabant/vim-gutentags'                                            " Automatic ctag generation
 Plug 'editorconfig/editorconfig-vim'                                           " Respect .editorconfig files
 Plug 'vim-scripts/DeleteTrailingWhitespace'                                    " Allow the automatic deletion of trailing whitespace
-" Text Objects
-Plug 'vim-scripts/argtextobj.vim'                                              " Text objects that deal with function arguments
-Plug 'michaeljsmith/vim-indent-object'                                         " Text object for indented content
 
-" Languages
-Plug 'tpope/vim-scriptease'                                                    " Vimscript goodies
+" Completion and code intelligence
+Plug 'w0rp/ale'                                                                " Asynchronous linter
+Plug 'natebosch/vim-lsc'                                                       " Lightweight language server support
+Plug 'ackyshake/VimCompletesMe'                                                " Tab-based completion
+
+" Language Support
+" ----------------
+
 Plug 'zah/nim.vim'                                                             " Nim support
 Plug 'lervag/vimtex'                                                           " Latex support
-Plug 'dleonard0/pony-vim-syntax'                                               " Pony support
 Plug 'rust-lang/rust.vim'                                                      " Rust support
 Plug 'wlangstroth/vim-racket'                                                  " Racket support
 Plug 'gabrielelana/vim-markdown'                                               " Improved markdown support
+
 Plug 'mhinz/vim-mix-format'                                                    " Elixir formatter
 Plug 'elixir-lang/vim-elixir'                                                  " Basic support for Elixir
-Plug 'slashmili/alchemist.vim'                                                 " IDE like tools for Elixir
+
 Plug 'hdima/python-syntax'                                                     " Better syntax highlighting for python
 Plug 'vim-scripts/indentpython.vim'                                            " Better python indentation
 
-" Org mode + dependencies
+" Org mode
 Plug 'jceb/vim-orgmode'                                                        " Org mode for vim
 Plug 'mattn/calendar-vim'                                                      " Calendar view
 Plug 'vim-scripts/utl.vim'                                                     " Text linking
 Plug 'tpope/vim-speeddating'                                                   " Date increment / decrement
 Plug 'inkarkat/vim-SyntaxRange'                                                " Highlight embedded code
-Plug 'KeitaNakamura/tex-conceal.vim'                                           " More conceal for tex
 
-" Plugins with advanced setup
+" Language Servers
+" ----------------
+"
+" We install these as plugins to make bootstrapping easier.
 
-" Function to install the YCM server after updates.
-function! BuildYCM(info)
-  if a:info.status == 'installed' ||
-   \ a:info.status == 'updated'   ||
-   \ a:info.force
-    !./install.py --clang-completer
+" Elixir
+function! BuildElixirLs(info)
+  if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
+    !MIX_ENV=PROD mix deps.get
+    !MIX_ENV=PROD mix elixir_ls.release
   endif
 endfunction
 
-Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }                  " Tab completion
+Plug 'elixir-lsp/elixir-ls', { 'do': function('BuildElixirLs') }
 
-call plug#end()                                                                " End of plugin list
+call plug#end()
 
 " ---------------------- "
 " Miscellaneous Settings "
@@ -101,6 +109,9 @@ set backspace=indent,eol,start                      " Allow backspaces to remove
 
 " Join behaviour
 set formatoptions+=j                                " Intelligently handle comments when joining lines
+
+" Buffer behaviour
+set hidden                                          " Allow buffers with unsaved changes to become hidden
 
 " Whitespace
 let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace on save
@@ -122,12 +133,6 @@ let g:no_plugin_maps = 1                            " Don't let Bclose bind <Lea
 
 " tex related settings
 let g:tex_flavor = 'latex'                          " Needs to be set here to vimtex does not complain
-
-" Snippets
-" --------
-
-let g:UltiSnipsEditSplit = "vertical"
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/snips']
 
 " Netrw
 " -----
@@ -199,6 +204,9 @@ set listchars+=precedes:<                           " < to mark that a line star
 set listchars+=conceal:*                            " * to mark hidden characters
 set listchars+=nbsp:.                               " . to mark non-breakable spaces
 
+" Completion popup
+set completepopup=highlight:PmenuSbar,border:off,align:menu
+
 " Status Line
 " -----------
 
@@ -261,41 +269,20 @@ let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs' " Use ripgrep as the def
 set foldlevel=99
 set foldopen=hor,insert,mark,percent,quickfix,search,tag,undo " Don't open folds when moving vertically
 
+" ----------------------------- "
+" Language Server & Completions "
+" ----------------------------- "
 
-" -------------- "
-" YCM & Snippets "
-" -------------- "
+set completeopt=menu,menuone,popup,noselect
 
-" Make both YCM and Ultisnips work with <tab>
+let g:lsc_server_commands = {
+  \  'elixir': expand('~/.vim/bundle/elixir-ls/release/language_server.sh'),
+  \}
 
-" Regular keybinds
-let g:UltiSnipsJumpForwardTrigger  = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-" Can be used to manually trigger completion
-let g:UltiSnipsExpandTrigger       ="<c-tab>"
-
-" Take appropriate action after pressing <tab>:
-"   - If possible, expand snippet
-"   - If completion menu visible, go to next entry
-"   - If there is no completion window, go to next snippet anchor
-"   - If there is no anchor, insert a tab charachter
-function! TabAction()
-    call UltiSnips#ExpandSnippet()
-    if g:ulti_expand_res == 0
-        if pumvisible()
-            return "\<C-n>"
-        else
-            call UltiSnips#JumpForwards()
-            if g:ulti_jump_forwards_res == 0
-               return "\<TAB>"
-            endif
-        endif
-    endif
-    return ""
-endfunction
-
-" YCM has a hacky way to add keybinds, override the keybinds with an autocmd
-autocmd InsertEnter * exec "inoremap <silent> <tab> <C-R>=TabAction()<cr>"
+let g:lsc_auto_map = {
+  \ 'defaults': v:true,
+  \ 'Completion': 'omnifunc',
+  \}
 
 " ------------ "
 " Autocommands "

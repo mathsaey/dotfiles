@@ -24,6 +24,9 @@ setlocal nonumber
 setlocal colorcolumn=72
 setlocal formatoptions=tcqwl
 
+" Set wrap for long text in quoted mail
+setlocal wrap
+
 " Reformat the text make it flow, requires `par`.
 " Handy when replying to emails.
 " Based on: https://www.mdlerch.com/emailing-mutt-and-vim-advanced-config.html

@@ -31,6 +31,5 @@ let g:terminal_ansi_colors = [
 " --------- "
 
 if has("gui_macvim")
-  " Remove existing icons from touch bar
-  aunmenu TouchBar.
+  " Don't add the fullscreen icon as I regularly touch it by accident
 endif
