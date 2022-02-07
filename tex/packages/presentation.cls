@@ -24,6 +24,7 @@
 % generated.
 % ----------------------------------------------------------------------------
 
+\RequirePackage{etex} % Needs to be loaded before beamer to avoid warnings
 \RequirePackage{etoolbox}  % Toggle
 
 % ------- %
@@ -41,8 +42,7 @@
 \option[\PassOptionsToClass{\CurrentOption}{beamer}]{handout}
 
 \ExecuteOptions{notwoscreen,noshowsections,nohandout}
-
-\ProcessOptions\relax
+\ProcessOptions*
 
 % ------------ %
 % Beamer Setup %
@@ -62,7 +62,6 @@
 % Metropolis
 % ----------
 
-\RequirePackage{etex} % Needs to be loaded before metropolis to avoid warnings
 \usetheme[progressbar=foot,block=fill]{metropolis}
 
 % Avoid a vbox warning on title page

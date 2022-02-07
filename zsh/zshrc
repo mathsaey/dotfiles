@@ -51,9 +51,9 @@ export VISUAL="vim"
 
 # Set the PATH
 {%@@ if os == "Linux" @@%}
-export PATH=~/.bin:~/.cargo/bin:~/.linuxbrew/bin:$PATH
+export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:~/.linuxbrew/bin:$PATH
 {%@@ else @@%}
-export PATH=~/.bin:$PATH
+export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:$PATH
 {%@@ endif @@%}
 
 # I don't like homebrew analytics

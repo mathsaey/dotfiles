@@ -21,6 +21,9 @@ setlocal nonumber
 let g:tex_conceal = 'abdmg'
 let g:tex_flavor = 'latex'
 
+" Use the omni completion (provided by vimtex)
+let b:vcm_tab_complete = 'omni'
+
 " Split lines at puncutation
 function! SplitLines(start, end)
     silent execute a:start.','.a:end.'s/[.!?]\zs /\r/g'

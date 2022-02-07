@@ -103,6 +103,9 @@ profiles:
   nimrodel:
     include:
       - darwin
+  silverlode:
+    include:
+      - darwin
   soft5.vub.ac.be:
     include:
       - nimrodel

@@ -150,7 +150,7 @@ Add some additional keybindings to =<localleader>= in org mode.
   "r" 'org-refile
   "d" 'org-deadline
   "s" 'org-schedule
-  "t" 'org-set-tags
+  "t" (lambda () (interactive) (org-set-tags-command))
   "f" 'org-sparse-tree
   "p" 'org-set-property
   "x" 'org-edit-special
@@ -162,8 +162,11 @@ Add some additional keybindings to =<localleader>= in org mode.
   "y" 'org-time-stamp
   "Y" 'org-time-stamp-inactive
   "ol" 'org-insert-link
-  "g" 'm/org-insert-external-link)
-#+END_SRC
+  "g" 'm/org-insert-external-link
+  "z" (lambda () (interactive)
+        ;; use 4 instead of '(4) due to what might be a bug in zotxt
+        (org-zotxt-insert-reference-link 4)))
+#+end_src
 
 ** Global
 
@@ -267,6 +270,8 @@ org-agenda keybinds.
     )))
 #+END_SRC
 
+#+RESULTS:
+
 * Visuals
 
 Let's use pretty bullets
@@ -295,6 +300,12 @@ Indent text with headline text. Use word wrap when lines become too long.
 #+BEGIN_SRC emacs-lisp
 (setq org-startup-indented t)
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
+#+END_SRC
+
+Open the file with content collapsed:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-folded t)
 #+END_SRC
 
 Use more sane settings in =BEGIN_SRC= blocks.
@@ -359,7 +370,6 @@ Don't allow marking an entry as complete if it has uncompleted children.
 #+END_SRC
 
 ** Tags
-
 We use the following (mutually exclusive) tags:
 
 | Tag        | Meaning                                    |
@@ -383,10 +393,6 @@ We use the following (mutually exclusive) tags:
 #+END_SRC
 
 ** Capture 
-:PROPERTIES:
-:ID:       0fmdfwa0cpi0
-:END:
-
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
   `(
@@ -398,10 +404,13 @@ We use the following (mutually exclusive) tags:
       "* %U %?")
     ("m" "Start a meeting note" entry
       (file ,m-org-capture-meetings)
-      "* %^t %^{Meeting Name}\n%?")
-    ("j" "Add a journal entry" entry
-     (file+olp+datetree ,m-org-capture-journal)
-     "** Planning\n** :work:\n%?\n** :personal:\n** :meta:\n")))
+      "* %^T %^{Meeting Name}\n%?")
+    ("M" "Start a timed meeting note" entry
+      (file ,m-org-capture-meetings)
+      "* %T %^{Meeting Name}\n%?"
+      :clock-in :clock-resume)
+    ("j" "Add a journal entry" item
+     (file+olp+datetree ,m-org-capture-journal))))
 #+END_SRC
 
 Automatically enter insert mode when entering a capture buffer.
@@ -426,14 +435,15 @@ Show state changes in agenda.
 (setq org-agenda-log-mode-items '(closed state))
 #+END_SRC
 
-Start in day view, don't show time grid, but do show the log.
-If there is a way to tweak follow mode to only open one buffer, we
-should enable it by default.
+Start in day view, don't show time grid, but do show the log. When
+visiting an entry, show context. If there is a way to tweak follow
+mode to only open one buffer, we should enable it by default.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-agenda-span 'day)
-(setq org-agenda-time-grid nil)
-(setq org-agenda-start-with-log-mode t)
+(setq org-agenda-span 'day
+      org-agenda-time-grid nil
+      org-agenda-start-with-log-mode t
+      org-show-context-detail '((agenda . ancestors)))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -451,7 +461,6 @@ should enable it by default.
 #+END_SRC
 
 ** Refile
-
 Don't only allow refiling in the current file, allow refiling in every
 non-archive file in our org dir.
 
@@ -479,21 +488,38 @@ Finally, we want to be able to create new headings on the fly.
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 #+END_SRC
 
+** Properties
+Enable property inheritance
+
+#+BEGIN_SRC emacs-lisp
+(setq org-use-property-inheritance t)
+#+END_SRC
 * Export
 Use [[https://github.com/fniessen/org-html-themes/][ReadTheOrg]] for export.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-html-head-include-default-style nil)
-(setq org-html-head "
-<link rel=\"stylesheet\" type=\"text/css\" href=\"https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css\"/>
-<link rel=\"stylesheet\" type=\"text/css\" href=\"https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css\"/>
+(setq org-html-head (format-spec "
+<link rel=\"stylesheet\" type=\"text/css\" href=\"%p/theme/css/htmlize.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"%p/theme/css/readtheorg.css\"/>
 
-<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script>
-<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js\"></script>
-<script type=\"text/javascript\" src=\"https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js\"></script>
-<script type=\"text/javascript\" src=\"https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js\"></script>
-")
+<script type=\"text/javascript\" src=\"%p/lib/js/jquery.min.js\"></script>
+<script type=\"text/javascript\" src=\"%p/lib/js/bootstrap.min.js\"></script>
+<script type=\"text/javascript\" src=\"%p/lib/js/jquery.stickytableheaders.min.js\"></script>
+<script type=\"text/javascript\" src=\"theme/js/readtheorg.js\"></script>
+" (list (cons ?p (expand-file-name "lang/org/html-export" user-emacs-directory)))))
 #+END_SRC
 
 ** TODO Look into using an offline version
+* Zotero Integration
+I use [[https://www.zotero.org/][Zotero]] to manage my references. I use org to make notes. Let's
+get them to play ball with each other.
+
+#+begin_src emacs-lisp
+(use-package zotxt
+  :init
+  (add-hook 'org-mode-hook (lambda () (org-zotxt-mode 1)))
+  :config
+  (setq zotxt-default-bibliography-style "org"))
+#+end_src
 

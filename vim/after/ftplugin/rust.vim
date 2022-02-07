@@ -7,4 +7,4 @@ map <LocalLeader>f :RustFmt<CR>
 call add(g:gutentags_project_info, {'type': 'rust', 'file': 'Cargo.toml'})
 
 " Follow rust formatting conventions
-setlocal colorcolumn=-80,+100
+setlocal colorcolumn=100

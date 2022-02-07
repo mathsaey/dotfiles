@@ -32,4 +32,5 @@ let g:terminal_ansi_colors = [
 
 if has("gui_macvim")
   " Don't add the fullscreen icon as I regularly touch it by accident
+  let g:macvim_default_touchbar_fullscreen = 0
 endif

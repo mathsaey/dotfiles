@@ -8,7 +8,7 @@ setlocal colorcolumn=98    " Highlight wrap line
 
 " MixFormat set up
 let g:mix_format_silent_errors = 1
-let g:mix_format_on_save = 1
+" let g:mix_format_on_save = 1
 let g:mix_format_options = '--check-equivalent'
 
 " Tell gutentags that a project is an elixir project if a mix.exs file is present
@@ -29,18 +29,17 @@ let g:rainbow_conf.separately.elixir = {
       \   'fold'
       \ ]}
 
-iabbrev <buffer> pp \|>
-iabbrev <buffer> MM __MODULE__
-iabbrev <buffer> %M %__MODULE__{}<Left>
+inoreabbrev <buffer> pp \|>
 
 " -------- "
 " Keybinds "
 " -------- "
 
+nnoremap <LocalLeader>d :silent !mix docs<CR>
+nnoremap <LocalLeader>D :silent !open doc/index.html<CR>
+
 nnoremap <LocalLeader>s :terminal ++close iex -S mix<CR>
 nnoremap <LocalLeader>S :terminal ++close iex<CR>
-
-map <LocalLeader>t :terminal ++noclose ++rows=20 mix test<CR>
 
 map <LocalLeader>f :MixFormat<CR>
 
