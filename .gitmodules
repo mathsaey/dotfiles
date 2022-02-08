@@ -10,3 +10,6 @@
 [submodule "emacs/lang/org/org/html-export"]
 	path = emacs/lang/org/org/html-export
 	url = https://github.com/fniessen/org-html-themes.git
+[submodule "emacs/lang/org/html-export"]
+	path = emacs/lang/org/html-export
+	url = https://github.com/fniessen/org-html-themes.git
