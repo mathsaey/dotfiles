@@ -506,7 +506,7 @@ Use [[https://github.com/fniessen/org-html-themes/][ReadTheOrg]] for export.
 <script type=\"text/javascript\" src=\"%p/lib/js/jquery.min.js\"></script>
 <script type=\"text/javascript\" src=\"%p/lib/js/bootstrap.min.js\"></script>
 <script type=\"text/javascript\" src=\"%p/lib/js/jquery.stickytableheaders.min.js\"></script>
-<script type=\"text/javascript\" src=\"theme/js/readtheorg.js\"></script>
+<script type=\"text/javascript\" src=\"%p/theme/js/readtheorg.js\"></script>
 " (list (cons ?p (expand-file-name "lang/org/html-export" user-emacs-directory)))))
 #+END_SRC
 
