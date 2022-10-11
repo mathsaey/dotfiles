@@ -20,6 +20,7 @@ setlocal nonumber
 " - handle comment (quote) charachter
 " - allow gq to format comments
 " - Format-flowed: trailing white space indicates paragraph continue next line
+"   (disabled, add w to reenable)
 " - Don't reformat long lines when entering insert mode
 setlocal colorcolumn=72
 setlocal formatoptions=tcqwl
@@ -40,7 +41,19 @@ function! Preformat()
   :1
 endfunction
 
-nnoremap <LocalLeader>f :silent call Preformat()<CR>
+" Toggle the format flowed flag.
+" Checks if the 'w' option is present in formatoptions and adds it or removes
+" it as needed.
+function! ToggleFormatFlowed()
+  if stridx(&formatoptions, "w") >= 0
+    set formatoptions-=w
+  else
+    set formatoptions+=w
+  endif
+endfunction
+
+nnoremap <LocalLeader>r :silent call Preformat()<CR>
+nnoremap <LocalLeader>f :silent call ToggleFormatFlowed()<CR>
 
 " Open neomutt in read only mode, useful to read other mails
 nnoremap <LocalLeader>m :botright vertical terminal ++close neomutt -R<CR>
