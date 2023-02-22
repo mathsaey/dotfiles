@@ -64,14 +64,18 @@ Plug 'ackyshake/VimCompletesMe'                                                "
 
 Plug 'zah/nim.vim'                                                             " Nim support
 Plug 'lervag/vimtex'                                                           " Latex support
+Plug 'cespare/vim-toml'                                                        " Toml support
 Plug 'rust-lang/rust.vim'                                                      " Rust support
 Plug 'wlangstroth/vim-racket'                                                  " Racket support
 Plug 'gabrielelana/vim-markdown'                                               " Improved markdown support
+Plug 'JuliaEditorSupport/julia-vim'                                            " Julia support
 
+" Elixir
 Plug 'mhinz/vim-mix-format'                                                    " Elixir formatter
 Plug 'elixir-lang/vim-elixir'                                                  " Basic support for Elixir
 Plug 'dkuku/vim-projectionist-elixir'                                          " Projectionist templates for elixir / phoenix
 
+" Python
 Plug 'hdima/python-syntax'                                                     " Better syntax highlighting for python
 Plug 'vim-scripts/indentpython.vim'                                            " Better python indentation
 

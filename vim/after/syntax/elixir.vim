@@ -17,7 +17,7 @@ syntax match skitterOperator "\~>"
 syntax match skitterOperator "\~>>"
 syntax match skitterOperator "<\~"
 
-syntax keyword skitterDefine defcomponent defworkflow defstrategy
+syntax keyword skitterDefine defoperation defworkflow defstrategy
 syntax keyword skitterDefine defcb defhook
 
 highlight default link skitterDefine            elixirDefine
