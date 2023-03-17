@@ -119,6 +119,8 @@ set formatoptions+=j                                " Intelligently handle comme
 " Buffer behaviour
 set hidden                                          " Allow buffers with unsaved changes to become hidden
 
+set autoread                                        " Reload externally modified files if they have not been modified inside vim
+
 " Whitespace
 let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace on save
 
@@ -316,6 +318,9 @@ augroup window_hooks
   autocmd User GoyoLeave ALEEnable
   autocmd User GoyoEnter SignifyDisable
   autocmd User GoyoLeave SignifyEnable
+
+  " Check for file changes when moving between buffers
+  autocmd BufEnter * :checktime
 augroup END
 
 " --------------------------- "
