@@ -7,20 +7,14 @@ config:
 
 actions:
   vim_make_dirs: mkdir -p ~/.tmp/vim/backup ~/.tmp/vim/swap ~/.tmp/vim/undo
-  vim_download_plug: curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  vim_install_plugins: vim +PlugInstall +qall now
-
   emacs_install_config: emacs -nw -Q ~/.emacs.d/configuration.org --eval '(org-babel-tangle)' --eval '(kill-emacs)'
-
   mbsync_create_maildirs: ~/.dotfiles/_accounts/mbsync/create_dirs.sh
   neomutt_create_cache_dir: mkdir -p ~/.tmp/neomutt/cache/header/
 
 dotfiles:
-
   tmuxconf:
     src: tmux/tmux
     dst: ~/.tmux.conf
-    link: link
 
   ssh_config:
     src: _accounts/ssh/config
@@ -30,7 +24,7 @@ dotfiles:
     src: git/config
     dst: ~/.gitconfig
 
-  zsh:
+  zshrc:
     src: zsh/zshrc
     dst: ~/.zshrc
 
@@ -83,8 +77,10 @@ dotfiles:
     link: link_children
     actions:
       - vim_make_dirs
-      - vim_download_plug
-      - vim_install_plugins
+  neovim:
+    src: vim
+    dst: ~/.config/nvim/
+    link: link_children
 
   latexmkrc:
     src: tex/latexmkrc
@@ -94,38 +90,35 @@ dotfiles:
     dst: ~/.tex
 
 profiles:
-
-  darwin:
+  laptop:
     dotfiles:
       - ALL
-  nimrodel:
-    include:
-      - darwin
-  silverlode:
-    include:
-      - darwin
-  soft5.vub.ac.be:
-    include:
-      - nimrodel
 
-  linux:
+  server:
     dotfiles:
       - tmuxconf
       - ssh_config
       - gitconfig
-      - zsh
+      - zshrc
       - bashrc
       - bash_profile
       - vim
-  mirkwood:
+
+  nimrodel:
     include:
-      - linux
+      - laptop
+  silverlode:
+    include:
+      - laptop
+  greenwood:
+    include:
+      - server
   gondolin:
     include:
-      - linux
-  serenity:
+      - server
+  firefly:
     include:
-      - linux
+      - server
   isabelle:
     include:
-      - linux
+      - server
