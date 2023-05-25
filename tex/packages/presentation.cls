@@ -39,10 +39,12 @@
 
 \option{twoscreen}
 \option{showsections}
-\option[\PassOptionsToClass{\CurrentOption}{beamer}]{handout}
+\option{handout}
 
 \ExecuteOptions{notwoscreen,noshowsections,nohandout}
 \ProcessOptions*
+
+\PassOptionsToClass{\CurrentOption,aspectratio=169}{beamer}
 
 % ------------ %
 % Beamer Setup %
