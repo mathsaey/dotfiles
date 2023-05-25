@@ -2,3 +2,5 @@
 $ENV{'TEXINPUTS'}='~/.tex/:' . $ENV{'TEXINPUTS'};
 # Move build output to its own folder to avoid clutter in the main directory
 $out_dir = '_build';
+# Use pdftex
+$pdf_mode = 1;
