@@ -61,9 +61,9 @@ export HOMEBREW_NO_ANALYTICS=1
 # Use ripgrep as the default fzf search provider
 export FZF_DEFAULT_COMMAND="rg --files"
 
-# ------- #
-# Aliases #
-# ------- #
+# ------------------------- #
+# Aliases & Custom Commands #
+# ------------------------- #
 
 # Make it easier to invoke dotdrop
 alias dotdrop='{{@@ _dotdrop_dotpath @@}}/dotdrop/dotdrop.sh --cfg={{@@ _dotdrop_dotpath @@}}/config.yaml'
@@ -84,15 +84,6 @@ alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 {%@@ endif @@%}
 
-# Shortcuts for commonly used maildirs
-alias muttm="mutt mathsaey.be"
-alias muttvv="mutt vub.ac.be"
-alias muttvo="mutt vub.be"
-
-# --------------- #
-# Custom Commands #
-# --------------- #
-
 function smux {
   # Attach to a tmuxinator session (arg 2) for user (arg 3) on a server (arg 1).
   # - if no server is provided, connect to brethil
@@ -104,9 +95,15 @@ function smux {
   ssh $usr@$srv -t tmuxinator $ses
 }
 
-function ssh-decrypt {
-  host=$1
-  ssh root@$1 -p 2222 -i ~/.ssh/decrypt
+function greenwood-unlock {
+  # Only works on the local network.
+  # Requires the luks decrypt key to be in the clipboard.
+  echo "Decrypting greenwood. Ensure the LUKS root key is in the system clipboard!."
+  pbpaste | ssh {{@@ bwGet("username", "greenwood LUKS root") @@}}@{{@@ bwGetField("local ip",  "greenwood LUKS root") @@}} -p {{@@ bwGetField("port",  "greenwood LUKS root") @@}} -i ~/.ssh/decrypt post root
+}
+
+function gondolin-decrypt {
+  ssh {{@@ bwGet("username", "gondolin LUKS root") @@}}@{{@@ bwGet("uri", "gondolin LUKS root") @@}} -p {{@@ bwGetField("port", "gondolin LUKS root") @@}} -i ~/.ssh/decrypt
 }
 
 function highlight-snippet {
@@ -121,3 +118,7 @@ function mutt {
   neomutt -f ~/.mail/$1/Inbox
   mbsync -q $1
 }
+
+# Shortcuts for commonly used maildirs
+alias muttm="mutt mathsaey.be"
+alias muttv="mutt vub.be"
