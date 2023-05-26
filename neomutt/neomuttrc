@@ -141,7 +141,7 @@ set reverse_alias = yes # Show alias instead of email when possible
 # Caches
 # ------
 
-set header_cache     = ~/.tmp/neomutt/cache/header
+set header_cache = ~/.tmp/neomutt/cache/header
 
 # Other
 # -----

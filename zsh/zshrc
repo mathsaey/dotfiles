@@ -41,7 +41,7 @@ source {{@@ _dotdrop_dotpath @@}}/zsh/plugins/zsh-autosuggestions/zsh-autosugges
 # ------- #
 
 # There is only one true editor
-{%@@ if os == "Darwin" @@%}
+{%@@ if os == "darwin" @@%}
 export EDITOR="mvim -f"
 export VISUAL="mvim"
 {%@@ else @@%}
@@ -68,7 +68,7 @@ export FZF_DEFAULT_COMMAND="rg --files"
 # Make it easier to invoke dotdrop
 alias dotdrop='{{@@ _dotdrop_dotpath @@}}/dotdrop/dotdrop.sh --cfg={{@@ _dotdrop_dotpath @@}}/config.yaml'
 
-{%@@ if os == "Darwin" @@%}
+{%@@ if os == "darwin" @@%}
 # Use mvim instead of vim
 alias vim=mvim
 
@@ -86,33 +86,28 @@ alias egrep="egrep --color=auto"
 
 function smux {
   # Attach to a tmuxinator session (arg 2) for user (arg 3) on a server (arg 1).
-  # - if no server is provided, connect to brethil
   # - if no session name is provided use the current username
   # - if no user name is provided use the current username
-  srv=${1-brethil}
+  srv=${1}
   ses=${2-$USER}
   usr=${3-$USER}
   ssh $usr@$srv -t tmuxinator $ses
 }
 
-function greenwood-unlock {
+{%@@ if trusted @@%}
+function unlock-greenwood {
   # Only works on the local network.
   # Requires the luks decrypt key to be in the clipboard.
   echo "Decrypting greenwood. Ensure the LUKS root key is in the system clipboard!."
   pbpaste | ssh {{@@ bwGet("username", "greenwood LUKS root") @@}}@{{@@ bwGetField("local ip",  "greenwood LUKS root") @@}} -p {{@@ bwGetField("port",  "greenwood LUKS root") @@}} -i ~/.ssh/decrypt post root
 }
 
-function gondolin-decrypt {
+function unlock-gondolin {
   ssh {{@@ bwGet("username", "gondolin LUKS root") @@}}@{{@@ bwGet("uri", "gondolin LUKS root") @@}} -p {{@@ bwGetField("port", "gondolin LUKS root") @@}} -i ~/.ssh/decrypt
 }
+{%@@ endif @@%}
 
-function highlight-snippet {
-  theme=${2-seashell}
-  fontsize=${3-12}
-  # Highlight the current contents of the clipboard
-  pbpaste | highlight -O rtf -S $1 -s $theme -K $fontsize -k menlo --no-trailing-nl | pbcopy
-}
-
+{%@@ if mail @@%}
 function mutt {
   mbsync -q $1
   neomutt -f ~/.mail/$1/Inbox
@@ -122,3 +117,4 @@ function mutt {
 # Shortcuts for commonly used maildirs
 alias muttm="mutt mathsaey.be"
 alias muttv="mutt vub.be"
+{%@@ endif @@%}

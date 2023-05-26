@@ -1,7 +1,4 @@
-# Personal bookkeeping
-todo.org
-notes.org
-
+{%@@ if os == "darwin" @@%}
 # OSX junk
 .DS_Store
 .DS_Store?
@@ -11,3 +8,4 @@ notes.org
 Icon?
 ehthumbs.db
 Thumbs.db
+{%@@ endif @@%}

@@ -10,11 +10,9 @@ source /etc/skel/.bashrc
 {%@@ endif @@%}
 
 export PS1="\u@\h:\W$ "
-export EDITOR="vim"
-export VISUAL="vim"
 
 # There is only one true editor
-{%@@ if os == "Darwin" @@%}
+{%@@ if os == "darwin" @@%}
 export EDITOR="mvim -f"
 export VISUAL="mvim"
 {%@@ else @@%}

@@ -1,8 +1,9 @@
 [user]
 	name = Mathijs Saey
 	email = mathijs@mathsaey.be
+{%@@ if mail @@%}
 [sendemail]
-{%@@ if os == "Darwin" @@%}
+{%@@ if os == "darwin" @@%}
 	smtpserver = /usr/local/bin/msmtp
 {%@@ else @@%}
 	smtpserver = /usr/bin/msmtp
@@ -10,19 +11,11 @@
 	smtpserveroption = -a
 	smtpserveroption = mathsaey.be
   envelopeSender = auto
+{%@@ endif @@%}
 [core]
 	excludesfile = {{@@ _dotdrop_dotpath @@}}/git/ignore
-{%@@ if os == "Darwin" @@%}
-	editor = mvim -v
-{%@@ else @@%}
 	editor = vim
-{%@@ endif @@%}
 [push]
 	default = current
 [alias]
 	tree = log --all --graph --decorate --oneline
-[filter "media"]
-	clean = git-media-clean %f
-	smudge = git-media-smudge %f
-[credential]
-	helper = cache --timeout=3600
