@@ -1,0 +1,24 @@
+{%@@ if os == "darwin" @@%}
+Host *
+    UseKeychain yes
+{%@@ endif @@%}
+
+Host greenwood
+  HostName {{@@ bwGet("uri", "mathsaey@greenwood") @@}}
+  Port {{@@ bwGetField("port",  "mathsaey@greenwood") @@}}
+Host gondolin
+  HostName {{@@ bwGet("uri", "mathsaey@gondolin") @@}}
+  Port {{@@ bwGetField("port",  "mathsaey@gondolin") @@}}
+
+Host irc
+  HostName {{@@ bwGet("uri", "mathsaey@greenwood") @@}}
+  Port {{@@ bwGetField("port",  "mathsaey@greenwood") @@}}
+  RemoteCommand /home/%r/.bin/irc
+  RequestTTY force
+
+Host firefly
+  HostName {{@@ bwGet("uri", "mathsaey@firefly") @@}}
+Host spitter
+  HostName {{@@ bwGet("uri", "mathsaey@spitter") @@}}
+Host isabelle
+  HostName {{@@ bwGet("uri", "mathsaey@isabelle") @@}}

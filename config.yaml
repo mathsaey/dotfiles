@@ -22,7 +22,7 @@ dotfiles:
     dst: ~/.tmux.conf
 
   ssh_config:
-    src: _accounts/ssh/config
+    src: ssh/config
     dst: ~/.ssh/config
 
   gitconfig:
