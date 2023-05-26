@@ -1,12 +1,17 @@
 config:
-  dotpath: ~/.dotfiles
   backup: false
   banner: false
+  dotpath: ~/.dotfiles
   link_dotfile_default: link
   func_file: [template_functions.py]
 
+variables:
+  trusted: false
+  mail: false
+
 actions:
   vim_make_dirs: mkdir -p ~/.tmp/vim/backup ~/.tmp/vim/swap ~/.tmp/vim/undo
+  neovim_rename: mv "{{@@ _dotfile_abs_dst @@}}/vimrc" "{{@@ _dotfile_abs_dst @@}}/init.vim"
   emacs_install_config: emacs -nw -Q ~/.emacs.d/configuration.org --eval '(org-babel-tangle)' --eval '(kill-emacs)'
   mbsync_create_maildirs: ~/.dotfiles/_accounts/mbsync/create_dirs.sh
   neomutt_create_cache_dir: mkdir -p ~/.tmp/neomutt/cache/header/
@@ -81,6 +86,8 @@ dotfiles:
     src: vim
     dst: ~/.config/nvim/
     link: link_children
+    actions:
+      - neovim_rename
 
   latexmkrc:
     src: tex/latexmkrc
@@ -90,35 +97,55 @@ dotfiles:
     dst: ~/.tex
 
 profiles:
-  laptop:
+  base:
     dotfiles:
-      - ALL
-
-  server:
-    dotfiles:
-      - tmuxconf
-      - ssh_config
-      - gitconfig
+      - vim
       - zshrc
       - bashrc
       - bash_profile
-      - vim
+      - gitconfig
+      - tmuxconf
+  work:
+    dotfiles:
+      - neovim
+      - latexmkrc
+      - tex
+  mail:
+    dotfiles:
+      - neomutt
+      - neomutt_accounts
+      - mailcap
+      - mbsync
+      - msmtp
+      - netrc
+    variables:
+      mail: true
+  trusted:
+    dotfiles:
+      - ssh_config
+    variables:
+      trusted: true
 
-  nimrodel:
-    include:
-      - laptop
-  silverlode:
-    include:
-      - laptop
+  # Select profile based on hostname
   greenwood:
     include:
-      - server
+      - base
   gondolin:
     include:
-      - server
+      - base
   firefly:
     include:
-      - server
+      - base
   isabelle:
     include:
-      - server
+      - base
+  nimrodel:
+    include:
+      - base
+      - trusted
+  silverlode:
+    include:
+      - base
+      - mail
+      - work
+      - trusted
