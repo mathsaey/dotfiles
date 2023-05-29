@@ -14,7 +14,11 @@
 {%@@ endif @@%}
 [core]
 	excludesfile = {{@@ _dotdrop_dotpath @@}}/git/ignore
+{%@@ if nvim @@%}
+	editor = nvim
+{%@@ else @@%}
 	editor = vim
+{%@@ endif @@%}
 [push]
 	default = current
 [alias]

@@ -11,14 +11,7 @@ source /etc/skel/.bashrc
 
 export PS1="\u@\h:\W$ "
 
-# There is only one true editor
-{%@@ if os == "darwin" @@%}
-export EDITOR="mvim -f"
-export VISUAL="mvim"
-{%@@ else @@%}
-export EDITOR="vim"
-export VISUAL="vim"
-{%@@ endif @@%}
+{%@@ include "export_editor.sh.template" @@%}
 
 # Set the PATH
 {%@@ if os == "Linux" @@%}

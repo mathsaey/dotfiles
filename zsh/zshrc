@@ -40,14 +40,7 @@ source {{@@ _dotdrop_dotpath @@}}/zsh/plugins/zsh-autosuggestions/zsh-autosugges
 # Exports #
 # ------- #
 
-# There is only one true editor
-{%@@ if os == "darwin" @@%}
-export EDITOR="mvim -f"
-export VISUAL="mvim"
-{%@@ else @@%}
-export EDITOR="vim"
-export VISUAL="vim"
-{%@@ endif @@%}
+{%@@ include "export_editor.sh.template" @@%}
 
 # Set the PATH
 {%@@ if os == "Linux" @@%}
@@ -69,9 +62,6 @@ export FZF_DEFAULT_COMMAND="rg --files"
 alias dotdrop='{{@@ _dotdrop_dotpath @@}}/dotdrop/dotdrop.sh --cfg={{@@ _dotdrop_dotpath @@}}/config.yaml'
 
 {%@@ if os == "darwin" @@%}
-# Use mvim instead of vim
-alias vim=mvim
-
 # Use fancy colours for ls
 alias ls="ls -G"
 {%@@ elif os == "Linux" @@%}

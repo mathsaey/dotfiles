@@ -1,0 +1,19 @@
+# There is only one true editor
+{#@@ I guess there are two @@#}
+{%@@ if os == "darwin" and nvim @@%}
+export EDITOR="vimr --wait --cur-env --nvim"
+export VISUAL="vimr --cur-env --nvim"
+alias vimr="vimr --nvim --cur-env"
+alias vim="vimr --nvim --cur-env"
+{%@@ elif os == "darwin" @@%}
+export EDITOR="mvim -f"
+export VISUAL="mvim"
+alias vim=mvim
+{%@@ elif nvim @@%}
+export EDITOR="nvim"
+export VISUAL="nvim"
+alias vim=nvim
+{%@@ else @@%}
+export EDITOR="vim"
+export VISUAL="vim"
+{%@@ endif @@%}

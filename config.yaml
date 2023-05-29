@@ -8,10 +8,14 @@ config:
 variables:
   trusted: false
   mail: false
+  nvim: false
 
 actions:
-  vim_make_dirs: mkdir -p ~/.tmp/vim/backup ~/.tmp/vim/swap ~/.tmp/vim/undo
-  neovim_rename: mv "{{@@ _dotfile_abs_dst @@}}/vimrc" "{{@@ _dotfile_abs_dst @@}}/init.vim"
+  vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo
+  neovim_rename: |
+    mv "{{@@ _dotfile_abs_dst @@}}/vimrc" "{{@@ _dotfile_abs_dst @@}}/init.vim"
+    mv "{{@@ _dotfile_abs_dst @@}}/gvimrc" "{{@@ _dotfile_abs_dst @@}}/ginit.vim"
+
   emacs_install_config: emacs -nw -Q ~/.emacs.d/configuration.org --eval '(org-babel-tangle)' --eval '(kill-emacs)'
   mbsync_create_maildirs: ~/.dotfiles/_accounts/mbsync/create_dirs.sh
   neomutt_create_cache_dir: mkdir -p ~/.tmp/neomutt/cache/header/
@@ -110,6 +114,8 @@ profiles:
       - neovim
       - latexmkrc
       - tex
+    variables:
+      nvim: true
   mail:
     dotfiles:
       - neomutt
