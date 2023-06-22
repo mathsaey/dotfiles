@@ -1,184 +1,132 @@
 " Vimrc
-" Mathijs Saey
+" This config is symlinked to both ~/.vim/vimrc and ~/.config/nvim/init.vim
+" and thus shared between vim and neovim.
+"
+" Backwards compatibility with vim is maintained as this reduces friction when
+" working on servers where neovim may not be installed.
+" IDE-like features such as LSP are only maintained for neovim, which is
+" intended to be used for development and not for vim, which is intended to
+" remain lightweight.
 
 " ------- "
 " Plugins "
 " ------- "
 
-call plug#begin('~/.vim/bundle')
+const config_dir = has('nvim') ? stdpath('config') : '~/.vim'
+const plug_dir = has('nvim') ? stdpath('data').'/plugs' : '~/.vim/plugs'
 
-" Visuals
-" -------
+" Bootstrap plug.vim
+" ------------------
 
-Plug 'tomasr/molokai'                                                          " Color scheme
-Plug 'junegunn/goyo.vim'                                                       " Distraction free mode
-Plug 'luochen1990/rainbow'                                                     " Colour parentheses
-Plug 'itchyny/lightline.vim'                                                   " Status bar
-Plug 'junegunn/limelight.vim'                                                  " Only color current paragraph
+" Install plug and all the listed plugins if plug was not previously installed.
+if empty(glob(config_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.config_dir.'/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-" Tools
-" -----
-
-" Fzf
-Plug 'junegunn/fzf'                                                            " Install fzf as a plugin for portability
-Plug 'junegunn/fzf.vim'                                                        " Out of the box vim integration
-
-" Text Objects
-Plug 'vim-scripts/argtextobj.vim'                                              " Text objects that deal with function arguments
-Plug 'michaeljsmith/vim-indent-object'                                         " Text object for indented content
-
-" vim-session
-Plug 'xolox/vim-misc'                                                          " General scripts, required for vim-session and vim-reload
-Plug 'xolox/vim-session'                                                       " Session Management
+" Plugin list
+" -----------
+call plug#begin(plug_dir)
 
 " Tools
-Plug 'romainl/vim-cool'                                                        " Disable highlight after search
+Plug 'w0rp/ale'                                                                " Asynchronous linter
+Plug 'mbbill/undotree'                                                         " Visual undo tree
+Plug 'junegunn/fzf.vim'                                                        " Fzf<>vim integration
 Plug 'tpope/vim-repeat'                                                        " Allow more actions to be repeated with .
-Plug 'vim-test/vim-test'                                                       " Easily run tests
+Plug 'junegunn/vim-slash'                                                      " Disable highlight after search
 Plug 'mhinz/vim-signify'                                                       " VCS status in sign column
 Plug 'tpope/vim-endwise'                                                       " Automatically insert matching end keyword
 Plug 'machakann/vim-swap'                                                      " Easily swap function arguments
 Plug 'pbrisbin/vim-mkdir'                                                      " Automatically create directories
-Plug 'markonm/traces.vim'                                                      " Substitute preview
-Plug 'tpope/vim-surround'                                                      " Easily work with surrounding charachters
-Plug 'scrooloose/nerdtree'                                                     " Better file browser
+Plug 'tpope/vim-surround'                                                      " Easily work with surrounding characters
+Plug 'luochen1990/rainbow'                                                     " Colour parentheses
+Plug 'scrooloose/nerdtree'                                                     " File browser
 Plug 'tpope/vim-commentary'                                                    " Easily turn lines into comments
 Plug 'junegunn/vim-peekaboo'                                                   " Preview register contents
 Plug 'RRethy/vim-illuminate'                                                   " Highlight word under cursor
 Plug 'rbgrouleff/bclose.vim'                                                   " Close buffer without changing layout
-Plug 'simnalamburt/vim-mundo'                                                  " Visual undo tree
-Plug 'tpope/vim-projectionist'                                                 " Tools for working with relations between files
+Plug 'itchyny/lightline.vim'                                                   " Status bar
 Plug 'liuchengxu/vim-which-key'                                                " Key discovery aid
-Plug 'triglav/vim-visual-increment'                                            " Increment a visual block
-Plug 'ludovicchabant/vim-gutentags'                                            " Automatic ctag generation
-Plug 'editorconfig/editorconfig-vim'                                           " Respect .editorconfig files
 Plug 'vim-scripts/DeleteTrailingWhitespace'                                    " Allow the automatic deletion of trailing whitespace
-
-" Completion and code intelligence
-Plug 'w0rp/ale'                                                                " Asynchronous linter
-Plug 'natebosch/vim-lsc'                                                       " Lightweight language server support
-Plug 'ackyshake/VimCompletesMe'                                                " Tab-based completion
+Plug 'junegunn/fzf', {'do': { -> fzf#install() }}                              " Install fzf as a plugin for portability
 
 " Language Support
-" ----------------
-
-Plug 'zah/nim.vim'                                                             " Nim support
 Plug 'lervag/vimtex'                                                           " Latex support
 Plug 'cespare/vim-toml'                                                        " Toml support
 Plug 'rust-lang/rust.vim'                                                      " Rust support
 Plug 'wlangstroth/vim-racket'                                                  " Racket support
 Plug 'gabrielelana/vim-markdown'                                               " Improved markdown support
 Plug 'JuliaEditorSupport/julia-vim'                                            " Julia support
-
 " Elixir
-Plug 'mhinz/vim-mix-format'                                                    " Elixir formatter
 Plug 'elixir-lang/vim-elixir'                                                  " Basic support for Elixir
 Plug 'dkuku/vim-projectionist-elixir'                                          " Projectionist templates for elixir / phoenix
-
 " Python
 Plug 'hdima/python-syntax'                                                     " Better syntax highlighting for python
 Plug 'vim-scripts/indentpython.vim'                                            " Better python indentation
 
-" Org mode
-Plug 'jceb/vim-orgmode'                                                        " Org mode for vim
-Plug 'mattn/calendar-vim'                                                      " Calendar view
-Plug 'vim-scripts/utl.vim'                                                     " Text linking
-Plug 'tpope/vim-speeddating'                                                   " Date increment / decrement
-Plug 'inkarkat/vim-SyntaxRange'                                                " Highlight embedded code
+if has('nvim')
+  " Features not necessary in "lightweight" vim
+  Plug 'xolox/vim-misc'                                                        " General scripts, required for vim-session and vim-reload
+  Plug 'xolox/vim-session'                                                     " Session Management
+  Plug 'vim-test/vim-test'                                                     " Easily run tests
+  Plug 'tpope/vim-projectionist'                                               " Tools for working with relations between files
+  Plug 'ludovicchabant/vim-gutentags'                                          " Automatic ctag generation
+  " Plugins not available in vim
+  Plug 'nvim-orgmode/orgmode'                                                  " Proper org mode support
+  Plug 'tanvirtin/monokai.nvim'                                                " Monokai with treesitter support
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}                  " Improved syntax highlighting
+  " Language server + Autocompletion + sources
+  Plug 'neovim/nvim-lspconfig'                                                 " Facilitate setup of language servers
+  Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'                          " Better printing for lsp errors and warnings
+  Plug 'hrsh7th/nvim-cmp'                                                      " autocompletion
+  Plug 'dcampos/cmp-snippy'                                                    " snippy <-> cmp integration
+  Plug 'dcampos/nvim-snippy'                                                   " nvim cmp requires a snippet engine
+  Plug 'hrsh7th/cmp-nvim-lsp'                                                  " cmp <-> lsp
+  Plug 'hrsh7th/cmp-nvim-lsp-signature-help'                                   " show signature completion info
+  Plug 'hrsh7th/cmp-buffer'                                                    " text in buffer <-> cmp
+  Plug 'hrsh7th/cmp-path'                                                      " paths <-> cmp
+  Plug 'hrsh7th/cmp-omni'                                                      " omnifunc <-> cmp
+  Plug 'delphinus/cmp-ctags'                                                   " ctags <-> cmp
+  Plug 'ray-x/cmp-treesitter'                                                  " treesitter <-> cmp
+else
+  " Alternatives for nvim plugins
+  Plug 'tomasr/molokai'                                                        " Color scheme
+  Plug 'jceb/vim-orgmode'                                                      " Basic org mode support
+  Plug 'https://git.sr.ht/~ackyshake/VimCompletesMe.vim'                       " Completion based on omnifunc
+  " Featuers present in nvim but not in vim
+  Plug 'markonm/traces.vim'                                                    " Substitute preview
+  Plug 'editorconfig/editorconfig-vim'                                         " Respect .editorconfig files
+endif
 
 " Language Servers
 " ----------------
-"
-" We install these as plugins to make bootstrapping easier.
+" We install language servers as plugs to make it easier to manage them.
 
-" Elixir
-function! BuildElixirLs(info)
-  if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
-    !MIX_ENV=PROD mix deps.get
-    !MIX_ENV=PROD mix elixir_ls.release
-  endif
-endfunction
+if has('nvim')
+  Plug 'elixir-lsp/elixir-ls', {'do': { -> BuildElixirLs() }}                  " Elixir language server
 
-Plug 'elixir-lsp/elixir-ls', { 'do': function('BuildElixirLs') }
+  function! BuildElixirLs(info)
+    if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
+      !MIX_ENV=PROD mix deps.get
+      !MIX_ENV=PROD mix elixir_ls.release
+    endif
+  endfunction
+endif
 
 call plug#end()
-
-" ---------------------- "
-" Miscellaneous Settings "
-" ---------------------- "
-
-set mouse=a                                         " Allow mouse support
-
-set undofile                                        " Save undo tree
-set wildmenu                                        " Shows the available autocompletes in command menu
-set backspace=indent,eol,start                      " Allow backspaces to remove more
-
-" Join behaviour
-set formatoptions+=j                                " Intelligently handle comments when joining lines
-
-" Buffer behaviour
-set hidden                                          " Allow buffers with unsaved changes to become hidden
-
-set autoread                                        " Reload externally modified files if they have not been modified inside vim
-
-" Whitespace
-let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace on save
-
-" Session configuration
-let g:session_autosave = 'yes'                      " Always save sessions when quitting vim
-let g:session_autoload = 'no'                       " Don't prompt for opening old sessions
-let g:session_autosave_periodic = 1                 " Save session every minute
-let g:session_autosave_silent = 1                   " Be quiet when autosaving
-
-" vim-signify configuration
-let g:signify_realtime = 1                          " Update the git markers more frequently
-
-" vim-peekaboo
-let g:peekaboo_delay = 100                          " Don't show the register preview if I already know what to do
-
-" bclose configuration
-let g:no_plugin_maps = 1                            " Don't let Bclose bind <Leader>bd
-
-" tex related settings
-let g:tex_flavor = 'latex'                          " Needs to be set here to vimtex does not complain
-
-" Netrw
-" -----
-
-" Don't show the netrw banner
-let g:netrw_banner = 0
-" Use a tree like layout for netrw
-let g:netrw_liststyle = 3
-" Open a selected file in the previous window
-let g:netrw_browse_split = 4
-" Show the netrw preview in a vertical split
-let g:netrw_preview=1
-" Size of netrw window
-let g:netrw_winsize = 25
-" Don't store netrw history
-let g:netrw_dirhistmax=0
-
-" File Locations
-" --------------
-
-" Temporary Files
-set backupdir=~/.tmp/vim/backup//                   " Directory for file backups
-set directory=~/.tmp/vim/swap//                     " Directory for swap files
-set undodir=~/.tmp/vim/undo//                       " Directory for undo files
-set viewdir=~/.tmp/vim/view//                       " Directory for view files
-
-let g:session_directory='~/.tmp/vim/sessions/'      " Directory for session files
-let g:gutentags_cache_dir='~/.tmp/vim/tags/'        " Directory for ctags files
 
 " ------- "
 " Visuals "
 " ------- "
 
-" Theme and Font
-colorscheme molokai                                 " Set color scheme
+" Theme
+if has('nvim')
+  colorscheme monokai
+else
+  colorscheme molokai
+endif
 
 " Syntax highlighting tweaks
-syntax enable                                       " Enable syntax highlighting
 set showmatch                                       " Highlight matching [{()}]
 set conceallevel=2                                  " Hide concealled text, show replacement text
 
@@ -188,7 +136,6 @@ let g:rainbow_conf = {}
 let g:rainbow_conf.separately = {'*':{}}
 
 " Line numbers
-set ruler                                           " Show line and column number
 set number                                          " Draw line numbers
 set cursorline                                      " Highlight current line
 set colorcolumn=80                                  " Show a line on column 80
@@ -199,7 +146,6 @@ set sidescrolloff=5
 
 " Wrapping behaviour
 set nowrap                                          " Don't auto-insert newlines when exceeding 80 characters
-set sidescroll=1                                    " Scroll per charachter when sidescrolling
 set wrapmargin=0                                    " Don't wrap based on screen edge
 let &showbreak="\u21aa "                            " Symbol to show when soft wrapping
 
@@ -213,13 +159,15 @@ set listchars+=conceal:*                            " * to mark hidden character
 set listchars+=nbsp:.                               " . to mark non-breakable spaces
 
 " Completion popup
-set completepopup=highlight:PmenuSbar,border:off,align:menu
+if has('popupwin')
+  set completepopup=highlight:PmenuSbar,border:off,align:menu
+endif
 
 " Status Line
 " -----------
 
-set laststatus=2                                    " Always show the status bar
-set noshowmode                                      " Don't show --insert-- and the like, it will be shown in the status line
+" Don't show --insert-- and the like, it will be shown in the status line
+set noshowmode
 
 let g:lightline = {'colorscheme': 'powerline'}
 
@@ -245,6 +193,32 @@ function! LightlineReadonly()
   return &readonly ? '*read-only*' : ''
 endfunction
 
+" Monokai Tweaks
+" --------------
+
+if has('nvim')
+lua << EOF
+  local monokai = require('monokai')
+  local palette = monokai.classic
+  monokai.setup {
+    custom_hlgroups = {
+      -- Make code lens highlights more subtle
+      LspCodeLens = {fg = palette.grey},
+      -- Org mode headlines
+      OrgTSHeadlineLevel1 = {fg = palette.orange},
+      OrgTSHeadlineLevel2 = {fg = palette.green},
+      OrgTSHeadlineLevel3 = {fg = palette.aqua},
+      OrgTSHeadlineLevel4 = {fg = palette.yellow},
+      OrgTSHeadlineLevel5 = {fg = palette.red},
+      OrgTSHeadlineLevel6 = {fg = palette.orange},
+      OrgTSHeadlineLevel7 = {fg = palette.green},
+      OrgTSHeadlineLevel8 = {fg = palette.aqua},
+      OrgTSHeadlineLevel9 = {fg = palette.yellow},
+    }
+  }
+EOF
+endif
+
 " ----------------- "
 " Editing Behaviour "
 " ----------------- "
@@ -255,49 +229,170 @@ set shiftwidth=2                                    " Use 2 spaces as automatic 
 set softtabstop=2                                   " Insert and remove tabs as 2 spaces
 set expandtab                                       " Expand tabs to spaces
 
-" Indentation
-set autoindent                                      " Automatically copy amount of leading tabs from previous lines
-
 " Search Behaviour
-set incsearch                                       " Highlight characters as they are matched
-set hlsearch                                        " Highlight matches
 set gdefault                                        " Always use global substitute
-
-let g:CoolTotalMatches = 1                          " Show total matches
-
-" Search Case Behaviour
 set ignorecase                                      " Don't match case
 set smartcase                                       " Unless the search term contains uppercase
 
 " Global search
-let g:ackprg = 'rg --vimgrep'                           " Use ripgrep for ack.vim
 let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs' " Use ripgrep as the default fzf file provider
 
 " Folding
 set foldlevel=99
 set foldopen=hor,insert,mark,percent,quickfix,search,tag,undo " Don't open folds when moving vertically
 
-" ---------------- "
-" "Smart" Features "
-" ---------------- "
+set completeopt=menu,menuone,noselect
 
-let test#strategy = "vimterminal"
+if has('popupwin')
+  set completeopt+=popup
+endif
 
-set completeopt=menu,menuone,popup,noselect
+" ---------------------- "
+" Miscellaneous Settings "
+" ---------------------- "
 
-let g:lsc_server_commands = {
-  \  'elixir': {
-  \    'command': expand('~/.vim/bundle/elixir-ls/release/language_server.sh'),
-  \    'log_level': 'Error'
-  \  },
-  \  'rust': expand('~/.cargo/bin/rls'),
-  \  'scala': expand('~/.scripts/metals-vim'),
-  \}
+set undofile                                        " Save undo history
 
-let g:lsc_auto_map = {
-  \ 'defaults': v:true,
-  \ 'Completion': 'omnifunc',
-  \}
+let g:DeleteTrailingWhitespace = 1                  " Always check for trailing whitespace
+let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace on save
+let g:signify_realtime = 1                          " Update git markers more frequently
+let g:peekaboo_delay = 100                          " Don't show the register preview if I already know what to do
+let g:no_plugin_maps = 1                            " Don't let Bclose bind <Leader>bd
+let g:tex_flavor = 'latex'                          " Needs to be set here so vimtex does not complain
+
+" --------------------- "
+" Vim-specific settings "
+" --------------------- "
+" Most of these are set by neovim by default, or have a more sane default
+" behaviour in neovim.
+
+if !has('nvim')
+  set mouse=a                                         " Allow mouse support
+
+  set autoindent                                      " Automatically copy amount of leading tabs from previous lines
+  set backspace=indent,eol,start                      " Allow backspaces to remove more
+  set formatoptions+=j                                " Intelligently handle comments when joining lines
+
+  set hidden                                          " Allow buffers with unsaved changes to become hidden
+  set autoread                                        " Reload externally modified files if they have not been modified inside vim
+
+  set ruler                                           " Show line and column number
+  set sidescroll=1                                    " Scroll per charachter when sidescrolling
+  set laststatus=2                                    " Always show the status bar
+  set wildmenu                                        " Shows the available autocompletes in command menu
+
+  set hlsearch                                        " Highlight matches
+  set incsearch                                       " Highlight characters as they are matched
+
+  set backupdir=~/.vim/backup//                       " Directory for file backups
+  set directory=~/.vim/swap//                         " Directory for swap files
+  set undodir=~/.vim/undo//                           " Directory for undo files
+  set viewdir=~/.vim/view//                           " Directory for view files
+endif
+
+" ------------------------ "
+" Neovim-specific settings "
+" ------------------------ "
+" Configure features or plugins we don't use in vim
+
+if has('nvim')
+  let g:session_directory = stdpath('state').'/sessions/'
+  let g:gutentags_cache_dir = stdpath('cache').'/tags/'
+
+  let g:session_autosave = 'yes'                      " Always save sessions when quitting vim
+  let g:session_autoload = 'no'                       " Don't prompt for opening old sessions
+  let g:session_autosave_periodic = 1                 " Save session every minute
+  let g:session_autosave_silent = 1                   " Be quiet when autosaving
+
+  let test#strategy = "neovim"                        " Execute tests in a terminal split
+
+lua << EOF
+  -- Autocompletion + sources
+  local cmp = require'cmp'
+  local snippy = require'snippy'
+
+  local has_words_before = function()
+    unpack = unpack or table.unpack
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+  end
+
+  cmp.setup({
+    sources = cmp.config.sources({
+      { name = 'snippy' },
+      { name = 'path' },
+      { name = 'nvim_lsp_signature_help' },
+      { name = 'nvim_lsp' },
+      { name = 'ctags' },
+      { name = 'omni' },
+      { name = 'treesitter' },
+      { name = 'buffer' },
+    }),
+    window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered()
+    },
+    preselect = cmp.PreselectMode.None,
+    snippet = {expand = function(args) snippy.expand_snippet(args.body) end},
+    mapping = {
+      ['<esc>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif snippy.can_expand_or_advance() then
+          snippy.expand_or_advance()
+        elseif has_words_before() then
+          cmp.complete()
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif snippy.can_jump(-1) then
+          snippy.previous()
+        else
+          fallback()
+        end
+      end, { "i", "s" })
+    },
+    formatting = {
+      format = function(entry, item)
+        item.menu = entry.source.name
+        return item
+      end
+    }
+  })
+
+  -- Language Server
+  local lsp = require'lspconfig'
+
+  -- LSP Keybinds, only active after a server is attached
+  vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+    callback = function(_)
+      -- Use LSP hover when available
+      vim.keymap.set('n', 'K', vim.lsp.buf.hover)
+    end
+  })
+
+  -- Add borders to lsp windows
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {border = "single"})
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.hover, {border = "single"})
+
+  -- Elixir ls
+  lsp.elixirls.setup({
+    cmd = {vim.api.nvim_get_var('plug_dir').."/elixir-ls/release/language_server.sh"},
+    settings = { elixirLS = {suggestSpecs = true }},
+  })
+
+  -- Show lsp diagnostics on their own line
+  vim.diagnostic.config({virtual_text = false})
+  require("lsp_lines").setup()
+EOF
+endif
 
 " ------------ "
 " Autocommands "
@@ -306,19 +401,8 @@ let g:lsc_auto_map = {
 augroup window_hooks
  " Ensure these commands are only loaded once
   autocmd!
-
   " Rearrange splits when vim is resized
   autocmd VimResized * wincmd =
-
-  " Turn on Limelight when using Goyo
-  autocmd User GoyoEnter Limelight
-  autocmd User GoyoLeave Limelight!
-  " Turn off ale and signify when entering goyo
-  autocmd User GoyoEnter ALEDisable
-  autocmd User GoyoLeave ALEEnable
-  autocmd User GoyoEnter SignifyDisable
-  autocmd User GoyoLeave SignifyEnable
-
   " Check for file changes when moving between buffers
   autocmd BufEnter * :checktime
 augroup END
@@ -362,42 +446,6 @@ function! ToggleFoldColumn()
   endif
 endfunction
 
-" Get the currently selected text
-" Source: http://stackoverflow.com/a/6271254/3329884
-function! GetVisualSelection()
-  let [lnum1, col1] = getpos("'<")[1:2]
-  let [lnum2, col2] = getpos("'>")[1:2]
-  let lines = getline(lnum1, lnum2)
-  let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
-  let lines[0] = lines[0][col1 - 1:]
-  return join(lines, "\n")
-endfunction
-
-" Highlight a piece of text and add it to the system clipboard
-" Args: txt, [theme, fontSize, fileType, font]
-"   txt: The text to be highlighted
-"   theme: The highlight theme to use (defaults to seashell)
-"   fontSize: The font size to use (defaults to 12)
-"   fileType: The language of txt (defaults to the current filetype)
-"   font: The font to use (defaults to menlo)
-function! Highlight(txt, ...) range abort
-  let txt      = shellescape(a:txt, 1)
-  let theme    = (a:0 >= 1) ? a:1 : 'seashell'
-  let fontSize = (a:0 >= 2) ? a:2 : 12
-  let fileType = (a:0 >= 3) ? a:3 : &filetype
-  let font     = (a:0 >= 4) ? a:4 : 'menlo'
-  let cmd =
-    \ '!' . ' ' . 'echo' . ' ' . txt . ' | ' .
-    \ 'highlight --out-format=rtf' . ' ' .
-    \ '--style=' . theme . ' ' .
-    \ '--font-size=' . fontSize . ' ' .
-    \ '--font=' . font . ' ' .
-    \ '--syntax=' . fileType . ' ' .
-    \ '--no-trailing-nl' . ' ' .
-    \ '|' . ' ' .  'pbcopy'
-  silent exec cmd
-endfunction
-
 " Move to a split or create one if there is no split in the desired location.
 " Args: key
 "   key: the hjkl that was pressed.
@@ -412,6 +460,19 @@ function! MoveOrCreateWindow(key) abort
         endif
         exec "wincmd ".a:key
     endif
+endfunction
+
+" Open a neovim or vim terminal
+function! OpenTerminal(cmd) abort
+  if has('nvim')
+    exec ':split'
+    exec ':terminal ' . a:cmd
+    " TODO: remove this when https://github.com/neovim/neovim/pull/15440 is merged
+    autocmd TermClose <buffer> if !v:event.status | exe 'bdelete! '..expand('<abuf>') | endif
+    exec ':startinsert'
+  elseif has('terminal')
+    exec 'terminal ++close ' . a:cmd
+  endif
 endfunction
 
 " See if there is a tmuxinator project with the name of the current session.
@@ -431,30 +492,34 @@ endfunction
 function! OpenTerminalOrTmuxinatorProject() abort
   let name = GetTmuxinatorProject()
   if name != ""
-    exec 'terminal ++close tmuxinator start ' . name
+    call OpenTerminal('tmuxinator start ' . name)
   else
-    exec 'terminal ++close'
+    call OpenTerminal('')
   endif
 endfunction
 
 " Close the current tmuxinator project.
 " Should only be executed inside a terminal window with a running tmux.
 " The tmux session should have a shell running at the window with index 0.
-" If we're not in a tmuxinator project, send "exit" to the terminal intead.
+" If we're not in a tmuxinator project, send "exit" to the terminal instead.
+" Only supported in neovim, as we don't use session management in vim.
 function! CloseTmuxinatorProject() abort
   let name = GetTmuxinatorProject()
   if name != ""
-    call term_sendkeys('', "\<c-b>0")
+    call feedkeys("i\<C-b>0", 'nt')
     sleep 100m
-    call term_sendkeys('', "tmuxinator stop " . name . "\<CR>")
+    call feedkeys("tmuxinator stop " . name . "\<CR>", 'nt')
+
+    " call term_sendkeys('', "\<c-b>0")
+    " call term_sendkeys('', "tmuxinator stop " . name . "\<CR>")
   else
-    call term_sendkeys('', "exit\<CR>")
+    call feedkeys("iexit\<CR>", 'nt')
   endif
 endfunction
 
 " Find out if we are in a git repo
 " Based on https://github.com/junegunn/fzf.vim/blob/master/autoload/fzf/vim.vim#L500
-function! Is_git_repo() abort
+function! IsGitRepo() abort
   let root = split(system('git rev-parse --show-toplevel'), '\n')[0]
   return v:shell_error ? 0 : 1
 endfunction
@@ -462,27 +527,10 @@ endfunction
 " Execute the fzf.vim "GFiles" command, or the "Files" command, if we're not
 " in a git repo.
 function! FilesOrGFiles() abort
-  if Is_git_repo()
+  if IsGitRepo()
     exec 'GFiles'
   else
     exec 'Files'
-  endif
-endfunction
-
-" Open the pdf of a zotero paper which belongs to a citekey.
-" This requires zotero to be open + the zotxt plugin to be installed.
-" It probably only works on OSX (due to the use of `open`)
-function! OpenCiteKeyPdf(key) abort
-  let l:key = expand("<cword>")
-  let l:cmd =
-        \ 'curl --silent ' .
-        \ '''http://127.0.0.1:23119/zotxt/items?format=paths&betterbibtexkey=' .
-        \ a:key . "'"
-  let l:json = system(l:cmd)
-  if l:json != ""
-    silent exec '!open ' . shellescape(json_decode(l:json)[0].paths[0])
-  else
-    echohl WarningMsg | echom l:key "not found" | echohl None
   endif
 endfunction
 
@@ -491,7 +539,6 @@ endfunction
 
 command! -nargs=*          CommentBox  call CommentBox(<q-args>)
 command! -nargs=*          CommentLine call CommentLine(<q-args>)
-command! -nargs=* -range   Highlight   call Highlight(GetVisualSelection(), <f-args>)
 
 " ------------------- "
 " Custom Key Bindings "
@@ -529,7 +576,6 @@ call which_key#register('\', "g:wk_local_map")
 " Update file
 nnoremap <Leader>w :update<CR>
 
-
 let g:wk_leader_map.v = {
       \ 'name' : 'view',
       \ 'u' : 'undo tree',
@@ -537,49 +583,44 @@ let g:wk_leader_map.v = {
       \ 'n' : 'line numbers (visible/invisible)',
       \ 'r' : 'rainbow parentheses',
       \ 'k' : 'NerdTree',
-      \ 'g' : 'Distraction Free (Goyo)',
       \ 'z' : 'fold column',
       \ 's' : 'vcs status',
 \}
 
 nnoremap <Leader>a :A<CR>
-nnoremap <Leader>vu :MundoToggle<CR>
+nnoremap <Leader>vu :UndotreeToggle<CR>
 nnoremap <Leader>vl :set relativenumber!<CR>
 nnoremap <Leader>vn :set number!<CR>
 nnoremap <Leader>vr :RainbowToggle<CR>
 nnoremap <Leader>vk :NERDTreeToggle<CR>
-nnoremap <Leader>vg :Goyo<CR>
-nnoremap <Leader>vz :call ToggleFoldColumn()<CR>
 nnoremap <Leader>vs :SignifyToggle<CR>
 
 " Terminal
 " --------
 
 " Only enable this if our vim has terminal support
-if has('terminal')
+if has('terminal') || has('nvim')
   let g:wk_leader_map.s = 'Tmuxinator terminal'
   let g:wk_leader_map.S = 'Terminal'
 
   " Open a terminal or tmuxinator project if it's available
   nnoremap <Leader>s :call OpenTerminalOrTmuxinatorProject()<CR>
   " Open a standard terminal
-  nnoremap <Leader>S :terminal<CR>
+  nnoremap <Leader>S :call OpenTerminal('')<CR>
 
-  " Detach from tmux
-  tnoremap §d <C-b>d
-  " Stop the current tmux session
-  tnoremap §D <C-W>: call CloseTmuxinatorProject()<CR>
-
-  " Move to other windows easily
-  tnoremap §h <C-W>:call MoveOrCreateWindow('h')<CR>
-  tnoremap §j <C-W>:call MoveOrCreateWindow('j')<CR>
-  tnoremap §k <C-W>:call MoveOrCreateWindow('k')<CR>
-  tnoremap §l <C-W>:call MoveOrCreateWindow('l')<CR>
+  if has('nvim')
+    " Detach from tmux
+    tnoremap §d <C-b>d
+    " Stop the current tmux session
+    tnoremap §D <C-\><C-N>:call CloseTmuxinatorProject()<CR>
+  endif
 
   " Enter terminal normal mode
-  tnoremap §n <C-W>N
-  " Paste from the system clipboard
-  tnoremap §p <C-W>"+
+  if has('nvim')
+    tnoremap §n <C-\><C-N>
+  else
+    tnoremap §n <C-W>N
+  endif
 endif
 
 " Spellcheck
@@ -605,16 +646,18 @@ nnoremap <Leader>zea :setlocal spelllang=en_us<CR>
 let g:wk_leader_map.b = 'Find buffer'
 let g:wk_leader_map.f = 'Find git files'
 let g:wk_leader_map.f = 'Find all files'
-let g:wk_leader_map.B = 'Find Session'
+let g:wk_leader_map.B = 'Find Session (nvim)'
 
 " Find a buffer
 nnoremap <Leader>b :Buffers<CR>
-" Fuzzy find a session to open
-nnoremap <Leader>B :call fzf#run({'source': xolox#session#get_names(0), 'sink': 'OpenSession'})<CR>
-
 " Find a file from git or from all files
 nnoremap <Leader>f :call FilesOrGFiles()<CR>
 nnoremap <Leader>F :Files<CR>
+
+" Fuzzy find a session to open
+if has('nvim')
+  nnoremap <Leader>B :call fzf#run({'source': xolox#session#get_names(0), 'sink': 'OpenSession'})<CR>
+endif
 
 " Window Operations
 " -----------------
@@ -637,29 +680,6 @@ nnoremap <silent> <Leader>mj :call MoveOrCreateWindow('j')<CR>
 nnoremap <silent> <Leader>mk :call MoveOrCreateWindow('k')<CR>
 nnoremap <silent> <Leader>ml :call MoveOrCreateWindow('l')<CR>
 
-" Quickfix
-" --------
-
-let g:wk_leader_map.c = {
-      \ 'name' : 'quickfix',
-      \ 'c' : 'goto current error',
-      \ 'C' : 'goto current error!',
-      \ 'n' : 'goto next error',
-      \ 'N' : 'goto next error!',
-      \ 'p' : 'goto previous error',
-      \ 'P' : 'goto previous error!',
-      \ 'q' : 'close quickfix window',
-\}
-
-nnoremap <silent> <Leader>cc :cc<CR>
-nnoremap <silent> <Leader>cC :cc!<CR>
-nnoremap <silent> <Leader>cn :cnext<CR>
-nnoremap <silent> <Leader>cN :cnext!<CR>
-nnoremap <silent> <Leader>cp :cprevious<CR>
-nnoremap <silent> <Leader>cP :cprevious!<CR>
-nnoremap <silent> <Leader>cq :cclose<CR>
-nnoremap <silent> <Leader>co :copen<CR>
-
 " Testing
 " -------
 
@@ -677,6 +697,27 @@ nnoremap <silent> <Leader>tn :TestNearest<CR>
 nnoremap <silent> <Leader>tf :TestFile<CR>
 nnoremap <silent> <Leader>tl :TestLast<CR>
 nnoremap <silent> <Leader>tv :TestVisit<CR>
+
+" LSP
+" ---
+
+if has('nvim')
+
+  let g:wk_leader_map.l = {
+      \ 'name' : 'lsp',
+      \ 'a' : 'Code action',
+      \ 'l' : 'List all symbols in buffer',
+      \ 'n' : 'Rename symbol under cursor',
+      \ 'r' : 'List all references to symbol under cursor',
+      \ 's' : 'Show signature help',
+  \}
+
+  nnoremap <silent> <Leader>la :lua vim.lsp.buf.code_action()<CR>
+  nnoremap <silent> <Leader>ll :lua vim.lsp.buf.document_symbol()<CR>
+  nnoremap <silent> <Leader>lr :lua vim.lsp.buf.references()<CR>
+  nnoremap <silent> <Leader>ln :lua vim.lsp.buf.rename()<CR>
+  nnoremap <silent> <Leader>ls :lua vim.lsp.buf.signature_help()<CR>
+endif
 
 " Editing
 " -------
@@ -699,3 +740,105 @@ vnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 
 " Split line (inverse of J)
 nnoremap <Leader>j i<CR><Esc>k$
+
+" -------- "
+" Org Mode "
+" -------- "
+
+if has('nvim')
+  let g:wk_leader_map.o = {'name' : 'org', 'a' : 'agenda', 'c' : 'capture'}
+
+lua << EOF
+  -- Set up treesitter
+  require('orgmode').setup_ts_grammar()
+  require'nvim-treesitter.configs'.setup {
+    ensure_installed = { 'org' },
+    highlight = {
+      enable = true,
+      -- I don't like tree sitter that much, so let's only enable it for org
+      -- for now. No I don't know of a selective way to enable it.
+      disable = function(lang, buf) return lang ~= "org" end,
+      additional_vim_regex_highlighting = {'org'},
+    }
+  }
+  -- Set up orgmode
+  org_home = '~/Nextcloud/org/'
+  require('orgmode').setup({
+    org_agenda_files = {org_home..'**/*.org'},
+    org_archive_location = 'archive/%s.archive',
+    org_todo_keywords = {
+      'TODO(t)', 'ACTIVE(a)', 'WAIT(w)', 'PLAN(p)', '|', 'DONE(d)', 'NOPE(n)'
+    },
+    org_todo_keyword_faces = {
+      TODO = ':foreground #f92672',
+      ACTIVE = ':foreground #66d9ef',
+      WAIT = ':foreground #8f908a',
+      PLAN = ':foreground #ae81ff',
+      DONE = ':foreground #a6e22e',
+      NOPE = ':foreground #fd971f'
+    },
+    org_capture_templates = {
+      t = {description = 'Todo', template = '* TODO %?', target = org_home..'todo.org'},
+      n = {description = 'Make a note', template = '* %U %?', target = org_home..'notes.org'},
+      m = {description = 'Start a meeting node', template = "* %^{Time|%T} %^{Meeting Name}\n%?", target = org_home..'meetings.org'}
+    },
+    org_hide_leading_stars = true,
+    org_hide_emphasis_markers = true,
+    org_blank_before_new_entry = {heading = false, plain_list_item = false},
+    org_ellipsis = " ↷",
+    org_log_into_drawer = "LOGBOOK",
+    org_src_window_setup = "bot 16 new",
+    org_time_stamp_rounding_minutes = 15,
+    org_agenda_span = 'day',
+    org_agenda_skip_scheduled_if_done = true,
+    org_agenda_skip_deadline_if_done = true,
+    mappings = {
+      agenda = {
+        org_agenda_clock_in = 'ci',
+        org_agenda_clock_out = 'co',
+        org_agenda_clock_cancel = 'cx',
+        org_agenda_clock_goto = 'cg',
+        org_agenda_clockreport_mode = 'cr',
+        org_agenda_set_tags = '<LocalLeader>t',
+        org_agenda_deadline = 'd',
+        org_agenda_schedule = 's'
+      },
+      capture = {
+        org_capture_finalize = '<LocalLeader>oc',
+        org_capture_refile = '<LocalLeader>or',
+        org_capture_kill = '<LocalLeader>ox',
+      },
+      note = {
+        org_note_finalize = '<LocalLeader>oc',
+        org_note_kill = '<LocalLeader>ox',
+      },
+      special = {
+        org_edit_src_save = '<LocalLeader>oc',
+        org_edit_src_abort = '<LocalLeader>ox'
+      },
+      org = {
+        org_refile = '<LocalLeader>r',
+        org_todo = 't',
+        org_toggle_checkbox = '<LocalLeader><LocalLeader>',
+        org_open_at_point = '<LocalLeader>l',
+        org_edit_special = '<LocalLeader>x',
+        org_archive_subtree = '<LocalLeader>a',
+        org_set_tags_command = '<LocalLeader>t',
+        org_move_subtree_up = '<m-k>',
+        org_move_subtree_down = '<m-j>',
+        org_deadline = '<LocalLeader>d',
+        org_schedule = '<LocalLeader>s',
+        org_time_stamp = '<LocalLeader>y',
+        org_time_stamp_inactive = '<LocalLeader>Y',
+        org_clock_in = '<LocalLeader>ci',
+        org_clock_out = '<LocalLeader>co',
+        org_clock_cancel = '<LocalLeader>cx',
+        org_clock_goto = '<LocalLeader>cg',
+        org_meta_return = '<CR>',
+        org_insert_heading_respect_content = '<LocalLeader>n',
+        org_insert_todo_heading_respect_content = '<LocalLeader>N'
+      },
+    }
+  })
+EOF
+endif
