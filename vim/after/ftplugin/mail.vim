@@ -22,8 +22,10 @@ setlocal nonumber
 " - Format-flowed: trailing white space indicates paragraph continue next line
 "   (disabled, add w to reenable)
 " - Don't reformat long lines when entering insert mode
+" - Don't delete trailing whitespace as it ruins format-flowed
 setlocal colorcolumn=72
 setlocal formatoptions=tcqwl
+let b:DeleteTrailingWhitespace = 0
 
 " Set wrap for long text in quoted mail
 setlocal wrap
@@ -54,9 +56,6 @@ endfunction
 
 nnoremap <LocalLeader>r :silent call Preformat()<CR>
 nnoremap <LocalLeader>f :silent call ToggleFormatFlowed()<CR>
-
-" Open neomutt in read only mode, useful to read other mails
-nnoremap <LocalLeader>m :botright vertical terminal ++close neomutt -R<CR>
 
 " I generally start typing right away when writing emails.
 startinsert

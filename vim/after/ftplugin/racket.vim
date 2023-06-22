@@ -4,10 +4,9 @@ function! OpenR5RS(path)
   \   "(#%require readline)"
   \ ]->join("") . "\<CR>"
 
-  let term = term_start("plt-r5rs", {"term_finish": "close"})
-  call term_sendkeys("", prelude)
+  call OpenTerminal("plt-r5rs")
+  call feedkeys(prelude, 'nt')
 endfunction
 
 " Probleem: evaluatie gebeurt later
-
 nnoremap <LocalLeader>s :call OpenR5RS(@%)<CR>

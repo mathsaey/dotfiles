@@ -1,11 +1,22 @@
-" Only useful for notes on papers: open the pdf of the paper with a citekey
-" that is identical to the basename of the current file.
-nnoremap <LocalLeader>bo :call OpenCiteKeyPdf(expand("%:r"))<CR>
-
 setlocal nonumber
-
+setlocal textwidth=80
 setlocal concealcursor=""
 let g:tex_conceal = 'abdmg'
+
+if has('nvim')
+lua << EOF
+  require('cmp').setup.buffer {
+    sources = {
+      { name = 'snippy' },
+      { name = 'path' },
+      { name = 'orgmode' },
+      { name = 'omni' },
+      { name = 'buffer', keyword_length = 5 },
+      { name = 'treesitter' }
+    },
+  }
+EOF
+endif
 
 nnoremap <silent> <LocalLeader>z :set opfunc=ConvertPinyin<CR>g@
 vnoremap <silent> <LocalLeader>z :<C-U>call ConvertPinyin(visualmode(), 1)<CR>

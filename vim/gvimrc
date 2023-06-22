@@ -1,14 +1,3 @@
-" -------- "
-" Gui Look "
-" -------- "
-
-if has("gui_macvim")
-  set guifont=Menlo:h13
-  set macligatures
-else
-  set guifont=Meslo\ LG\ M\ DZ
-endif
-
 set guioptions-=m                                   " Hide menu bar
 set guioptions-=T                                   " Hide toolbar
 set guioptions-=r                                   " Hide right scrollbar
@@ -16,21 +5,27 @@ set guioptions-=l                                   " Hide left scrollbar
 set guioptions-=L                                   " Hide left scrollbar when multiple panels exist
 set guioptions-=e                                   " Don't use the GUI tab bar
 
-" ---------------- "
-" Terminal Colours "
-" ---------------- "
+if has('gui_vimr')
+  set guifont=Menlo:h18
+else
+  set guifont=Meslo\ LG\ M\ DZ
+endif
 
-" Use prettier colours
-let g:terminal_ansi_colors = [
-  \ '#171717', '#fe4386', '#a6e32d', '#e6da73', '#0094d9', '#9b37ff', '#50b7d9', '#c7c7c7',
-  \ '#686868', '#fa80ac', '#bde371', '#fff27f', '#00beff', '#be9eff', '#5ed7ff', '#ffffff'
-  \  ]
-
-" --------- "
-" Touch Bar "
-" --------- "
-
-if has("gui_macvim")
-  " Don't add the fullscreen icon as I regularly touch it by accident
-  let g:macvim_default_touchbar_fullscreen = 0
+if has('gui_vimr')
+  let g:terminal_color_0 = '#171717'
+  let g:terminal_color_1 = '#fe4386'
+  let g:terminal_color_2 = '#a6e32d'
+  let g:terminal_color_3 = '#e6da73'
+  let g:terminal_color_4 = '#0094d9'
+  let g:terminal_color_5 = '#9b37ff'
+  let g:terminal_color_6 = '#50b7d9'
+  let g:terminal_color_7 = '#c7c7c7'
+  let g:terminal_color_8 = '#686868'
+  let g:terminal_color_9 = '#fa80ac'
+  let g:terminal_color_10 = '#bde371'
+  let g:terminal_color_11 = '#fff27f'
+  let g:terminal_color_12 = '#00beff'
+  let g:terminal_color_13 = '#be9eff'
+  let g:terminal_color_14 = '#5ed7ff'
+  let g:terminal_color_15 = '#ffffff'
 endif
