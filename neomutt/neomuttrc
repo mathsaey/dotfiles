@@ -110,7 +110,7 @@ unset use_domain
 # --------- #
 
 # Use vim, the mail filetype has some specific tweaks
-set editor = 'nvim'
+set editor = 'vim'
 
 # Use format-flowed, remember to unset this when sending inline code.
 set text_flowed

@@ -8,10 +8,9 @@ config:
 variables:
   trusted: false
   mail: false
-  nvim: false
 
 actions:
-  vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo
+  vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
   neovim_rename: |
     mv "{{@@ _dotfile_abs_dst @@}}/vimrc" "{{@@ _dotfile_abs_dst @@}}/init.vim"
     mv "{{@@ _dotfile_abs_dst @@}}/gvimrc" "{{@@ _dotfile_abs_dst @@}}/ginit.vim"
@@ -114,8 +113,6 @@ profiles:
       - neovim
       - latexmkrc
       - tex
-    variables:
-      nvim: true
   mail:
     dotfiles:
       - neomutt

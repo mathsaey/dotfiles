@@ -4,8 +4,8 @@ function! OpenR5RS(path)
   \   "(#%require readline)"
   \ ]->join("") . "\<CR>"
 
-  call OpenTerminal("plt-r5rs")
-  call feedkeys(prelude, 'nt')
+  let term = term_start("plt-r5rs", {"term_finish": "close"})
+  call term_sendkeys("", prelude)
 endfunction
 
 " Probleem: evaluatie gebeurt later

@@ -21,29 +21,12 @@ setlocal nonumber
 let g:tex_conceal = 'abdmg'
 let g:tex_flavor = 'latex'
 
-" VimTex has really good completion, let's use it as much as possible.
-if has('nvim')
-lua << EOF
-  require('cmp').setup.buffer {
-    formatting = {
-      format = function(entry, item)
-          if entry.source.name == "omni" then
-            item.menu = vim.inspect(item.menu):gsub('%"', "")
-            item.kind = "[VimTex]"
-          else
-            item.kind = string.format("[%s]", entry.source.name)
-        end
-          return item
-        end,
-    },
-    sources = {
-      { name = 'snippy' },
-      { name = 'omni' },
-      { name = 'buffer', keyword_length = 5 },
-    },
-    completion = {
-      }
+" Use the omni completion (provided by vimtex)
+let b:vcm_tab_complete = 'omni'
 
-  }
-EOF
-endif
+" Split lines at puncutation
+function! SplitLines(start, end)
+    silent execute a:start.','.a:end.'s/[.!?]\zs /\r/g'
+endfunction
+
+set formatexpr=SplitLines(v:lnum,v:lnum+v:count-1)

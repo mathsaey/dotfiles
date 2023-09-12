@@ -1,17 +1,28 @@
-set guioptions-=m                                   " Hide menu bar
-set guioptions-=T                                   " Hide toolbar
-set guioptions-=r                                   " Hide right scrollbar
-set guioptions-=l                                   " Hide left scrollbar
-set guioptions-=L                                   " Hide left scrollbar when multiple panels exist
-set guioptions-=e                                   " Don't use the GUI tab bar
+set guioptions-=m " Hide menu bar
+set guioptions-=T " Hide toolbar
+set guioptions-=r " Hide right scrollbar
+set guioptions-=l " Hide left scrollbar
+set guioptions-=L " Hide left scrollbar when multiple panels exist
+set guioptions-=e " Don't use the GUI tab bar
 
-if has('gui_vimr')
+" Font
+if has('gui_macvim')
+  set macligatures
+  set guifont=Menlo:h18
+elseif has('gui_vimr')
   set guifont=Menlo:h18
 else
   set guifont=Meslo\ LG\ M\ DZ
 endif
 
-if has('gui_vimr')
+" Terminal Colours
+if has('terminal')
+  let g:terminal_ansi_colors = [
+  \   '#171717', '#fe4386', '#a6e32d', '#e6da73', '#0094d9', '#9b37ff',
+  \   '#50b7d9', '#c7c7c7', '#686868', '#fa80ac', '#bde371', '#fff27f',
+  \   '#00beff', '#be9eff', '#5ed7ff', '#ffffff'
+  \]
+elseif has('nvim')
   let g:terminal_color_0 = '#171717'
   let g:terminal_color_1 = '#fe4386'
   let g:terminal_color_2 = '#a6e32d'

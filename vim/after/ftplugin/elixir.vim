@@ -6,10 +6,8 @@ setlocal spelllang=en_gb   " Use uk English when we want to spellcheck comments
 setlocal textwidth=98      " Wrap at 98 charachters, based on default formatting parameters
 setlocal colorcolumn=98    " Highlight wrap line
 
-if has('nvim')
-  " Tell gutentags that a project is an elixir project if a mix.exs file is present
-  call add(g:gutentags_project_info, {'type': 'elixir', 'file': 'mix.exs'})
-endif
+" Tell gutentags that a project is an elixir project if a mix.exs file is present
+call add(g:gutentags_project_info, {'type': 'elixir', 'file': 'mix.exs'})
 
 " Match standard parens in elixir, also match do ... end and the like
 " We don't support with ... do and for ... do, as this seems to mess up the
@@ -35,5 +33,7 @@ inoreabbrev <buffer> pp \|>
 nnoremap <LocalLeader>d :silent !mix docs<CR>
 nnoremap <LocalLeader>D :silent !open doc/index.html<CR>
 
-nnoremap <LocalLeader>s :call OpenTerminal('iex -S mix')<CR>
-nnoremap <LocalLeader>S :call OpenTerminal('iex')<CR>
+if has('terminal')
+  nnoremap <LocalLeader>s :terminal ++close iex -S mix<CR>
+  nnoremap <LocalLeader>S :terminal ++close iex<CR>
+endif
