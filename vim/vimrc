@@ -194,18 +194,16 @@ lua << EOF
   local palette = monokai.classic
   monokai.setup {
     custom_hlgroups = {
-      -- Make code lens highlights more subtle
-      LspCodeLens = {fg = palette.grey},
       -- Org mode headlines
-      OrgTSHeadlineLevel1 = {fg = palette.orange},
-      OrgTSHeadlineLevel2 = {fg = palette.green},
-      OrgTSHeadlineLevel3 = {fg = palette.aqua},
-      OrgTSHeadlineLevel4 = {fg = palette.yellow},
-      OrgTSHeadlineLevel5 = {fg = palette.red},
-      OrgTSHeadlineLevel6 = {fg = palette.orange},
-      OrgTSHeadlineLevel7 = {fg = palette.green},
-      OrgTSHeadlineLevel8 = {fg = palette.aqua},
-      OrgTSHeadlineLevel9 = {fg = palette.yellow},
+      ["@org.headline.level1"] = {fg = palette.orange},
+      ["@org.headline.level2"] = {fg = palette.green},
+      ["@org.headline.level3"] = {fg = palette.aqua},
+      ["@org.headline.level4"] = {fg = palette.yellow},
+      ["@org.headline.level5"] = {fg = palette.red},
+      ["@org.headline.level6"] = {fg = palette.orange},
+      ["@org.headline.level7"] = {fg = palette.green},
+      ["@org.headline.level8"] = {fg = palette.aqua},
+      ["@org.headline.level9"] = {fg = palette.yellow},
     }
   }
 EOF

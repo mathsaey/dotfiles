@@ -9,7 +9,8 @@ set guioptions-=e " Don't use the GUI tab bar
 if has('gui_macvim')
   set macligatures
   set guifont=Menlo:h18
-elseif has('gui_vimr')
+" elseif has('gui_vimr') " Seems to be broken
+elseif has('nvim') && has('mac')
   set guifont=Menlo:h18
 else
   set guifont=Meslo\ LG\ M\ DZ
