@@ -97,7 +97,7 @@ endif
 function! BuildElixirLs(info)
   if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
     !MIX_ENV=PROD mix deps.get
-    !MIX_ENV=PROD mix elixir_ls.release
+    !MIX_ENV=PROD mix elixir_ls.release2
   endif
 endfunction
 
