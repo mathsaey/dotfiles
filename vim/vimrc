@@ -246,7 +246,7 @@ let g:no_plugin_maps = 1                            " Don't let Bclose bind <Lea
 let g:tex_flavor = 'latex'                          " Needs to be set here so vimtex does not complain
 
 let g:session_autosave = 'yes'                      " Always save sessions when quitting vim
-let g:session_autoload = 'no'                       " Don't prompt for opening old sessions
+let g:session_autoload = 'no'                       " Don't prompt for opening old sessions, overridden for nvim below
 let g:session_autosave_periodic = 1                 " Save session every minute
 let g:session_autosave_silent = 1                   " Be quiet when autosaving
 
@@ -676,4 +676,7 @@ lua << EOF
     }
   })
 EOF
+
+" We only use nvim for org mode, autoload the default (org) session
+let g:session_autoload = 'yes'
 endif
