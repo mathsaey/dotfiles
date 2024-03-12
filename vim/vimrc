@@ -655,7 +655,7 @@ lua << EOF
         org_refile = '<LocalLeader>r',
         org_todo = 't',
         org_toggle_checkbox = '<LocalLeader><LocalLeader>',
-        org_open_at_point = '<LocalLeader>l',
+        org_open_at_point = '<LocalLeader>L',
         org_edit_special = '<LocalLeader>x',
         org_archive_subtree = '<LocalLeader>a',
         org_set_tags_command = '<LocalLeader>t',
