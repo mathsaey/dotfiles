@@ -600,7 +600,7 @@ lua << EOF
   org_home = '~/Nextcloud/org/'
   require('orgmode').setup({
     org_agenda_files = {org_home..'**/*.org'},
-    org_archive_location = 'archive/%s.archive',
+    org_archive_location = 'archive/%s_archive',
     org_todo_keywords = {
       'TODO(t)', 'ACTIVE(a)', 'WAIT(w)', 'PLAN(p)', '|', 'DONE(d)', 'NOPE(n)'
     },
