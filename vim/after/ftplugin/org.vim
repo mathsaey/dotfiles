@@ -38,6 +38,7 @@ lua << EOF
 local mappings = require('orgmode.org.mappings')
 local utils = require('orgmode.utils')
 local fs = require('orgmode.utils.fs')
+local org = require('orgmode')
 
 -- nvim-orgmode's substitute_path does not handle relative paths that don't
 -- start with ./
@@ -63,7 +64,7 @@ local function open_link()
     local path = expand_path(link.url:get_file())
     return vim.fn['netrw#BrowseX'](path, vim.fn['netrw#CheckIfRemote']())
   else
-    return mappings:open_at_point()
+    return org.action('org_mappings.open_at_point')
   end
 end
 
