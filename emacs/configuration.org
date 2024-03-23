@@ -1,0 +1,710 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Mathijs Saey
+#+FILETAGS: :config:
+#+PROPERTY: header-args :tangle (expand-file-name "init.el" user-emacs-directory) :comments link
+
+This file contains my emacs configuration. Running ~org-babel-tangle~
+will write the required files to [[file:~/.emacs.d/init.el]].
+
+#+header: :comments no
+#+begin_src emacs-lisp
+;;; This file is auto-generated based on configuration.org.
+;;; Any change made to this file will automatically be overwritten.
+;;; As such, you should not change it manually.
+
+#+end_src
+
+* Directory Locations
+#+begin_src emacs-lisp
+(defconst temp-dir (expand-file-name "~/.tmp/emacs"))
+#+end_src
+* Package Setup
+We use [[https://github.com/raxod502/straight.el][straight.el]] and [[https://github.com/jwiegley/use-package][use-package]] to manage our packages. Since
+straight.el is not included with emacs by default, we bootstrap it here.
+
+Bootstrapping uses the (built-in) =url.el= so we tell it where to store
+its temporary files first.
+#+begin_src emacs-lisp
+(setq url-cache-directory (expand-file-name "url" temp-dir))
+#+end_src
+
+Now we can [[https://github.com/raxod502/straight.el#getting-started][install straight.el]].
+#+begin_src emacs-lisp
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+#+end_src
+
+Set up =use-package= to use =straight.el=.
+#+begin_src emacs-lisp
+(setq straight-use-package-by-default t)
+(straight-use-package 'use-package)
+(require 'use-package)
+#+end_src
+
+Prevent =package.el= from loading packages before [[file:~/.emacs.d/init.el][init.el]] is read. This
+needs to be done in the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Early-Init-File.html][early init]] file.
+#+header: :tangle (expand-file-name "early-init.el" user-emacs-directory)
+#+begin_src emacs-lisp
+  (setq package-enable-at-startup nil)
+#+end_src
+* Visuals
+** Theme & Font
+Use the darkokai theme.
+#+begin_src emacs-lisp
+(use-package darkokai-theme
+  :init
+  (setq darkokai-mode-line-padding 1)
+  (load-theme 'darkokai t))
+#+end_src
+
+Set up the font.
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil :font "Menlo")
+(set-face-attribute 'default nil :height 180)
+#+end_src
+
+Highlight the current line.
+#+begin_src emacs-lisp
+(global-hl-line-mode t)
+#+end_src
+** Parentheses and Line Numbers
+When programming, show line numbers and highlight matching
+parentheses.
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook 'show-paren-mode)
+#+end_src
+
+Use rainbow brackets when dealing with lisp like languages.
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
+#+end_src
+** GUI
+I don't need to see the scroll, menu, or tool bar.
+On OSX the menu bar is visible anyway, so let's not disable it.
+
+#+begin_src emacs-lisp
+(unless (string-equal system-type "darwin") (menu-bar-mode -1))
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+#+end_src
+** Modeline
+Use [[https://github.com/dbordak/telephone-line][telephone-line]] as a modeline. Add a segment which displays the
+buffer path relative to the home dir.
+#+begin_src emacs-lisp
+(use-package telephone-line
+  :config
+  (telephone-line-defsegment path-segment ()
+    (cond ((string-equal major-mode "org-mode")
+            (org-display-outline-path 'title t nil t))
+          (buffer-file-name (file-relative-name buffer-file-name "~"))
+          (t mode-line-buffer-identification)))
+    (setq telephone-line-lhs
+          '((evil .   (telephone-line-evil-tag-segment))
+            (accent . (path-segment)))
+          telephone-line-rhs
+          '((nil    . (telephone-line-major-mode-segment))
+            (evil   . (telephone-line-airline-position-segment))))
+    (setq telephone-line-height 24
+          telephone-line-primary-left-separator 'telephone-line-cubed-left
+          telephone-line-primary-right-separator 'telephone-line-cubed-right
+          telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left
+          telephone-line-secondary-right-separator'telephone-line-cubed-hollow-right)
+    (telephone-line-mode t))
+#+end_src
+* Tweaks
+** Temporary files
+Keep temporary files out of the way inside the =~/.tmp/emacs/=
+folder.
+
+#+begin_src emacs-lisp
+  (setq backup-directory-alist
+        `((".*" . ,(expand-file-name "backup/" temp-dir)))
+        auto-save-list-file-prefix
+        (expand-file-name "autosave/" temp-dir)
+        desktop-path (list temp-dir)
+        desktop-base-file-name "emacs.desktop")
+#+end_src
+
+Do not create lock files.
+
+#+begin_src emacs-lisp
+(setq create-lockfiles nil)
+#+end_src
+** Customize
+Ensure customize does not overwrite =init.el= by saving its settings in
+another file.
+
+#+begin_src emacs-lisp
+(setq custom-file (expand-file-name "customize.el" user-emacs-directory))
+(load custom-file 1)
+#+end_src
+** Startup
+We only use emacs for org-mode for now, use ~desktop-save-mode~ to save
+the state of our (org) buffers.
+
+#+begin_src emacs-lisp
+(desktop-save-mode 1)
+#+end_src
+* Editing Behaviour
+** Indentation
+Do not use tabs by default, display tabs as 4 spaces.
+
+#+begin_src  emacs-lisp
+(setq-default indent-tabs-mode nil tab-width 4)
+#+end_src
+** Undo
+Persist undo history in the tmp files
+
+#+begin_src emacs-lisp
+(use-package undo-tree
+  :init
+  (setq evil-undo-system 'undo-tree)
+  :config
+  (setq
+        undo-tree-auto-save-history t
+        undo-tree-history-directory-alist
+        `(("." . ,(expand-file-name "undo/" temp-dir))))
+  (global-undo-tree-mode))
+#+end_src
+** TODO Spell check
+* Keybinds
+** General set up
+We use [[https://github.com/noctuid/general.el#about][general.el]] to create keybinds.
+
+#+begin_src emacs-lisp
+(use-package general)
+(require 'general)
+#+end_src
+
+I like the idea of a leader and localleader that vim offers, set up
+=space= and =\= for this purpose.
+
+#+begin_src emacs-lisp
+(setq leader "SPC")
+(setq localleader "\\")
+(general-create-definer leader-map :prefix leader :states 'normal)
+(general-create-definer local-map  :prefix localleader :states 'normal)
+#+end_src
+** Keybind Hints
+Use [[https://github.com/justbur/emacs-which-key][which-key]] to make it easier to remember those keybinds that are
+not used that often.
+
+#+begin_src emacs-lisp
+(use-package which-key :config (which-key-mode))
+#+end_src
+** Evil mode
+I don't like emacs-style keybinds, let's use [[https://github.com/emacs-evil/evil][evil]] to get the best of
+vim in emacs.
+
+~evil-want-keybinding~ needs to be set before ~evil~ is loaded.
+
+#+begin_src emacs-lisp
+(use-package evil
+  :init
+  (setq evil-want-keybinding nil)
+  :config
+  (evil-mode t))
+#+end_src
+
+Use =fj= or =jf= to exit insert mode.
+
+#+begin_src emacs-lisp
+(use-package evil-escape
+  :init
+  (setq evil-escape-key-sequence "fj")
+  (setq evil-escape-unordered-key-sequence t)
+  :config (evil-escape-mode))
+#+end_src
+
+Use evil whenever we can.
+
+#+begin_src emacs-lisp
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+#+end_src
+** Window bindings
+Add window bindings under the leader key:
+
+- =b= to change buffers
+
+#+begin_src emacs-lisp
+(leader-map "b" 'helm-buffers-list)
+#+end_src
+*** Movement and creation
+To easily switch between open windows, we use the home-row movement
+keys (hjkl) to move in a given direction, or to create a window in the
+given direction if it does not exist. For discoverability, we give
+each of the directions a unique function name.
+
+#+begin_src emacs-lisp
+(require 'windmove)
+
+(defun move-window-or-create (direction)
+  (if (window-in-direction direction)
+      (cond
+        ((eq direction 'above) (windmove-up))
+        ((eq direction 'below) (windmove-down))
+        ((eq direction 'left) (windmove-left))
+        ((eq direction 'right) (windmove-right)))
+      (cond
+        ((eq direction 'above) (split-window-vertically) (windmove-up))
+        ((eq direction 'below) (split-window-vertically) (windmove-down))
+        ((eq direction 'left) (split-window-horizontally) (windmove-left))
+        ((eq direction 'right) (split-window-horizontally) (windmove-right)))))
+
+(defun move-or-create-up    () (interactive) (move-window-or-create 'above))
+(defun move-or-create-down  () (interactive) (move-window-or-create 'below))
+(defun move-or-create-left  () (interactive) (move-window-or-create 'left))
+(defun move-or-create-right () (interactive) (move-window-or-create 'right))
+#+end_src
+
+We map these functions to the =<leader>m= prefix (mnemonic: (m)ove).
+
+#+begin_src emacs-lisp
+(leader-map
+ "mh" 'move-or-create-left
+ "mj" 'move-or-create-down
+ "mk" 'move-or-create-up
+ "ml" 'move-or-create-right
+ "mx" 'delete-window)
+#+end_src
+** Other
+Add some other useful leader bindings:
+- ~w~ to write the current buffer
+
+#+begin_src emacs-lisp
+(leader-map "w" 'save-buffer)
+#+end_src
+** Mac Keybinds
+The mac port of emacs maps command to meta by default. Change this and
+use the option key instead.
+
+#+begin_src emacs-lisp
+(when (string-equal system-type "darwin")
+  (setq mac-command-modifier 'super
+        mac-option-modifier 'meta))
+#+end_src
+
+Add some keybinds which are common to most OSX Applications:
+
+#+begin_src emacs-lisp
+(when (string-equal system-type "darwin")
+    (general-define-key
+    "s-=" 'text-scale-increase
+    "s--" 'text-scale-decrease
+    "s-c" 'kill-ring-save
+    "s-v" 'yank
+    "s-x" 'kill-region
+    "s-a" 'mark-whole-buffer
+    "s-o" 'mac-open-file
+    "s-n" 'find-file
+    "s-s" 'save-buffer
+    "s-S" 'mac-save-file-as
+    "s-w" 'kill-buffer
+    "s-q" 'save-buffers-kill-emacs))
+#+end_src
+* Org Mode
+Use the built-in org mode by default.
+
+#+BEGIN_SRC emacs-lisp
+(use-package org :straight (:type built-in))
+#+END_SRC
+** Packages
+We use [[https://github.com/Somelauw/evil-org-mode/blob/master/doc/keythemes.org][evil-org]] to add a bunch of vim-like keybindings to org-mode.
+
+#+BEGIN_SRC emacs-lisp
+(use-package evil-org
+  :after org
+  :config
+   (require 'evil-org)
+   (add-hook 'org-mode-hook 'evil-org-mode))
+#+END_SRC
+** Files
+All of the org files will be stored in the [[file:~/NextCloud/org/][org folder]].
+Capturing happens in dedicated files, archiving happens in its own folder.
+Exports are stored in the [[file:~/Nextcloud/org/exports/][exports folder]].
+
+#+BEGIN_SRC emacs-lisp
+(defconst m-org-main-dir     (expand-file-name "~/NextCloud/org/"))
+(defconst m-org-exports-dir  (expand-file-name "exports" m-org-main-dir))
+(defconst m-org-archive-dir  (expand-file-name "archive" m-org-main-dir))
+
+(defconst m-org-capture-todo     (expand-file-name "todo.org" m-org-main-dir))
+(defconst m-org-capture-notes    (expand-file-name "notes.org" m-org-main-dir))
+(defconst m-org-capture-meetings (expand-file-name "meetings.org" m-org-main-dir))
+#+END_SRC
+
+Let's set the org-directory, and default note file for good measure.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-directory m-org-main-dir)
+(setq org-default-note-file m-org-capture-todo)
+#+END_SRC
+
+We should also make sure org-agenda knows where to look for entries.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-files (list m-org-main-dir))
+#+END_SRC
+
+Every time we archive something, we put a corresponding file in the
+archive directory.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-archive-location (expand-file-name "%s::" m-org-archive-dir))
+#+END_SRC
+** Keybinds
+*** Local
+Set up the key-themes for evil org.
+
+#+BEGIN_SRC emacs-lisp
+(require 'evil-org)
+(evil-org-set-key-theme
+  '(navigation additional textobjects shift todo heading return))
+#+END_SRC
+
+Make =0= jump to the text of the header instead of the bullet.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-special-ctrl-a t)
+#+END_SRC
+
+Make =>= and =<= promote/demote of a heading.
+
+#+BEGIN_SRC emacs-lisp
+(general-define-key
+  :states  'normal
+  :keymaps 'evil-org-mode-map
+  ">" 'org-metaright
+  "<" 'org-metaleft)
+#+END_SRC
+
+Add some additional keybindings to =<localleader>= in org mode.
+
+#+BEGIN_SRC emacs-lisp
+(general-define-key
+  :states  'normal
+  :keymaps 'org-mode-map
+  :prefix  "\\"
+
+  "r" 'org-refile
+  "d" 'org-deadline
+  "s" 'org-schedule
+  "t" (lambda () (interactive) (org-set-tags-command))
+  "f" 'org-sparse-tree
+  "p" 'org-set-property
+  "x" 'org-edit-special
+  "c" 'org-ctrl-c-ctrl-c
+  "l" 'org-open-at-point
+  "a" 'org-archive-subtree
+  "e" 'org-export-dispatch
+  "u" 'org-table-recalculate
+  "y" 'org-time-stamp
+  "Y" 'org-time-stamp-inactive
+  "ol" 'org-insert-link)
+#+end_src
+*** Global
+We want easy access to the org-agenda, to org-capture, and to the
+org-switchb. Let's also make it possible to create a link from anywhere.
+All global org-mode keybinds are prefixed with =<leader>o=.
+
+#+BEGIN_SRC emacs-lisp
+(general-define-key
+  :states '(normal emacs)
+  :prefix "SPC"
+  "oa" 'org-agenda
+  "oc" 'org-capture
+  "ol" 'org-store-link)
+#+END_SRC
+** Visuals
+Let's use pretty bullets
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+  :after org
+  :init
+  (add-hook 'org-mode-hook 'org-bullets-mode))
+#+END_SRC
+
+Hide markup whenever possible.
+
+#+BEGIN_SRC emacs-lisp
+(setq
+   org-hide-emphasis-markers t
+   org-link-descriptive t
+   org-pretty-entities t
+   org-hidden-keywords '(title author subtitle date email))
+#+END_SRC
+
+But show it when it is under the cursor.
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-appear
+  :after org
+  :init
+  (add-hook 'org-mode-hook 'org-appear-mode)
+  (setq
+   org-appear-autolinks t
+   org-appear-autoemphasis t
+   org-appear-autosubmarkers t
+   org-appear-autoentities t
+   org-appear-autokeywords t))
+#+END_SRC
+
+I don't like the ellipsis org mode uses by default.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-ellipsis " ⤵")
+#+END_SRC
+
+Indent text with headline text. Use word wrap when lines become too long.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-indented t)
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
+#+END_SRC
+
+Open the file with content collapsed:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-folded t)
+#+END_SRC
+
+Use more sane settings in =BEGIN_SRC= blocks.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
+(setq org-edit-src-content-indentation 0)
+#+END_SRC
+
+Scale up inline latex.
+
+#+BEGIN_SRC emacs-lisp
+(plist-put org-format-latex-options :scale 1.5)
+#+END_SRC
+** Workflow
+*** =Todo= States
+The possible todo states are /TODO/, /ACTIVE/, /WAIT/, /PLAN/, /NOPE/ and /DONE/.
+Timestamps are added when entering or leaving the /ACTIVE/ and /WAITING/
+states. /DONE/ and /CANCELLED/ are the final states. Timestamps are recorded
+when entering these states. Additionally, a note is requested for entering the
+/WAITING/ and /CANCELLED/ state.
+
+We add color and hotkeys to make it easy to recognize or enter these states.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-todo-keywords
+  '((sequence
+      "TODO(t)"
+      "ACTIVE(a!/!)"
+      "WAIT(w!/!)"
+      "PLAN(p)"
+      "|"
+      "DONE(d!)"
+      "NOPE(c!)")))
+(setq org-todo-keyword-faces
+  '(("TODO" . org-todo)
+    ("ACTIVE" . "cyan")
+    ("WAIT" . "yellow")
+    ("PLAN" . "purple")
+    ("DONE" . org-done)
+    ("NOPE" . "red")))
+#+END_SRC
+
+Log deadline and scheduled changes.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-log-redeadline (quote time))
+(setq org-log-reschedule (quote time))
+#+END_SRC
+
+We add any recorded timestamps to the /logbook/ drawer.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-log-into-drawer "LOGBOOK")
+#+END_SRC
+
+Don't allow marking an entry as complete if it has uncompleted children.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-enforce-todo-dependencies t)
+#+END_SRC
+*** Tags
+We use the following (mutually exclusive) tags:
+
+| Tag        | Meaning                                    |
+|------------+--------------------------------------------|
+| :work:     | Work related things, should be the default |
+| :personal: | Personal things, bills, ...                |
+| :meta:     | Org-mode related things                    |
+|------------+--------------------------------------------|
+
+#+BEGIN_SRC emacs-lisp
+(setq org-tag-alist
+  '((:startgroup . nil)
+    ("work" . ?w)
+    ("personal" . ?p)
+    ("meta" . ?m)
+    (:endgroup . nil)))
+(setq org-tag-faces
+  '(("work" . "red")
+    ("personal" . "yellow")
+    ("meta" . "cyan")))
+#+END_SRC
+*** Agenda
+I don't know what half of the agenda keybinds do, and they force my
+hands away from the home row. Time to set up my own agenda movement keys.
+In order to remove the default bindings, we delete the standard
+org-agenda keybinds.
+
+#+BEGIN_SRC emacs-lisp
+(eval-after-load 'org-agenda
+  '(progn
+    (setq org-agenda-mode-map (make-sparse-keymap))
+
+    (general-define-key
+      :prefix "\\"
+      :states 'emacs
+      :keymaps 'org-agenda-mode-map
+      "s" 'org-agenda-schedule
+      "d" 'org-agenda-deadline
+      "t" 'org-agenda-set-tags)
+
+    (general-define-key
+      :states  'emacs
+      :keymaps 'org-agenda-mode-map
+  
+      ; Motion
+      ; ------
+      "j" 'org-agenda-next-line
+      "k" 'org-agenda-previous-line
+  
+       ; Files
+      ; -----
+      "<RET>" 'org-agenda-goto
+  
+      ; Display
+      ; -------
+      "a" 'org-agenda
+  
+      "d" 'org-agenda-day-view
+      "w" 'org-agenda-week-view
+      "v" 'org-agenda-view-mode-dispatch
+  
+      "f" 'org-agenda-later
+      "b" 'org-agenda-earlier
+  
+      "." 'org-agenda-goto-today
+      "g" 'org-agenda-goto-date
+  
+      "l" 'org-agenda-log-mode
+  
+      "/" 'org-agenda-filter-by-tag
+  
+      ; Remote Editing
+      ; --------------
+      "u" 'org-agenda-undo
+      "r" 'org-agenda-redo
+      "t" 'org-agenda-todo
+  
+      ; Other
+      ; -----
+      "s" 'org-save-all-org-buffers
+      "q" 'org-agenda-quit
+      "x" 'org-agenda-exit
+
+      ; Clock
+      ; -----
+      "ci" 'org-agenda-clock-in
+      "co" 'org-agenda-clock-out
+      "cx" 'org-agenda-clock-cancel
+      "cr" 'org-agenda-clockreport-mode
+    )))
+#+END_SRC
+*** Capture 
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates
+  `(
+    ("t" "Create a task" entry
+      (file ,m-org-capture-todo)
+      "* TODO %?")
+    ("n" "Make a note" entry
+      (file ,m-org-capture-notes)
+      "* %U %?")
+    ("m" "Start a meeting note" entry
+      (file ,m-org-capture-meetings)
+      "* %^T %^{Meeting Name}\n%?")))
+#+END_SRC
+
+Automatically enter insert mode when entering a capture buffer.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-capture-mode-hook 'evil-insert-state)
+#+END_SRC
+*** Agenda
+We don't show deadline warnings for scheduled tasks, or for tasks that
+have already been completed.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-skip-deadline-prewarning-if-scheduled t)
+(setq org-agenda-skip-deadline-if-done t)
+#+END_SRC
+
+Show state changes in agenda.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-log-mode-items '(closed state))
+#+END_SRC
+
+Start in day view, don't show time grid, but do show the log. When
+visiting an entry, show context.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-span 'week
+      org-agenda-time-grid nil
+      org-agenda-start-with-log-mode t
+      org-show-context-detail '((agenda . ancestors)))
+#+END_SRC
+*** Refile
+Don't only allow refiling in the current file, allow refiling in every
+non-archive file in our org dir.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+#+END_SRC
+
+I want to be able to use an arbitrary file as a target (i.e. I want to
+insert a subtree on the top level of a file).
+
+#+BEGIN_SRC emacs-lisp
+(setq org-refile-use-outline-path 'file)
+#+END_SRC
+
+Finally, we want to be able to create new headings on the fly.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-refile-allow-creating-parent-nodes 'confirm)
+#+END_SRC
+
+*** Properties
+Enable property inheritance
+
+#+BEGIN_SRC emacs-lisp
+(setq org-use-property-inheritance t)
+#+END_SRC
