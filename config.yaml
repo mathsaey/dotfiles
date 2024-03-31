@@ -11,11 +11,6 @@ variables:
 
 actions:
   vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
-  neovim_rename: |
-    mv "{{@@ _dotfile_abs_dst @@}}/vimrc" "{{@@ _dotfile_abs_dst @@}}/init.vim"
-    mv "{{@@ _dotfile_abs_dst @@}}/gvimrc" "{{@@ _dotfile_abs_dst @@}}/ginit.vim"
-
-  emacs_install_config: emacs -nw -Q ~/.emacs.d/configuration.org --eval '(org-babel-tangle)' --eval '(kill-emacs)'
   mbsync_create_maildirs: ~/.dotfiles/_accounts/mbsync/create_dirs.sh
   neomutt_create_cache_dir: mkdir -p ~/.tmp/neomutt/cache/header/
 
@@ -76,8 +71,6 @@ dotfiles:
     src: emacs
     dst: ~/.emacs.d/
     link: link_children
-    actions:
-      - emacs_install_config
 
   vim:
     src: vim
@@ -85,12 +78,6 @@ dotfiles:
     link: link_children
     actions:
       - vim_make_dirs
-  neovim:
-    src: vim
-    dst: ~/.config/nvim/
-    link: link_children
-    actions:
-      - neovim_rename
 
   latexmkrc:
     src: tex/latexmkrc
@@ -110,7 +97,7 @@ profiles:
       - tmuxconf
   work:
     dotfiles:
-      - neovim
+      - emacs
       - latexmkrc
       - tex
   mail:

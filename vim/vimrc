@@ -49,11 +49,6 @@ Plug 'tpope/vim-surround'                              " Easily work with surrou
 Plug 'tpope/vim-commentary'                            " Easily turn lines into comments
 Plug 'rbgrouleff/bclose.vim'                           " Close buffer without changing layout
 Plug 'vim-scripts/DeleteTrailingWhitespace'            " Allow the automatic deletion of trailing whitespace
-if !has('nvim')
-  " Features present in nvim but not in vim
-  Plug 'markonm/traces.vim'                            " Substitute preview
-  Plug 'editorconfig/editorconfig-vim'                 " Respect .editorconfig files
-endif
 
 " Visual tweaks
 Plug 'mbbill/undotree'                                 " Visual undo tree
@@ -63,11 +58,7 @@ Plug 'junegunn/vim-peekaboo'                           " Preview register conten
 Plug 'RRethy/vim-illuminate'                           " Highlight word under cursor
 Plug 'itchyny/lightline.vim'                           " Status bar
 Plug 'liuchengxu/vim-which-key'                        " Key discovery aid
-if !has('nvim')
-  Plug 'tomasr/molokai'                                " Color scheme
-else
-  Plug 'tanvirtin/monokai.nvim'                        " Molokai with treesitter support
-endif
+Plug 'tomasr/molokai'                                  " Color scheme
 
 " Language Support
 Plug 'lervag/vimtex'                                   " Latex support
@@ -83,12 +74,8 @@ Plug 'dkuku/vim-projectionist-elixir'                  " Projectionist templates
 Plug 'hdima/python-syntax'                             " Better syntax highlighting for python
 Plug 'vim-scripts/indentpython.vim'                    " Better python indentation
 " Org mode
-if has('nvim')
-  Plug 'nvim-orgmode/orgmode'                                 " Proper org mode support
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " Needed for org mode
-else
-  Plug 'jceb/vim-orgmode'                                     " Basic org mode support
-endif
+Plug 'jceb/vim-orgmode'                                     " Basic org mode support
+Plug 'tpope/vim-speeddating'                                " Required for vim org-mode
 
 " Language Servers
 " ----------------
@@ -101,9 +88,7 @@ function! BuildElixirLs(info)
   endif
 endfunction
 
-if !has('nvim')
-  Plug 'elixir-lsp/elixir-ls', {'do': function('BuildElixirLs')}
-endif
+Plug 'elixir-lsp/elixir-ls', {'do': function('BuildElixirLs')}
 
 call plug#end()
 
@@ -112,11 +97,7 @@ call plug#end()
 " ------- "
 
 " Theme
-if !has('nvim')
-  colorscheme molokai
-else
-  colorscheme monokai
-endif
+colorscheme molokai
 
 " Syntax highlighting tweaks
 set showmatch                                       " Highlight matching [{()}]
@@ -150,10 +131,9 @@ set listchars+=precedes:<                           " < to mark that a line star
 set listchars+=conceal:*                            " * to mark hidden characters
 set listchars+=nbsp:.                               " . to mark non-breakable spaces
 
-" Completion popup
-if has('popupwin')
-  set completepopup=highlight:PmenuSbar,border:off,align:menu
-endif
+set ruler                                           " Show line and column number
+set sidescroll=1                                    " Scroll per charachter when sidescrolling
+set laststatus=2                                    " Always show the status bar
 
 " Status Line
 " -----------
@@ -185,30 +165,6 @@ function! LightlineReadonly()
   return &readonly ? '*read-only*' : ''
 endfunction
 
-" Monokai Tweaks
-" --------------
-
-if has('nvim')
-lua << EOF
-  local monokai = require('monokai')
-  local palette = monokai.classic
-  monokai.setup {
-    custom_hlgroups = {
-      -- Org mode headlines
-      ["@org.headline.level1"] = {fg = palette.orange},
-      ["@org.headline.level2"] = {fg = palette.green},
-      ["@org.headline.level3"] = {fg = palette.aqua},
-      ["@org.headline.level4"] = {fg = palette.yellow},
-      ["@org.headline.level5"] = {fg = palette.red},
-      ["@org.headline.level6"] = {fg = palette.orange},
-      ["@org.headline.level7"] = {fg = palette.green},
-      ["@org.headline.level8"] = {fg = palette.aqua},
-      ["@org.headline.level9"] = {fg = palette.yellow},
-    }
-  }
-EOF
-endif
-
 " ----------------- "
 " Editing Behaviour "
 " ----------------- "
@@ -232,11 +188,28 @@ let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs' " Use ripgrep as the def
 set foldlevel=99
 set foldopen=hor,insert,mark,percent,quickfix,search,tag,undo " Don't open folds when moving vertically
 
+" Indentation
+set autoindent                                      " Automatically copy amount of leading tabs from previous lines
+set backspace=indent,eol,start                      " Allow backspaces to remove more
+set formatoptions+=j                                " Intelligently handle comments when joining lines
+
+" Search
+set hlsearch                                        " Highlight matches
+set incsearch                                       " Highlight characters as they are matched
+
+" Buffers
+set hidden                                          " Allow buffers with unsaved changes to become hidden
+set autoread                                        " Reload externally modified files if they have not been modified inside vim
+
+" Completion
+set wildmenu                                        " Shows the available autocompletes in command menu
+
 " ---------------------- "
 " Miscellaneous Settings "
 " ---------------------- "
 
 set undofile                                        " Save undo history
+set mouse=a                                         " Allow mouse support
 
 let g:DeleteTrailingWhitespace = 1                  " Always check for trailing whitespace
 let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace on save
@@ -251,13 +224,13 @@ let g:session_autosave_periodic = 1                 " Save session every minute
 let g:session_autosave_silent = 1                   " Be quiet when autosaving
 
 " Paths
-if !has('nvim')
-  let g:session_directory = '~/.vim/sessions/'
-  let g:gutentags_cache_dir = '~/.vim/tags/'
-elseif has('nvim')
-  let g:session_directory = stdpath('state').'/sessions/'
-  let g:gutentags_cache_dir = stdpath('cache').'/tags/'
-endif
+let g:session_directory = '~/.vim/sessions/'
+let g:gutentags_cache_dir = '~/.vim/tags/'
+
+set backupdir=~/.vim/backup//                       " Directory for file backups
+set directory=~/.vim/swap//                         " Directory for swap files
+set undodir=~/.vim/undo//                           " Directory for undo files
+set viewdir=~/.vim/view//                           " Directory for view files
 
 " ---------------- "
 " "Smart" Features "
@@ -266,6 +239,7 @@ endif
 let test#strategy = "vimterminal"
 
 set completeopt=menu,menuone,noselect
+set completepopup=highlight:PmenuSbar,border:off,align:menu
 
 if has('popupwin')
   set completeopt+=popup
@@ -283,36 +257,6 @@ let g:lsc_auto_map = {
   \ 'defaults': v:true,
   \ 'Completion': 'omnifunc',
   \}
-
-" --------------------- "
-" Vim-specific settings "
-" --------------------- "
-" Most of these are set by neovim by default, or have a more sane default
-" behaviour in neovim.
-
-if !has('nvim')
-  set mouse=a                                         " Allow mouse support
-
-  set autoindent                                      " Automatically copy amount of leading tabs from previous lines
-  set backspace=indent,eol,start                      " Allow backspaces to remove more
-  set formatoptions+=j                                " Intelligently handle comments when joining lines
-
-  set hidden                                          " Allow buffers with unsaved changes to become hidden
-  set autoread                                        " Reload externally modified files if they have not been modified inside vim
-
-  set ruler                                           " Show line and column number
-  set sidescroll=1                                    " Scroll per charachter when sidescrolling
-  set laststatus=2                                    " Always show the status bar
-  set wildmenu                                        " Shows the available autocompletes in command menu
-
-  set hlsearch                                        " Highlight matches
-  set incsearch                                       " Highlight characters as they are matched
-
-  set backupdir=~/.vim/backup//                       " Directory for file backups
-  set directory=~/.vim/swap//                         " Directory for swap files
-  set undodir=~/.vim/undo//                           " Directory for undo files
-  set viewdir=~/.vim/view//                           " Directory for view files
-endif
 
 " ------------ "
 " Autocommands "
@@ -575,108 +519,3 @@ vnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 
 " Split line (inverse of J)
 nnoremap <Leader>j i<CR><Esc>k$
-
-" -------- "
-" Org Mode "
-" -------- "
-
-if has('nvim')
-  let g:wk_leader_map.o = {'name' : 'org', 'a' : 'agenda', 'c' : 'capture'}
-
-lua << EOF
-  -- Set up treesitter
-  require('orgmode').setup_ts_grammar()
-  require'nvim-treesitter.configs'.setup {
-    ensure_installed = { 'org' },
-    highlight = {
-      enable = true,
-      -- I don't like tree sitter that much, so let's only enable it for org
-      -- for now. No I don't know of a selective way to enable it.
-      disable = function(lang, buf) return lang ~= "org" end,
-      additional_vim_regex_highlighting = {'org'},
-    }
-  }
-  -- Set up orgmode
-  org_home = '~/Nextcloud/org/'
-  require('orgmode').setup({
-    org_agenda_files = {org_home..'**/*.org'},
-    org_archive_location = 'archive/%s_archive',
-    org_todo_keywords = {
-      'TODO(t)', 'ACTIVE(a)', 'WAIT(w)', 'PLAN(p)', '|', 'DONE(d)', 'NOPE(n)'
-    },
-    org_todo_keyword_faces = {
-      TODO = ':foreground #f92672',
-      ACTIVE = ':foreground #66d9ef',
-      WAIT = ':foreground #8f908a',
-      PLAN = ':foreground #ae81ff',
-      DONE = ':foreground #a6e22e',
-      NOPE = ':foreground #fd971f'
-    },
-    org_capture_templates = {
-      t = {description = 'Todo', template = '* TODO %?', target = org_home..'todo.org'},
-      n = {description = 'Make a note', template = '* %U %?', target = org_home..'notes.org'},
-      m = {description = 'Start a meeting node', template = "* %^{Time|%T} %^{Meeting Name}\n%?", target = org_home..'meetings.org'}
-    },
-    org_hide_leading_stars = true,
-    org_hide_emphasis_markers = true,
-    org_blank_before_new_entry = {heading = false, plain_list_item = false},
-    org_ellipsis = " ↷",
-    org_log_into_drawer = "LOGBOOK",
-    org_src_window_setup = "bot 16 new",
-    org_time_stamp_rounding_minutes = 15,
-    org_agenda_span = 'day',
-    org_agenda_skip_scheduled_if_done = true,
-    org_agenda_skip_deadline_if_done = true,
-    mappings = {
-      agenda = {
-        org_agenda_clock_in = 'ci',
-        org_agenda_clock_out = 'co',
-        org_agenda_clock_cancel = 'cx',
-        org_agenda_clock_goto = 'cg',
-        org_agenda_clockreport_mode = 'cr',
-        org_agenda_set_tags = '<LocalLeader>t',
-        org_agenda_deadline = 'd',
-        org_agenda_schedule = 's'
-      },
-      capture = {
-        org_capture_finalize = '<LocalLeader>oc',
-        org_capture_refile = '<LocalLeader>or',
-        org_capture_kill = '<LocalLeader>ox',
-      },
-      note = {
-        org_note_finalize = '<LocalLeader>oc',
-        org_note_kill = '<LocalLeader>ox',
-      },
-      special = {
-        org_edit_src_save = '<LocalLeader>oc',
-        org_edit_src_abort = '<LocalLeader>ox'
-      },
-      org = {
-        org_refile = '<LocalLeader>r',
-        org_todo = 't',
-        org_toggle_checkbox = '<LocalLeader><LocalLeader>',
-        org_open_at_point = '<LocalLeader>L',
-        org_edit_special = '<LocalLeader>x',
-        org_archive_subtree = '<LocalLeader>a',
-        org_set_tags_command = '<LocalLeader>t',
-        org_move_subtree_up = '<m-k>',
-        org_move_subtree_down = '<m-j>',
-        org_deadline = '<LocalLeader>d',
-        org_schedule = '<LocalLeader>s',
-        org_time_stamp = '<LocalLeader>y',
-        org_time_stamp_inactive = '<LocalLeader>Y',
-        org_clock_in = '<LocalLeader>ci',
-        org_clock_out = '<LocalLeader>co',
-        org_clock_cancel = '<LocalLeader>cx',
-        org_clock_goto = '<LocalLeader>cg',
-        org_meta_return = '<CR>',
-        org_insert_heading_respect_content = '<LocalLeader>n',
-        org_insert_todo_heading_respect_content = '<LocalLeader>N'
-      },
-    }
-  })
-EOF
-
-" We only use nvim for org mode, autoload the default (org) session
-let g:session_autoload = 'yes'
-endif
