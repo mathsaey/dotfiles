@@ -312,6 +312,12 @@
       "w" 'org-save-all-org-buffers
       "<RET>" 'org-agenda-goto
 
+      "SPC mh" 'move-or-create-left
+      "SPC mj" 'move-or-create-down
+      "SPC mk" 'move-or-create-up
+      "SPC ml" 'move-or-create-right
+      "SPC mx" 'org-agenda-quit
+
       "ci" 'org-agenda-clock-in
       "co" 'org-agenda-clock-out
       "cx" 'org-agenda-clock-cancel
@@ -359,7 +365,6 @@
   "p" 'org-set-property
   "e" 'org-export-dispatch
   "*" 'org-toggle-heading
-  "C-o" 'org-mark-ring-goto
   localleader 'org-ctrl-c-ctrl-c
 
   "ci" 'org-clock-in
@@ -376,6 +381,8 @@
 
   "N" (lambda () (interactive) (org-insert-subheading nil) (evil-insert 0))
   "n" (lambda () (interactive) (org-insert-heading-respect-content) (evil-insert 0)))
+
+(general-define-key :states 'normal :keymaps 'org-mode-map "C-o" 'org-mark-ring-goto)
 
 ; Workflow
 ; --------
