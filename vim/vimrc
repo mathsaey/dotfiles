@@ -88,7 +88,7 @@ function! BuildElixirLs(info)
   endif
 endfunction
 
-Plug 'elixir-lsp/elixir-ls', {'do': function('BuildElixirLs')}
+Plug 'elixir-lsp/elixir-ls', {'tag': '*', 'do': function('BuildElixirLs')}
 
 call plug#end()
 
