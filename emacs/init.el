@@ -407,7 +407,11 @@
         ("n" "Make a note" entry
           (file ,m-org-capture-notes)
           "* %U %?")
-        ("m" "Start a meeting note" entry
+        ("m" "Start a meeting note (start clock)" entry
+          (file ,m-org-capture-meetings)
+          "* %^T %^{Meeting Name}\n%?"
+          :clock-in t)
+        ("M" "Start a meeting note (don't clock)" entry
           (file ,m-org-capture-meetings)
           "* %^T %^{Meeting Name}\n%?"))
       org-agenda-custom-commands
