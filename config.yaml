@@ -139,3 +139,7 @@ profiles:
       - mail
       - work
       - trusted
+  sirion:
+    include:
+      - base
+      - trusted
