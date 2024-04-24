@@ -44,7 +44,7 @@ source {{@@ _dotdrop_dotpath @@}}/zsh/plugins/zsh-autosuggestions/zsh-autosugges
 
 # Set the PATH
 {%@@ if os == "Linux" @@%}
-export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:~/.linuxbrew/bin:$PATH
+export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:~/.local/bin:$PATH
 {%@@ else @@%}
 export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:$PATH
 {%@@ endif @@%}
@@ -59,7 +59,7 @@ export FZF_DEFAULT_COMMAND="rg --files"
 # ------------------------- #
 
 # Make it easier to invoke dotdrop
-alias dotdrop='{{@@ _dotdrop_dotpath @@}}/dotdrop/dotdrop.sh --cfg={{@@ _dotdrop_dotpath @@}}/config.yaml'
+alias dotdrop='dotdrop --cfg={{@@ _dotdrop_dotpath @@}}/config.yaml'
 
 {%@@ if os == "darwin" @@%}
 # Use fancy colours for ls
