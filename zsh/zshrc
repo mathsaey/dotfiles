@@ -72,6 +72,8 @@ alias vdir="vdir --color=auto"
 alias grep="grep --color=auto"
 alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
+# Other handy shortcuts
+alias userctl="systemctl --user"
 {%@@ endif @@%}
 
 function smux {
