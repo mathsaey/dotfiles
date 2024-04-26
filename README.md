@@ -5,6 +5,7 @@ These dotfiles are managed by [dotdrop](https://github.com/deadc0de6/dotdrop/).
 
 To install:
 
+- `git submodule init ; git submodule update`
 - `pipx install dotdrop`
 - Set up `bitwarden-cli` if machine needs access to sensitive info:
   - `bw config server https://<server url>`
