@@ -43,7 +43,7 @@ source {{@@ _dotdrop_dotpath @@}}/zsh/plugins/zsh-autosuggestions/zsh-autosugges
 {%@@ include "export_editor.sh.template" @@%}
 
 # Set the PATH
-{%@@ if os == "Linux" @@%}
+{%@@ if os == "linux" @@%}
 export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:~/.local/bin:$PATH
 {%@@ else @@%}
 export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:$PATH
@@ -64,7 +64,7 @@ alias dotdrop='dotdrop --cfg={{@@ _dotdrop_dotpath @@}}/config.yaml'
 {%@@ if os == "darwin" @@%}
 # Use fancy colours for ls
 alias ls="ls -G"
-{%@@ elif os == "Linux" @@%}
+{%@@ elif os == "linux" @@%}
 # Use colour output when possible
 alias ls="ls --color=auto"
 alias dir="dir --color=auto"

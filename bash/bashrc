@@ -4,7 +4,7 @@
 # This file contains the main bash config, bashrc and bash_profile should
 # symlink to this file
 
-{%@@ if os == "Linux" @@%}
+{%@@ if os == "linux" @@%}
 # I don't use bash that often, source the distro defined skel file
 source /etc/skel/.bashrc
 {%@@ endif @@%}
@@ -14,7 +14,7 @@ export PS1="\u@\h:\W$ "
 {%@@ include "export_editor.sh.template" @@%}
 
 # Set the PATH
-{%@@ if os == "Linux" @@%}
+{%@@ if os == "linux" @@%}
 export PATH=~/.bin:~/.linuxbrew/bin:$PATH
 {%@@ else @@%}
 export PATH=~/.bin:$PATH
