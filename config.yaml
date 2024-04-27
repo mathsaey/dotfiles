@@ -148,4 +148,5 @@ profiles:
   sirion:
     include:
       - base
+      - work
       - trusted
