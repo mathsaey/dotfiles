@@ -49,8 +49,6 @@ export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:~/.local/bin:$PATH
 export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:$PATH
 {%@@ endif @@%}
 
-# I don't like homebrew analytics
-export HOMEBREW_NO_ANALYTICS=1
 # Use ripgrep as the default fzf search provider
 export FZF_DEFAULT_COMMAND="rg --files"
 
