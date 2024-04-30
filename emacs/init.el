@@ -106,7 +106,7 @@
 (setq select-enable-clipboard nil)
 
 ; Reload buffer when file changes on disk
-(global-auto-revert-mode)
+(global-auto-revert-mode t)
 
 ; Persist undo history in tmp files
 (use-package undo-tree
