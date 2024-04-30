@@ -43,8 +43,8 @@ source {{@@ _dotdrop_dotpath @@}}/zsh/plugins/zsh-autosuggestions/zsh-autosugges
 {%@@ include "export_editor.sh.template" @@%}
 
 # Set the PATH
-{%@@ if os == "Linux" @@%}
-export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:~/.linuxbrew/bin:$PATH
+{%@@ if os == "linux" @@%}
+export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:~/.local/bin:$PATH
 {%@@ else @@%}
 export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:$PATH
 {%@@ endif @@%}
@@ -59,12 +59,12 @@ export FZF_DEFAULT_COMMAND="rg --files"
 # ------------------------- #
 
 # Make it easier to invoke dotdrop
-alias dotdrop='{{@@ _dotdrop_dotpath @@}}/dotdrop/dotdrop.sh --cfg={{@@ _dotdrop_dotpath @@}}/config.yaml'
+alias dotdrop='dotdrop --cfg={{@@ _dotdrop_dotpath @@}}/config.yaml'
 
 {%@@ if os == "darwin" @@%}
 # Use fancy colours for ls
 alias ls="ls -G"
-{%@@ elif os == "Linux" @@%}
+{%@@ elif os == "linux" @@%}
 # Use colour output when possible
 alias ls="ls --color=auto"
 alias dir="dir --color=auto"
@@ -72,6 +72,8 @@ alias vdir="vdir --color=auto"
 alias grep="grep --color=auto"
 alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
+# Other handy shortcuts
+alias userctl="systemctl --user"
 {%@@ endif @@%}
 
 function smux {

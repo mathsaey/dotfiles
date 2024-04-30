@@ -228,7 +228,7 @@
 ; File Locations
 ; --------------
 
-(defconst m-org-main-dir     (expand-file-name "~/NextCloud/org/"))
+(defconst m-org-main-dir     (expand-file-name "~/Nextcloud/org/"))
 (defconst m-org-archive-dir  (expand-file-name "archive" m-org-main-dir))
 
 (defconst m-org-capture-todo     (expand-file-name "todo.org" m-org-main-dir))

@@ -54,12 +54,11 @@ prompt() {
 rprompt() {
   local error="%(?..%F{red}[!]%f)"
   local tasks="%(1j.%F{yellow}[&%j]%f.)"
-  local priveleged="%(#.%F{green}[#]%f.)"
-  echo -n "$error$tasks$priveleged"
+  echo -n "$error$tasks"
 }
 
 host() {
-  echo -n "%F{green}%n@%m%f"
+  echo -n "%(!.%F{red}.%F{green})%n@%m%f"
 }
 
 current_dir() {

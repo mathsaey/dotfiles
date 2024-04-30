@@ -87,6 +87,7 @@ dotfiles:
     dst: ~/.tex
 
 profiles:
+  # Set up several groups which can be used at will.
   base:
     dotfiles:
       - vim
@@ -116,7 +117,12 @@ profiles:
     variables:
       trusted: true
 
-  # Select profile based on hostname
+  # Generic profiles
+  root:
+    include:
+      - base
+
+  # Hostname-based profiles
   greenwood:
     include:
       - base
@@ -137,5 +143,10 @@ profiles:
     include:
       - base
       - mail
+      - work
+      - trusted
+  sirion:
+    include:
+      - base
       - work
       - trusted
