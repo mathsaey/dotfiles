@@ -90,6 +90,13 @@ endfunction
 
 Plug 'elixir-lsp/elixir-ls', {'tag': '*', 'do': function('BuildElixirLs')}
 
+" Platform-specific
+" -----------------
+
+if has('linux')
+  Plug 'jasonccox/vim-wayland-clipboard'
+endif
+
 call plug#end()
 
 " ------- "
@@ -422,7 +429,7 @@ if has('terminal')
   " Enter terminal normal mode
   tnoremap §n <C-W>N
   " Paste from the system clipboard
-  tnoremap §p <C-W>"+
+  tmap §p <C-W>"+
 endif
 
 " Spellcheck
@@ -506,16 +513,16 @@ inoremap fj <Esc>
 inoremap jf <Esc>
 
 " Copy to system clipboard
-nnoremap <Leader>y "+y
-nnoremap <Leader>d "+d
-vnoremap <Leader>y "+y
-vnoremap <Leader>d "+d
+nmap <Leader>y "+y
+nmap <Leader>d "+d
+vmap <Leader>y "+y
+vmap <Leader>d "+d
 
 " Copy from system clipboard, using paste mode
-nnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
-nnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
-vnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>
-vnoremap <Leader>P :set paste<CR>"+P:set nopaste<CR>
+nmap <Leader>p :set paste<CR>"+p:set nopaste<CR>
+nmap <Leader>P :set paste<CR>"+P:set nopaste<CR>
+vmap <Leader>p :set paste<CR>"+p:set nopaste<CR>
+vmap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 
 " Split line (inverse of J)
 nnoremap <Leader>j i<CR><Esc>k$
