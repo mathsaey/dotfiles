@@ -18,7 +18,6 @@ set -g window-status-current-style fg=black,bg=blue
 
 set -g message-style fg=black,bg=blue
 
-
 # --------- #
 # Key binds #
 # --------- #
@@ -37,12 +36,6 @@ bind -n M-h select-pane -L
 bind -n M-l select-pane -R
 bind -n M-k select-pane -U
 bind -n M-j select-pane -D
-
-# Resize
-bind -n M-S-Up resize-pane -U
-bind -n M-S-Down resize-pane -D
-bind -n M-S-Left resize-pane -L
-bind -n M-S-Right resize-pane -R
 
 # Enter A Command
 bind -n M-: command-prompt

@@ -1,5 +1,3 @@
-# zsh configuration
-
 # ---------------- #
 # General settings #
 # ---------------- #
@@ -36,21 +34,14 @@ source {{@@ _dotdrop_dotpath @@}}/zsh/prompt.zsh-theme
 source {{@@ _dotdrop_dotpath @@}}/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source {{@@ _dotdrop_dotpath @@}}/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# ------- #
-# Exports #
-# ------- #
+# ----------- #
+# Environment #
+# ----------- #
 
-{%@@ include "export_editor.sh.template" @@%}
+export EDITOR={{@@ editor @@}}
+export VISUAL={{@@ visual @@}}
 
-# Set the PATH
-{%@@ if os == "linux" @@%}
-export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:~/.local/bin:$PATH
-{%@@ else @@%}
-export PATH=~/.bin:~/.cargo/bin:~/.mix/escripts:$PATH
-{%@@ endif @@%}
-
-# Use ripgrep as the default fzf search provider
-export FZF_DEFAULT_COMMAND="rg --files"
+{%@@ if path @@%}export PATH={{@@ path @@}}{%@@ endif @@%}
 
 # ------------------------- #
 # Aliases & Custom Commands #
@@ -59,21 +50,10 @@ export FZF_DEFAULT_COMMAND="rg --files"
 # Make it easier to invoke dotdrop
 alias dotdrop='dotdrop --cfg={{@@ _dotdrop_dotpath @@}}/config.yaml'
 
-{%@@ if os == "darwin" @@%}
-# Use fancy colours for ls
-alias ls="ls -G"
-{%@@ elif os == "linux" @@%}
-# Use colour output when possible
-alias ls="ls --color=auto"
-alias dir="dir --color=auto"
-alias vdir="vdir --color=auto"
-alias grep="grep --color=auto"
-alias fgrep="fgrep --color=auto"
-alias egrep="egrep --color=auto"
-# Other handy shortcuts
-alias userctl="systemctl --user"
-{%@@ endif @@%}
+{%@@ if os == "darwin" @@%}alias ls="ls -G"{%@@ endif @@%}
+{%@@ if userctl @@%}alias userctl="systemctl --user"{%@@ endif @@%}
 
+{%@@ if ssh_client @@%}
 function smux {
   # Attach to a tmuxinator session (arg 2) for user (arg 3) on a server (arg 1).
   # - if no session name is provided use the current username
@@ -84,16 +64,15 @@ function smux {
   ssh $usr@$srv -t tmuxinator $ses
 }
 
-{%@@ if trusted @@%}
 function unlock-greenwood {
   # Only works on the local network.
   # Requires the luks decrypt key to be in the clipboard.
   echo "Decrypting greenwood. Ensure the LUKS root key is in the system clipboard!."
-  pbpaste | ssh {{@@ bwGet("username", "greenwood LUKS root") @@}}@{{@@ bwGetField("local ip",  "greenwood LUKS root") @@}} -p {{@@ bwGetField("port",  "greenwood LUKS root") @@}} -i ~/.ssh/decrypt post root
+  {{@@ paste_cmd @@}} | ssh {{@@ hosts.greenwood_unlock.host @@}} -p {{@@ hosts.greenwood_unlock.port @@}} post root
 }
 
 function unlock-gondolin {
-  ssh {{@@ bwGet("username", "gondolin LUKS root") @@}}@{{@@ bwGet("uri", "gondolin LUKS root") @@}} -p {{@@ bwGetField("port", "gondolin LUKS root") @@}} -i ~/.ssh/decrypt
+  ssh {{@@ hosts.gondolin_unlock.host @@}} -p {{@@ hosts.gondolin_unlock.port @@}}
 }
 {%@@ endif @@%}
 

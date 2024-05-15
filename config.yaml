@@ -1,36 +1,15 @@
 config:
+  dotpath: ./
   backup: false
   banner: false
-  dotpath: ~/.dotfiles
   link_dotfile_default: link
+  import_variables:
+    - hosts.yaml:optional
+    - uservariables.yaml:optional
   func_file: [template_functions.py]
 
-variables:
-  trusted: false
-  mail: false
-
-actions:
-  vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
-  mbsync_create_maildirs: ~/.dotfiles/_accounts/mbsync/create_dirs.sh
-  neomutt_create_cache_dir: mkdir -p ~/.tmp/neomutt/cache/header/
-
 dotfiles:
-  tmuxconf:
-    src: tmux/tmux
-    dst: ~/.tmux.conf
-
-  ssh_config:
-    src: ssh/config
-    dst: ~/.ssh/config
-
-  gitconfig:
-    src: git/config
-    dst: ~/.gitconfig
-
-  zshrc:
-    src: zsh/zshrc
-    dst: ~/.zshrc
-
+  # Core set -----------------------------------------------------------------
   bashrc:
     src: bash/bashrc
     dst: ~/.bashrc
@@ -38,6 +17,48 @@ dotfiles:
     src: bash/bashrc
     dst: ~/.bash_profile
 
+  gitconfig:
+    src: git/config
+    dst: ~/.config/git/config
+  gitignore:
+    src: git/ignore
+    dst: ~/.config/git/ignore
+
+  tmuxconf:
+    src: tmux/tmux
+    dst: ~/.tmux.conf
+
+  vim:
+    src: vim
+    dst: ~/.vim/
+    link: link_children
+    actions:
+      - vim_make_dirs
+
+  zshrc:
+    src: zsh/zshrc
+    dst: ~/.zshrc
+  # ---------------------------------------------------------------------------
+
+  emacs:
+    src: emacs
+    dst: ~/.emacs.d/
+    link: link_children
+
+  latexmkrc:
+    src: tex/latexmkrc
+    dst: ~/.latexmkrc
+
+  ssh_config:
+    src: ssh/config
+    dst: ~/.ssh/config
+
+  tex:
+    src: tex/packages/
+    dst: ~/.tex
+
+
+  # Mail set ------------------------------------------------------------------
   neomutt:
     src: neomutt
     dst: ~/.config/neomutt
@@ -66,41 +87,48 @@ dotfiles:
   netrc:
     src: _accounts/netrc
     dst: ~/.netrc
+  # ---------------------------------------------------------------------------
 
-  emacs:
-    src: emacs
-    dst: ~/.emacs.d/
-    link: link_children
 
-  vim:
-    src: vim
-    dst: ~/.vim/
-    link: link_children
-    actions:
-      - vim_make_dirs
+actions:
+  vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
+  mbsync_create_maildirs: ~/.dotfiles/_accounts/mbsync/create_dirs.sh
+  neomutt_create_cache_dir: mkdir -p ~/.tmp/neomutt/cache/header/
 
-  latexmkrc:
-    src: tex/latexmkrc
-    dst: ~/.latexmkrc
-  tex:
-    src: tex/packages/
-    dst: ~/.tex
+variables:
+  mail: false
+  path: false
+  userctl: false
+  paste_cmd: false
+  ssh_client: false
+  editor: vim
+  visual: vim
+
+uservariables:
+  email: "email"
 
 profiles:
-  # Set up several groups which can be used at will.
-  base:
+  # Core set of config to include everywhere.
+  # Use -p core when only this set is needed.
+  core:
     dotfiles:
-      - vim
-      - zshrc
       - bashrc
       - bash_profile
       - gitconfig
+      - gitignore
       - tmuxconf
-  work:
+      - vim
+      - zshrc
+
+  # Set for machines that will ssh to other machines.
+  ssh-client:
+    variables:
+      ssh_client: true
     dotfiles:
-      - emacs
-      - latexmkrc
-      - tex
+      - ssh_config
+
+  # Set for mail-related utilities
+  # Needs to be upated
   mail:
     dotfiles:
       - neomutt
@@ -111,42 +139,32 @@ profiles:
       - netrc
     variables:
       mail: true
+
   trusted:
     dotfiles:
       - ssh_config
     variables:
       trusted: true
 
-  # Generic profiles
-  root:
-    include:
-      - base
-
   # Hostname-based profiles
-  greenwood:
-    include:
-      - base
-  gondolin:
-    include:
-      - base
-  firefly:
-    include:
-      - base
-  isabelle:
-    include:
-      - base
-  nimrodel:
-    include:
-      - base
-      - trusted
   silverlode:
+    variables:
+      paste-cmd: pbpaste
     include:
-      - base
+      - core
       - mail
-      - work
-      - trusted
+      - ssh-client
+    dotfiles:
+      - emacs
+      - latexmkrc
+      - tex
+
   sirion:
+    variables:
+      userctl: true
+      paste-cmd: wl-paste
     include:
-      - base
-      - work
-      - trusted
+      - core
+      - ssh-client
+    dotfiles:
+      - emacs

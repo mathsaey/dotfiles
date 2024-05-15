@@ -4,21 +4,24 @@ Host *
 {%@@ endif @@%}
 
 Host greenwood
-  HostName {{@@ bwGet("uri", "mathsaey@greenwood") @@}}
-  Port {{@@ bwGetField("port",  "mathsaey@greenwood") @@}}
+  HostName {{@@ hosts.greenwood.host @@}}
+  Port {{@@ hosts.greenwood.port @@}}
 Host gondolin
-  HostName {{@@ bwGet("uri", "mathsaey@gondolin") @@}}
-  Port {{@@ bwGetField("port",  "mathsaey@gondolin") @@}}
+  HostName {{@@ hosts.gondolin.host @@}}
+  Port {{@@ hosts.gondolin.port @@}}
 
 Host irc
-  HostName {{@@ bwGet("uri", "mathsaey@greenwood") @@}}
-  Port {{@@ bwGetField("port",  "mathsaey@greenwood") @@}}
+  HostName {{@@ hosts.irc.host @@}}
+  Port {{@@ hosts.irc.port @@}}
   RemoteCommand /home/%r/.bin/irc
   RequestTTY force
 
 Host firefly
-  HostName {{@@ bwGet("uri", "mathsaey@firefly") @@}}
+  HostName {{@@ hosts.firefly.host @@}}
+  Port {{@@ hosts.firefly.port @@}}
 Host spitter
-  HostName {{@@ bwGet("uri", "mathsaey@spitter") @@}}
+  HostName {{@@ hosts.spitter.host @@}}
+  Port {{@@ hosts.spitter.port @@}}
 Host isabelle
-  HostName {{@@ bwGet("uri", "mathsaey@isabelle") @@}}
+  HostName {{@@ hosts.isabelle.host @@}}
+  Port {{@@ hosts.isabelle.port @@}}

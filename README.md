@@ -3,13 +3,10 @@
 This repository contains my personal dotfiles and vim configuration.
 These dotfiles are managed by [dotdrop](https://github.com/deadc0de6/dotdrop/).
 
-To install:
-
-- `git submodule init ; git submodule update`
-- `pipx install dotdrop`
-- Set up `bitwarden-cli` if machine needs access to sensitive info:
-  - `bw config server https://<server url>`
-  - `bw login`
-  - `export BW_SESSION=<session key>`
-- `~/.local/bin/dotdrop --cfg=~/.dotfiles/config.yaml install`
-  - Use `-p <name>` if hostname is not set up correctly yet.
+To use
+- Install dotdrop
+  - Use a distribution version
+  - Or use `pipx install dotdrop` if your distribution does not package dotdrop.
+- Prepare the repository: `git submodule init ; git submodule update`
+- Install the dotfiles: `path/to/dotdrop --cfg="path/to/config.yaml" install`
+  - Add `-p core` if this machine only requires the core packages.
