@@ -6,7 +6,6 @@ config:
   import_variables:
     - hosts.yaml:optional
     - uservariables.yaml:optional
-  func_file: [template_functions.py]
 
 dotfiles:
   # Core set -----------------------------------------------------------------
