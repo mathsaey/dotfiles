@@ -89,6 +89,9 @@
 ; Save current session, useful since we only really use emacs for org
 (desktop-save-mode 1)
 
+; Load the desktop after init
+(add-hook 'after-init-hook 'desktop-read)
+
 ; Prefer vertical splits to split windows when possible
 (setq split-height-threshold nil)
 
