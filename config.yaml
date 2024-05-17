@@ -25,7 +25,7 @@ dotfiles:
 
   tmuxconf:
     src: tmux/tmux
-    dst: ~/.tmux.conf
+    dst: ~/.config/tmux/tmux.conf
 
   vim:
     src: vim
@@ -41,12 +41,12 @@ dotfiles:
 
   emacs:
     src: emacs
-    dst: ~/.emacs.d/
+    dst: ~/.config/emacs/
     link: link_children
 
   latexmkrc:
     src: tex/latexmkrc
-    dst: ~/.latexmkrc
+    dst: ~/.config/latexmk/latexmkrc
 
   ssh_config:
     src: ssh/config
@@ -54,8 +54,7 @@ dotfiles:
 
   tex:
     src: tex/packages/
-    dst: ~/.tex
-
+    dst: ~/.config/tex
 
   # Mail set ------------------------------------------------------------------
   neomutt:
