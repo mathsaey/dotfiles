@@ -166,3 +166,4 @@ profiles:
       - ssh-client
     dotfiles:
       - emacs
+      - latexmkrc
