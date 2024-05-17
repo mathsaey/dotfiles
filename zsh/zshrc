@@ -50,7 +50,14 @@ export VISUAL={{@@ visual @@}}
 # Make it easier to invoke dotdrop
 alias dotdrop='dotdrop --cfg={{@@ _dotdrop_dotpath @@}}/config.yaml'
 
-{%@@ if os == "darwin" @@%}alias ls="ls -G"{%@@ endif @@%}
+# Use colors when possible
+{%@@ if os == "darwin" @@%}
+alias ls="ls -G"
+{%@@ elif os == "linux" @@%}
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+{%@@ endif @@%}
+
 {%@@ if userctl @@%}alias userctl="systemctl --user"{%@@ endif @@%}
 
 {%@@ if ssh_client @@%}
