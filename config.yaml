@@ -160,7 +160,8 @@ profiles:
   sirion:
     variables:
       userctl: true
-      paste-cmd: wl-paste
+      paste_cmd: wl-paste
+      path: "~/.local/bin:$PATH"
     include:
       - core
       - ssh-client
