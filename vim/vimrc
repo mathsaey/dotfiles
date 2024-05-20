@@ -223,7 +223,6 @@ let g:DeleteTrailingWhitespace_Action = 'delete'    " Remove trailing whitespace
 let g:signify_realtime = 1                          " Update git markers more frequently
 let g:peekaboo_delay = 100                          " Don't show the register preview if I already know what to do
 let g:no_plugin_maps = 1                            " Don't let Bclose bind <Leader>bd
-let g:tex_flavor = 'latex'                          " Needs to be set here so vimtex does not complain
 
 let g:session_autosave = 'yes'                      " Always save sessions when quitting vim
 let g:session_autoload = 'no'                       " Don't prompt for opening old sessions, overridden for nvim below
