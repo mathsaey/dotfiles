@@ -9,11 +9,8 @@ set guioptions-=e " Don't use the GUI tab bar
 if has('gui_macvim')
   set macligatures
   set guifont=Menlo:h18
-" elseif has('gui_vimr') " Seems to be broken
-elseif has('nvim') && has('mac')
-  set guifont=Menlo:h18
-else
-  set guifont=Meslo\ LG\ M\ DZ
+elseif has("gui_gtk")
+  set guifont=Menlo\ 18
 endif
 
 " Terminal Colours
@@ -23,21 +20,19 @@ if has('terminal')
   \   '#50b7d9', '#c7c7c7', '#686868', '#fa80ac', '#bde371', '#fff27f',
   \   '#00beff', '#be9eff', '#5ed7ff', '#ffffff'
   \]
-elseif has('nvim')
-  let g:terminal_color_0 = '#171717'
-  let g:terminal_color_1 = '#fe4386'
-  let g:terminal_color_2 = '#a6e32d'
-  let g:terminal_color_3 = '#e6da73'
-  let g:terminal_color_4 = '#0094d9'
-  let g:terminal_color_5 = '#9b37ff'
-  let g:terminal_color_6 = '#50b7d9'
-  let g:terminal_color_7 = '#c7c7c7'
-  let g:terminal_color_8 = '#686868'
-  let g:terminal_color_9 = '#fa80ac'
-  let g:terminal_color_10 = '#bde371'
-  let g:terminal_color_11 = '#fff27f'
-  let g:terminal_color_12 = '#00beff'
-  let g:terminal_color_13 = '#be9eff'
-  let g:terminal_color_14 = '#5ed7ff'
-  let g:terminal_color_15 = '#ffffff'
 endif
+
+let s:pattern = '^\(.* \)\([1-9][0-9]*\)$'
+
+function! AdjustFontSize(amount)
+  let fontname = substitute(&guifont, s:pattern, '\1', '')
+  let cursize = substitute(&guifont, s:pattern, '\2', '')
+  let newsize = cursize + a:amount
+  if (newsize >= 2)
+    let newfont = fontname . newsize
+    let &guifont = newfont
+  endif
+endfunction
+
+nnoremap <C-_> :call AdjustFontSize(-1)<CR>
+nnoremap <C-=> :call AdjustFontSize(+1)<CR>
