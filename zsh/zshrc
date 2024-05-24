@@ -71,17 +71,12 @@ function smux {
   ssh $usr@$srv -t tmuxinator $ses
 }
 
-function unlock-greenwood {
-  # Only works on the local network.
-  # Requires the luks decrypt key to be in the clipboard.
-  echo "Decrypting greenwood. Ensure the LUKS root key is in the system clipboard!."
-  {{@@ paste_cmd @@}} | ssh {{@@ hosts.greenwood_unlock.host @@}} -p {{@@ hosts.greenwood_unlock.port @@}} post root
+{%@@ for item in unlock @@%}
+function unlock-{{@@ item @@}} {
+{{@@ unlock[item].body @@}}
 }
 
-function unlock-gondolin {
-  ssh {{@@ hosts.gondolin_unlock.host @@}} -p {{@@ hosts.gondolin_unlock.port @@}}
-}
-{%@@ endif @@%}
+{%@@ endfor @@%}
 
 {%@@ if mail @@%}
 function mutt {

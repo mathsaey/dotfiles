@@ -3,25 +3,11 @@ Host *
     UseKeychain yes
 {%@@ endif @@%}
 
-Host greenwood
-  HostName {{@@ hosts.greenwood.host @@}}
-  Port {{@@ hosts.greenwood.port @@}}
-Host gondolin
-  HostName {{@@ hosts.gondolin.host @@}}
-  Port {{@@ hosts.gondolin.port @@}}
-
-Host irc
-  HostName {{@@ hosts.irc.host @@}}
-  Port {{@@ hosts.irc.port @@}}
-  RemoteCommand /home/%r/.bin/irc
-  RequestTTY force
-
-Host firefly
-  HostName {{@@ hosts.firefly.host @@}}
-  Port {{@@ hosts.firefly.port @@}}
-Host spitter
-  HostName {{@@ hosts.spitter.host @@}}
-  Port {{@@ hosts.spitter.port @@}}
-Host isabelle
-  HostName {{@@ hosts.isabelle.host @@}}
-  Port {{@@ hosts.isabelle.port @@}}
+{%@@ for item in hosts @@%}
+Host {{@@ item @@}}
+  HostName {{@@ hosts[item].host @@}}
+  Port {{@@ hosts[item].port @@}}
+  {%@@ if 'extra' in hosts[item] @@%}
+{{@@ hosts[item].extra @@}}
+  {%@@ endif @@%}
+{%@@ endfor @@%}

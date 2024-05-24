@@ -4,7 +4,7 @@ config:
   banner: false
   link_dotfile_default: link
   import_variables:
-    - hosts.yaml:optional
+    - local.yaml:optional
     - uservariables.yaml:optional
 
 dotfiles:
@@ -97,7 +97,6 @@ variables:
   mail: false
   path: false
   userctl: false
-  paste_cmd: false
   ssh_client: false
   editor: vim
   visual: vim
@@ -146,8 +145,6 @@ profiles:
 
   # Hostname-based profiles
   silverlode:
-    variables:
-      paste-cmd: pbpaste
     include:
       - core
       - mail
@@ -160,7 +157,6 @@ profiles:
   sirion:
     variables:
       userctl: true
-      paste_cmd: wl-paste
       path: "~/.local/bin:$PATH"
     include:
       - core
