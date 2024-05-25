@@ -87,22 +87,24 @@ dotfiles:
     dst: ~/.netrc
   # ---------------------------------------------------------------------------
 
-
 actions:
   vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
   mbsync_create_maildirs: ~/.dotfiles/_accounts/mbsync/create_dirs.sh
   neomutt_create_cache_dir: mkdir -p ~/.tmp/neomutt/cache/header/
 
-variables:
-  mail: false
-  path: false
-  userctl: false
-  ssh_client: false
-  editor: vim
-  visual: vim
-
+# Always needed so we prompt for it.
 uservariables:
   email: "email"
+
+variables:
+  editor: vim
+  visual: vim
+  # Optional features that require local configuration
+  userctl: false
+  path: false
+  unlock: false
+  mail: false
+  ssh: false
 
 profiles:
   # Core set of config to include everywhere.
@@ -117,13 +119,6 @@ profiles:
       - vim
       - zshrc
 
-  # Set for machines that will ssh to other machines.
-  ssh-client:
-    variables:
-      ssh_client: true
-    dotfiles:
-      - ssh_config
-
   # Set for mail-related utilities
   # Needs to be upated
   mail:
@@ -137,30 +132,23 @@ profiles:
     variables:
       mail: true
 
-  trusted:
-    dotfiles:
-      - ssh_config
-    variables:
-      trusted: true
-
   # Hostname-based profiles
   silverlode:
     include:
       - core
       - mail
-      - ssh-client
     dotfiles:
       - emacs
       - latexmkrc
+      - ssh_config
       - tex
 
   sirion:
-    variables:
-      userctl: true
-      path: "~/.local/bin:$PATH"
     include:
       - core
-      - ssh-client
     dotfiles:
       - emacs
+      - ssh_config
       - latexmkrc
+      - mbsync
+      - msmtp

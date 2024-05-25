@@ -60,7 +60,7 @@ alias grep="grep --color=auto"
 
 {%@@ if userctl @@%}alias userctl="systemctl --user"{%@@ endif @@%}
 
-{%@@ if ssh_client @@%}
+{%@@ if ssh @@%}
 function smux {
   # Attach to a tmuxinator session (arg 2) for user (arg 3) on a server (arg 1).
   # - if no session name is provided use the current username
@@ -70,13 +70,16 @@ function smux {
   usr=${3-$USER}
   ssh $usr@$srv -t tmuxinator $ses
 }
+{%@@ endif @@%}
 
+{%@@ if unlock @@%}
 {%@@ for item in unlock @@%}
 function unlock-{{@@ item @@}} {
 {{@@ unlock[item].body @@}}
 }
 
 {%@@ endfor @@%}
+{%@@ endif @@%}
 
 {%@@ if mail @@%}
 function mutt {
