@@ -1,25 +1,9 @@
-# ------- #
-# Visuals #
-# ------- #
-
 source ~/.config/neomutt/color
 source ~/.config/neomutt/binds
 
-# Sidebar
-# -------
-
-# set sidebar_visible
-
-set mail_check_stats
-set sidebar_new_mail_only
-
-set sidebar_width = 20
-set sidebar_format = '%B %> %?F?[%!]? %?N?%N?'
-
-set sidebar_short_path
-set sidebar_folder_indent
-set sidebar_delim_chars = "/"
-set sidebar_indent_string=" "
+# ------- #
+# Visuals #
+# ------- #
 
 # Index
 # -----
@@ -62,43 +46,30 @@ unignore from to cc date subject X-Label
 unhdr_order *
 hdr_order from to cc date subject X-Label
 
-# -------------- #
-# Mail Behaviour #
-# -------------- #
+# --------- #
+# Mailboxes #
+# --------- #
 
-# Account details should not be available publicly.
-# Therefore, all of my account related settings are divided into various
-# `~/.config/neomutt/accounts.<account name>` files.
-#
-# The command below sources the "master" account file which sets the appropriate
-# account and folder hooks to make everything work.
-source ~/.config/neomutt/accounts
+set realname = '{{@@ name @@}}'
+set folder = '~/.local/mail'
 
-# MIME
-# ----
-
-# Inline a lynx-based html view, prefer plain text when available
-auto_view text/html
-alternative_order text/plain text/html
-
-# Imap
-# ----
-
-set ssl_force_tls
-
-set imap_idle
-unset imap_passive
-
-# GPG
-# ---
-
-set crypt_use_gpgme
+# Set account-specific setting based on folder
+{%@@ for account in mail @@%}
+folder-hook -noregex '~/.local/mail/{{@@ account @@}}' "set from = '{{@@ mail[account].user @@}}'"
+folder-hook -noregex '~/.local/mail/{{@@ account @@}}' "set sendmail = 'msmtp -a {{@@ account @@}}'"
+folder-hook -noregex '~/.local/mail/{{@@ account @@}}' "set folder = '~/.local/mail/{{@@ account @@}}'"
+folder-hook -noregex '~/.local/mail/{{@@ account @@}}' "set spool_file = '+Inbox'"
+folder-hook -noregex '~/.local/mail/{{@@ account @@}}' "set postponed = '+Drafts'"
+folder-hook -noregex '~/.local/mail/{{@@ account @@}}' "set record = '+Sent'"
+folder-hook -noregex '~/.local/mail/{{@@ account @@}}' "set trash =  '+{{@@ mail[account].trash @@}}'"
+mailboxes '~/.local/mail/{{@@ account @@}}/Inbox'
+{%@@ for box in mail[account].mailboxes @@%}
+mailboxes '~/.local/mail/{{@@ account @@}}/{{@@ box @@}}'
+{%@@ endfor @@%}
+{%@@ endfor @@%}
 
 # SMTP
 # ----
-
-# MSMTP is used as follows: `msmtp -a <account>`. The correct account is set
-# by the appropriate folder hooks in accounts.
 
 # Derive envelop_from from from
 set use_envelope_from
@@ -129,10 +100,17 @@ set forward_format = 'Fwd: %s'
 
 set mbox_type = Maildir
 
+# MIME
+# ----
+
+# Inline a lynx-based html view, prefer plain text when available
+auto_view text/html
+alternative_order text/plain text/html
+
 # Aliasing
 # --------
 
-set alias_file = ~/.config/neomutt/addresses
+set alias_file = ~/.config/neomutt/aliases
 source $alias_file # Make sure aliases are loaded at startup
 
 set sort_alias = alias # Sort on alias, not on email
@@ -141,7 +119,7 @@ set reverse_alias = yes # Show alias instead of email when possible
 # Caches
 # ------
 
-set header_cache = ~/.tmp/neomutt/cache/header
+set header_cache = ~/.cache/neomutt/cache/header
 
 # Other
 # -----
@@ -151,10 +129,6 @@ set history_remove_dups
 
 # Don't differentiate between old and new unread
 unset mark_old
-
-# Don't ask confirmation before deleting or appending
-# set delete
-unset confirmappend
 
 # Don't pause on status messages
 set sleep_time = 1

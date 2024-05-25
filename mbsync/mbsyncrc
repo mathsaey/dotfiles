@@ -1,0 +1,25 @@
+Create Both
+Remove Both
+
+{%@@ for account in mail @@%}
+IMAPStore {{@@ account @@}}-imap
+Host {{@@ mail[account].host @@}}
+User {{@@ mail[account].user @@}}
+PassCmd "{{@@ mail[account].passcmd @@}}"
+{%@@ if 'imapextra' in mail[account] @@%}
+{{@@ mail[account].imapextra @@}}
+{%@@ endif @@%}
+SSLType IMAPS
+
+MaildirStore {{@@ account @@}}-local
+SubFolders Verbatim
+Path ~/.local/mail/{{@@ account @@}}/
+Inbox ~/.local/mail/{{@@ account @@}}/Inbox
+
+Channel {{@@ account @@}}
+Near :{{@@ account @@}}-local:
+Far :{{@@ account @@}}-imap:
+Syncstate *
+Patterns *
+
+{%@@ endfor @@%}

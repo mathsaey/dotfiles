@@ -83,12 +83,9 @@ function unlock-{{@@ item @@}} {
 
 {%@@ if mail @@%}
 function mutt {
-  mbsync -q $1
-  neomutt -f ~/.mail/$1/Inbox
-  mbsync -q $1
+  neomutt -f ~/.local/mail/$1/Inbox
 }
-
-# Shortcuts for commonly used maildirs
-alias muttm="mutt mathsaey.be"
-alias muttv="mutt vub.be"
+{%@@ for account in mail @@%}
+alias mutt{{@@ account[:1] @@}}="mutt {{@@ account @@}}"
+{%@@ endfor @@%}
 {%@@ endif @@%}

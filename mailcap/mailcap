@@ -1,9 +1,8 @@
 {%@@ if os == "darwin" @@%}
-# Currently only works for osx
 image/*; qlmanage -p %s >& /dev/null &
 application/*; qlmanage -p %s >& /dev/null &
-{%@@ endif @@%}
-
-# Convert html to plain text with links, open it using a browser when requested
 text/html; open %s; nametemplate=%s.html
+{%@@ elif os == "linux" @@%}
+text/html; xdg-open %s; nametemplate=%s.html
+{%@@ endif @@%}
 text/html; lynx -assume_charset=%{charset} -display_charset=utf-8 -dump %s; nametemplate=%s.html; copiousoutput

@@ -1,0 +1,15 @@
+defaults
+port 587
+auth on
+tls on
+tls_starttls on
+
+{%@@ for account in mail @@%}
+account {{@@ account @@}}
+host {{@@ mail[account].host @@}}
+user {{@@ mail[account].user @@}}
+passwordeval "{{@@ mail[account].passcmd @@}}"
+{%@@ if 'smtpextra' in mail[account] @@%}
+{{@@ mail[account].smtpextra @@}}
+{%@@ endif @@%}
+{%@@ endfor @@%}

@@ -1,5 +1,5 @@
 [user]
-	name = Mathijs Saey
+	name = {{@@ name @@}}
 	email = {{@@ email @@}}
 [core]
 	editor = {{@@ editor @@}}
