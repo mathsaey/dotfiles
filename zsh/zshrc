@@ -5,6 +5,12 @@
 # Enable completion
 autoload -Uz compinit && compinit
 
+# Enable history
+HISTFILE=~/.local/state/zsh_history
+HISTSIZE=1000
+SAVEHIST=1000
+setopt appendhistory
+
 # Use vim keybinds
 export KEYTIMEOUT=1
 bindkey -v
