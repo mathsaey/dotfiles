@@ -91,6 +91,7 @@ variables:
   editor: vim
   visual: vim
   # Optional features that require local configuration
+  signkey: false
   userctl: false
   path: false
   unlock: false

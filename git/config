@@ -1,6 +1,9 @@
 [user]
 	name = {{@@ name @@}}
 	email = {{@@ email @@}}
+{%@@ if signkey @@%}
+	signingkey = {{@@ signkey @@}}
+{%@@ endif @@%}
 [core]
 	editor = {{@@ editor @@}}
 [push]
