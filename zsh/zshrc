@@ -68,13 +68,9 @@ alias grep="grep --color=auto"
 
 {%@@ if ssh @@%}
 function smux {
-  # Attach to a tmuxinator session (arg 2) for user (arg 3) on a server (arg 1).
-  # - if no session name is provided use the current username
-  # - if no user name is provided use the current username
-  srv=${1}
-  ses=${2-$USER}
-  usr=${3-$USER}
-  ssh $usr@$srv -t tmuxinator $ses
+  # We set this up through ssh config now, keep this function around for
+  # muscle memory.
+  ssh smux_${1}
 }
 {%@@ endif @@%}
 
