@@ -435,7 +435,6 @@
 
 (setq org-startup-folded t
 
-      org-enforce-todo-dependencies t
       org-use-property-inheritance t
 
       org-log-done 'time
