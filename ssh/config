@@ -3,11 +3,11 @@ Host *
     UseKeychain yes
 {%@@ endif @@%}
 
-{%@@ for item in hosts @@%}
+{%@@ for item in ssh @@%}
 Host {{@@ item @@}}
-  HostName {{@@ hosts[item].host @@}}
-  Port {{@@ hosts[item].port @@}}
-  {%@@ if 'extra' in hosts[item] @@%}
-{{@@ hosts[item].extra @@}}
+  HostName {{@@ ssh[item].host @@}}
+  Port {{@@ ssh[item].port @@}}
+  {%@@ if 'extra' in ssh[item] @@%}
+{{@@ ssh[item].extra @@}}
   {%@@ endif @@%}
 {%@@ endfor @@%}
