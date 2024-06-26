@@ -256,7 +256,7 @@ let g:lsc_server_commands = {
   \    'command': expand('~/.vim/plugs/elixir-ls/release/language_server.sh'),
   \    'log_level': 'Error'
   \  },
-  \  'rust': expand('~/.cargo/bin/rls'),
+  \  'rust': 'rust-analyzer'
   \}
 
 let g:lsc_auto_map = {
