@@ -23,18 +23,6 @@ set my_red    = color197
 color normal $my_default $my_background
 color status $my_subtle_dark $my_indicator
 
-# ------- #
-# Sidebar #
-# ------- #
-
-color sidebar_divider $my_subtle_dark $my_background
-
-color sidebar_indicator $my_default $my_background
-color sidebar_highlight $my_default $my_indicator
-color sidebar_new       $my_yellow  $my_background
-color sidebar_flagged   $my_default $my_background
-color sidebar_ordinary  $my_subtle $my_background
-
 # ----- #
 # Index #
 # ----- #

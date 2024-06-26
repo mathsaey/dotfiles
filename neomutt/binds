@@ -18,15 +18,7 @@ bind generic,index N search-opposite
 # Index & Pager
 # -------------
 
-# Unbind some functions so help bar shows the "proper" binds
-bind index,pager d noop
-bind index,pager s noop
-
-# i<char> will be used to switch to the inbox of a different account
-bind index,pager i noop
-
-bind pager - noop
-bind pager <space> noop
+bind index ~ toggle-new
 
 # Index-specific navigation
 bind index j next-entry
@@ -58,86 +50,15 @@ bind pager k previous-line
 bind pager <tab> next-undeleted
 bind pager <backtab> previous-undeleted
 
-# Operations on selected/current message
-bind index,pager m noop
-bind index,pager mm mail
-bind index,pager mM resend-message
-bind index,pager md delete-message
-bind index,pager mD purge-message
-bind index,pager mf forward-message
-bind index,pager mb bounce-message
-bind index,pager mu undelete-message
-bind index,pager ml edit-label
-bind index,pager m! flag-message
-bind index,pager mp pipe-message
-bind index,pager ms save-message
-bind index,pager mc copy-message
-bind index       mn toggle-new
-bind pager       mn mark-as-new
-
 # Mark deleted messages as read automatically
-# macro index,pager md ':set resolve=no<enter><clear-flag>N:set resolve=yes<enter><delete-message>'
-# macro index,pager mD ':set resolve=no<enter><clear-flag>N:set resolve=yes<enter><purge-message>'
-
-# Reply operations
-bind index,pager r noop
-bind index,pager rr reply
-bind index,pager ra group-reply
-bind index,pager rl list-reply
-
-# Batch operations
-bind index b noop
-bind index bl limit
-bind index bL show-limit
-bind index bd delete-pattern
-bind index bu undelete-pattern
-bind index b<space> collapse-all
-bind index bo sort-mailbox
-bind index bO sort-reverse
-bind index bt tag-pattern
-bind index bT untag-pattern
-
-# Tag operations
-bind index t noop
-bind index tt tag-entry
-bind index tT tag-prefix
-bind index t<space> tag-thread
+macro index,pager d ':set resolve=no<enter><clear-flag>N:set resolve=yes<enter><delete-message>'
 
 # Compose
 # -------
 
-bind compose E noop
-bind compose b noop
-bind compose c noop
-bind compose f noop
-bind compose s noop
-
-# Make accidentall sends a bit harder
+# Make accidental sends a bit harder
 bind compose y noop
 bind compose Y send-message
 
-# Header operations
-bind compose h noop
-bind compose he edit-headers
-bind compose ht edit-to
-bind compose hc edit-cc
-bind compose hb edit-bcc
-bind compose hf edit-from
-bind compose hr edit-reply-to
-bind compose hs edit-subject
-
-# Attachment operations
-bind compose a noop
-bind compose aa attach-file
-bind compose ad detach-file
-bind compose ae edit-description
-bind compose ar rename-attachment
 bind compose k move-up
 bind compose j move-down
-
-# Tagging operations
-bind compose t noop
-bind compose tt tag-entry
-bind compose tg group-alternatives
-bind compose tl group-multilingual
-bind compose tT tag-prefix

@@ -9,7 +9,7 @@ source ~/.config/neomutt/binds
 # -----
 
 set date_format   = '%a %d/%m/%y %H:%M'
-set index_format  = '%Z %d %-20.20F %?M?(%2M)&    ? %s %> %?g?[%g]?'
+set index_format  = '%Z %d %-20.20F %?M?(%2M)&    ? %s'
 set status_format = ' %f [messages: %m%?d?, deleted: %d?%?t?, tagged: %t?] %?V?{%V}? %> %r (%P) '
 
 # Threads
@@ -33,6 +33,9 @@ set pager_format = ' (%C/%m) %f -- %s %> (%P) '
 set pager_index_lines = 5
 set pager_context = 3
 set pager_stop
+
+# Don't show +when wrapping a line to avoid issues when opening URLs
+unset markers
 
 # Compose
 # -------
@@ -79,6 +82,9 @@ unset use_domain
 # --------- #
 # Composing #
 # --------- #
+
+# Don't ask to use earlier draft, use keybind instead
+set recall = no
 
 # Use vim, the mail filetype has some specific tweaks
 set editor = 'vim'
