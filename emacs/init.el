@@ -98,6 +98,10 @@
 ; Use ivy for autocompletion
 (use-package ivy :config (ivy-mode))
 
+; Point to the currect firefox binary
+(when (string-equal system-type "gnu/linux")
+  (setq browse-url-firefox-program "firefox-bin"))
+
 ; Editing Behavior
 ; ----------------
 
