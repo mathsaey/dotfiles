@@ -98,9 +98,12 @@
 ; Use ivy for autocompletion
 (use-package ivy :config (ivy-mode))
 
-; Point to the currect firefox binary
+; When on linux, use firefox to open urls instead of xdg-open,
+; make sure the appropriate binary is used.
 (when (string-equal system-type "gnu/linux")
-  (setq browse-url-firefox-program "firefox-bin"))
+  (setq
+   browse-url-browser-function 'browse-url-firefox
+   browse-url-firefox-program "firefox-bin"))
 
 ; Editing Behavior
 ; ----------------
