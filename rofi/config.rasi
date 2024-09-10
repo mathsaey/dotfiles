@@ -1,0 +1,122 @@
+configuration {
+  modes: "combi,calc,emoji";
+  combi-modes: "drun,ssh,window,run";
+
+  terminal: "footclient";
+  ssh-command: "{terminal} {ssh-client} {host} [-p {port}]";
+  run-shell-command: "{terminal} zsh -i -c '{cmd}'";
+
+  show-icons: true;
+  drun-display-format: "{name}";
+
+  combi-display-format: "{mode} {text}";
+  display-combi: "";
+  display-drun: "";
+  display-run: "";
+  display-ssh: "󰣀";
+  display-calc: "";
+  display-window: "";
+  display-emoji: "😀";
+  window-format: "{c} · {t}";
+}
+
+* {
+    font: "Iosevka Nerd Font 20";
+
+    background: #323232f2;
+    foreground: #FFFFFFFF;
+    selected-bg: #81A1C1FF;
+    selected-fg: #000000FF;
+    urgent-bg: #BF616A;
+
+    border-color:               var(selected-bg);
+    handle-color:               var(selected-bg);
+    foreground-color:           var(foreground);
+    background-color:           transparent;
+    alternate-background:        var(background);
+    normal-background:           var(background);
+    normal-foreground:           var(foreground);
+    urgent-background:           var(urgent-bg);
+    urgent-foreground:           var(background);
+    active-background:           var(urgent-bg);
+    active-foreground:           var(background);
+
+    selected-normal-background:  var(selected-bg);
+    selected-normal-foreground:  var(selected-fg);
+    selected-urgent-background:  var(urgent-bg);
+    selected-urgent-foreground:  var(foreground);
+    selected-active-background:  var(urgent-bg);
+    selected-active-foreground:  var(background);
+    alternate-normal-background: var(background);
+    alternate-normal-foreground: var(foreground);
+    alternate-urgent-background: var(urgent-bg);
+    alternate-urgent-foreground: var(foreground);
+    alternate-active-background: var(urgent-bg);
+    alternate-active-foreground: var(background);
+}
+
+window {
+    transparency:                "real";
+    background-color:            transparent;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               0px;
+    width:                       1000px;
+    height:                      700px;
+}
+
+mainbox {
+    spacing:                     20px;
+    children:                    [ "inputbar", "message", "listview" ];
+}
+
+inputbar {
+    padding:                     20px;
+    border:                      0px;
+    border-radius:               20px;
+    children:                    [ "prompt", "entry" ];
+    background-color:            var(background);
+}
+
+entry {
+    cursor:                      text;
+    placeholder:                 "Search";
+    vertical-align:              0.5;
+    horizontal-align:            0.4855;
+}
+
+listview {
+    background-color:            var(background);
+    lines:                       12;
+    scrollbar:                   false;
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     30px;
+    border:                      0px solid;
+    border-radius:               20px;
+}
+
+element {
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     8px;
+    border:                      0px solid;
+    border-radius:               12px;
+}
+
+element-icon {
+    size:                        50px;
+    padding:                     0px 25px 0px 0px;
+}
+element-text {
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+}
+
+message {
+    background-color:            var(background);
+    padding:                     20px;
+    border:                      0px;
+    border-radius:               20px;
+}

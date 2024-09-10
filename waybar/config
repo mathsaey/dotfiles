@@ -1,0 +1,191 @@
+{
+  "layer": "top",
+  "modules-left": [
+    "custom/gentoo", "sway/workspaces", "custom/separator", "sway/scratchpad"
+  ],
+  "modules-center": [
+    "sway/mode", "custom/separator",
+    "mpris", "custom/separator",
+    "privacy"
+  ],
+  "modules-right": [
+    "tray", "custom/separator",
+    "custom/mail", "custom/separator",
+    "idle_inhibitor", "custom/separator",
+    "cpu", "memory", "custom/separator",
+    /* "network#wg", */
+    "network", "bluetooth", "custom/separator",
+    "wireplumber", "custom/separator",
+    "battery", "custom/separator",
+    "clock", "custom/separator"
+  ],
+  "custom/gentoo": {
+    "format": "",
+    "interval": 600,
+    "tooltip-format": "{}",
+    "return-type": "json",
+    "exec": "~/.config/waybar/read_portage_packages.sh",
+    "on-click": "footclient --hold sudo emerge --update --newuse --deep --with-bdeps=y @world"
+  },
+  "sway/workspaces": {
+    "format": "{icon}",
+    "window-rewrite": {},
+    "disable-scroll": true,
+    "format-icons": {
+      "web": "󰈹",
+      "org": ""
+    }
+  },
+  "sway/scratchpad": {
+    "format": "{icon} {count}",
+    "show-empty": false,
+    "format-icons": ["", ""],
+    "tooltip": true,
+    "tooltip-format": "{app}: {title}"
+  },
+  "sway/mode": {
+    "tooltip": false,
+    "on-click": "swaymsg mode default"
+  },
+  "mpris": {
+    "format": "",
+    "format-playing": "{status_icon}  {player}",
+    "tooltip-format": "{dynamic}",
+    "dynamic-separator": " / ",
+    "dynamic-order": ["artist", "album", "title", "position", "length"],
+    "enable-tooltip-len-limits": true,
+    "on-click-right": "footclient ncmpcpp",
+    "status-icons": {
+      "playing": "",
+      "paused": "",
+      "stopped": ""
+    },
+    "player-icons": {
+      "default": "",
+      "firefox": "󰈹",
+      "mpd": "󰲸"
+    }
+  },
+  "privacy": {
+    "modules": [
+      { "type": "screenshare" },
+      { "type": "audio-in" }
+    ]
+  },
+  "tray": { "icon-size": 22, "spacing": 12 },
+  "custom/mail": {
+    "return-type": "json",
+    "exec": "~/.config/waybar/unread_mails.sh",
+    "on-click": "footclient neomutt -f ~/.local/mail/mathsaey.be/Inbox",
+    "on-click-right": "footclient neomutt -f ~/.local/mail/vub.be/Inbox"
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": "󰾪"
+    },
+    "tooltip-format-activated": "{icon} staying awake",
+    "tooltip-format-deactivated": "{icon} could use a coffee"
+  },
+  "cpu": {
+    "format": "",
+    "on-click": "footclient htop",
+    "states": {
+      "low": 10,
+      "medium": 40,
+      "high": 70
+    }
+  },
+  "memory": {
+    "format": "",
+    "tooltip-format": "Mem: {used:4.2} / {avail:.2} GiB\nSwp: {swapUsed:4.2} / {swapAvail:.2} GiB",
+    "on-click": "footclient htop",
+    "states": {
+      "low": 10,
+      "medium": 40,
+      "high": 70
+    }
+  },
+  "bluetooth": {
+    "on-click": "~/.config/waybar/toggle_bluetooth_power.sh",
+    "on-click-right": "footclient bluetoothctl",
+    "format-on": "󰂯",
+    "tooltip-format-on": "{controller_address_type}: {controller_address}",
+    "format-off": "󰂲",
+    "tooltip-format": "{controller_alias}: {status}",
+    "format-disabled": "󰂲",
+    "format-no-controller": "󰂲",
+    "format-connected": "󰂰",
+    "tooltip-format-connected": "Connected: \n{device_enumerate}",
+    "tooltip-format-enumerate-connected": " {device_alias} ({device_address_type}: {device_address})"
+  },
+  "network": {
+    "interval": 5,
+    "on-click": "iwgtk",
+    "on-click-right": "footclient iwctl",
+    "format-ethernet": "󰈁",
+    "format-disabled": "󰖪",
+    "format-disconnected": "󱛅",
+    "format-wifi": "{icon}",
+    "format-icons": ["󰖩"],
+    "tooltip-format-wifi": "{icon} {essid} ({signalStrength}%)\n\n{ifname}: {ipaddr}\n\n󱚶 {bandwidthDownBytes} 󱚺 {bandwidthUpBytes}",
+    "tooltip-format-ethernet": "{ifname}: {ipaddr}\n\n {bandwidthDownBytes}  {bandwidthUpBytes}"
+  },
+  "network#wg": {
+    "on-click": "sudo wgctl toggle be",
+    "interface": "wg*",
+    "format": "󰒄",
+    "format-disabled": "󰲝",
+    "format-disconnected": "󰲝",
+    "tooltip-format": "{ifname}",
+    "tooltip-format-disconnected": "Not connected to wireguard"
+  },
+  "wireplumber": {
+    "format": "󰕾 {volume:3}%",
+    "format-muted": "󰝟 {volume:3}%",
+    "on-click": "helvum"
+  },
+  "battery": {
+    "bat": "BAT1",
+    "interval": 5,
+    "format-unknown": "󰂑 {capacity:3}%",
+    "format-full": "󰚥 {capacity:3}%",
+    "format-plugged": "󰚥 {capacity:3}%",
+    "format-charging": "󰂄 {capacity:3}%",
+    "format-discharging": "{icon} {capacity:3}%",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "states": {
+      "low": 20,
+      "critical": 10
+    }
+  },
+  "clock": {
+    "interval": 1,
+    "format": "{:%a %e %b %H:%M:%S}",
+    "tooltip-format": "{tz_list}\n<small>{calendar}</small>",
+    "timezones": [
+      "",
+      "Europe/Brussels",
+      "Asia/Shanghai",
+      "US/Pacific"
+    ],
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "format": {
+        "months": "<span color='#c4a7e7'><b>{}</b></span>",
+        "days":   "<span color='#a6adc8'><b>{}</b></span>",
+        "weeks": "<span color='#a9dc76'><b>{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#eb6f92'><b>{}</b></span>"
+      }
+    }
+  },
+  "custom/separator": {
+    "format": " ",
+    "interval": "once",
+    "tooltip": false
+  }
+}

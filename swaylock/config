@@ -1,0 +1,48 @@
+# This enables calling swaylock from a script and proceed with doing whatever
+# after it locks the screen. Note that the script may return during the grace
+# period.
+daemonize
+
+# Overall Visuals
+# ---------------
+
+# Show the current screen, but blurred out enough text is not visible.
+# Add some greyscale for dramatic effect
+screenshot
+effect-greyscale
+effect-blur=10x10
+
+# Make it visually obvious the machine is locked
+indicator-idle-visible
+
+# These options are passed in swayidle to prevent slowing down lid-close etc
+# fade-in=3
+# grace=5
+
+# Indicator Contents
+# ------------------
+
+# When idle
+clock
+datestr=%A %e %B
+
+# Indicator Visuals
+# -----------------
+
+indicator-radius=100
+indicator-thickness=5
+
+# Idle
+text-color=fbbf24
+ring-color=ae81ff
+inside-color=00000088
+key-hl-color=a6e22e
+
+# Verifying
+text-ver-color=fbbf24
+inside-ver-color=00000088
+ring-ver-color=a6e22e
+
+show-failed-attempts
+indicator-caps-lock
+separator-color=00000000

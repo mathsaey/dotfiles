@@ -1,0 +1,8 @@
+# https://github.com/swaywm/sway/wiki/Running-programs-natively-under-wayland
+MOZ_ENABLE_WAYLAND=1
+QT_WAYLAND_FORCE_DPI=physical
+QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+SDL_VIDEODRIVER=wayland
+_JAVA_AWT_WM_NONREPARENTING=1
+
+SIGNAL_USE_WAYLAND=1

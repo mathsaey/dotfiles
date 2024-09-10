@@ -1,0 +1,204 @@
+# Start the session script, which sets up systemd / dbus integration
+exec "~/.config/sway/manage_systemd_user_session.sh"
+
+# Laptop hardware configuration
+# -----------------------------
+
+input "2362:628:PIXA3854:00_093A:0274_Touchpad" {
+  tap enabled
+  drag disabled
+  tap_button_map lrm
+}
+
+# Visuals
+# -------
+
+default_border pixel 3
+default_floating_border normal
+smart_borders off
+
+smart_gaps inverse_outer
+gaps inner 5
+gaps outer 2
+
+workspace web gaps inner 0
+
+# -------- #
+# Keybinds #
+# -------- #
+
+set $mod Mod4
+
+set $left h
+set $down j
+set $up k
+set $right l
+
+# Movement
+# --------
+
+# Between windows
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# Between workspaces
+bindsym $mod+grave workspace back_and_forth
+bindsym $mod+Left workspace prev_on_output
+bindsym $mod+Right workspace next_on_output
+bindgesture swipe:left workspace prev_on_output
+bindgesture swipe:right workspace next_on_output
+
+# Between outputs
+bindsym $mod+alt+$left focus output left
+bindsym $mod+alt+$right focus output right
+bindsym $mod+alt+$up focus output up
+bindsym $mod+alt+$down focus output down
+
+# To specific workspaces
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+bindsym $mod+w workspace "web"
+
+# Between tiling / floating
+bindsym $mod+g focus mode_toggle
+
+# To the parent / child
+bindsym $mod+a focus parent
+bindsym $mod+z focus child
+
+# Moving Windows
+# --------------
+
+# Around
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# To the tiling or floating layer
+bindsym $mod+Shift+g floating toggle
+
+# To another workspace
+bindsym $mod+Shift+grave move container to workspace back_and_forth
+bindsym $mod+Shift+Left move container to workspace prev_on_output
+bindsym $mod+Shift+Right move container to workspace next_on_output
+
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+Shift+w move container to workspace "web"
+
+# Moving workspaces
+# -----------------
+
+mode "workspace → output" {
+  bindsym $left move workspace to output left
+  bindsym $right move workspace to output right
+  bindsym $up move workspace to output up
+  bindsym $down move workspace to output down
+
+  bindsym q mode "default"
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+o mode "workspace → output
+
+# Layout
+# ------
+
+bindsym $mod+f fullscreen
+bindsym $mod+d layout toggle tabbed splitv splith
+
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Scratchpad
+# ----------
+
+bindsym $mod+Shift+m move scratchpad
+bindsym $mod+m scratchpad show
+
+# Window interaction
+# ------------------
+
+bindsym $mod+q kill
+floating_modifier $mod normal
+
+# Generic
+# -------
+
+bindsym $mod+Return exec footclient
+
+# Rofi invocations
+bindsym $mod+e exec rofi -show emoji
+bindsym $mod+space exec rofi -show combi
+bindsym $mod+alt+space exec rofi -show calc -modes calc
+
+bindsym $mod+c reload
+bindsym XF86Tools exec wlogout --protocol layer-shell
+
+# Notifications
+set $notify-audio mctl percent $(wpctl get-volume @DEFAULT_SINK@ | awk '{print $2 * 100}')
+set $notify-brightness mctl percent $(xbacklight -get)
+
+# Audio
+bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle ; exec "mctl speaker $(if [[ -z $(wpctl get-volume @DEFAULT_SINK@ | awk '{print $3}') ]] ; then echo on ; else echo off ; fi)"
+bindsym --locked XF86AudioLowerVolume exec wpctl set-volume --limit 2 @DEFAULT_SINK@ 5%- ; exec $notify-audio
+bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume --limit 2 @DEFAULT_SINK@ 5%+ ; exec $notify-audio
+bindsym --locked Shift+XF86AudioLowerVolume exec wpctl set-volume --limit 1 @DEFAULT_SINK@ 1%- ; exec $notify-audio
+bindsym --locked Shift+XF86AudioRaiseVolume exec wpctl set-volume --limit 1 @DEFAULT_SINK@ 1%+ ; exec $notify-audio
+
+bindsym --locked XF86AudioPrev exec playerctl --player playerctld previous
+bindsym --locked XF86AudioPlay exec playerctl --player playerctld play-pause
+bindsym --locked XF86AudioNext exec playerctl --player playerctld next
+bindsym --locked Shift+XF86AudioPlay exec playerctl --player playerctld stop
+bindsym --locked Shift+XF86AudioPrev exec playerctl --player playerctld position 5-
+bindsym --locked Shift+XF86AudioNext exec playerctl --player playerctld position 5+
+bindsym alt+XF86AudioPlay exec footclient ncmpcpp
+
+# Brightness
+bindsym --locked XF86MonBrightnessDown exec xbacklight -dec 5 ; exec $notify-brightness
+bindsym --locked XF86MonBrightnessUp exec xbacklight -inc 5 ; exec $notify-brightness
+bindsym --locked Shift+XF86MonBrightnessDown exec xbacklight -dec 1 ; exec $notify-brightness
+bindsym --locked Shift+XF86MonBrightnessUp exec xbacklight -inc 1 ; exec $notify-brightness
+bindsym alt+XF86MonBrightnessDown output eDP-1 disable
+bindsym alt+XF86MonBrightnessUp output eDP-1 enable
+
+# Screenshots
+bindsym Print exec grim - | swappy -f -
+bindsym Shift+Print exec grim -g "$(slurp)" - | swappy -f -
+bindsym Alt+Print exec swaymsg -t get_tree | \
+  jq -r '.. | (.nodes? // empty)[] | select(.pid and .visible) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' \
+  | slurp | grim -g - - | swappy -f -
+
+# Window Rules
+# ------------
+
+for_window [app_id = "floating"] floating enable
+for_window [app_id = "floating_update"] floating enable, resize set width 1000px height 600px
+for_window [title = "Administrator privileges required"] floating enable
+
+# Start on launch
+# ---------------
+
+workspace web
+exec firefox-bin
+
+workspace 1

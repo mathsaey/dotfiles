@@ -66,6 +66,40 @@ dotfiles:
     src: tex/packages/
     dst: ~/.config/tex
 
+  dunst:
+    src: dunst/dunstrc
+    dst: ~/.config/dunst/dunstrc
+  foot:
+    src: foot/foot.ini
+    dst: ~/.config/foot/foot.ini
+  kanshi:
+    src: kanshi/config
+    dst: ~/.config/kanshi/config
+  rofi:
+    src: rofi/config.rasi
+    dst: ~/.config/rofi/config.rasi
+  swappy:
+    src: swappy/config
+    dst: ~/.config/swappy/config
+  sway:
+    src: sway
+    dst: ~/.config/sway
+    link: link_children
+  swayidle:
+    src: swayidle/config
+    dst: ~/.config/swayidle/config
+  swaylock:
+    src: swaylock/config
+    dst: ~/.config/swaylock/config
+  waybar:
+    src: waybar
+    dst: ~/.config/waybar
+    link: link_children
+  wlogout:
+    src: wlogout
+    dst: ~/.config/wlogout
+    link: link_children
+
 actions:
   vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
   mbsync_create_maildirs: '{%@@ for account in mbsync @@%} mkdir -p ~/.local/mail/{{@@ account @@}} ;{%@@ endfor @@%} '
@@ -104,6 +138,20 @@ profiles:
     - mbsync
     - msmtp
 
+  # Sway-based desktop
+  sway_desktop:
+    dotfiles:
+    - dunst
+    - foot
+    - kanshi
+    - rofi
+    - swappy
+    - sway
+    - swayidle
+    - swaylock
+    - waybar
+    - wlogout
+
   # Hostname-based profiles
   silverlode:
     include:
@@ -119,8 +167,8 @@ profiles:
     include:
     - core
     - mail
+    - sway_desktop
     dotfiles:
     - emacs
     - ssh_config
     - latexmkrc
-    - d_sway

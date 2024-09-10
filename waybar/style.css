@@ -1,0 +1,144 @@
+@define-color critical #6c7086; /* critical color */
+@define-color warning #a6adc8;  /* warning color */
+@define-color alert   #BF616A;
+
+@define-color active-bg #81A1C1;
+@define-color active-fg #323232;
+
+@define-color accent-dark #a6adc8;
+@define-color accent-green #a9dc76;
+@define-color accent-red #eb6f92;
+@define-color accent-cyan #9ccfd8;
+@define-color accent-yellow #f6c177;
+@define-color accent-blue #31748f;
+@define-color accent-purple #c4a7e7;
+@define-color accent-pink #ebbcba;
+
+window#waybar {
+  background-color: rgba(50, 50, 50, 0.9);
+  color: #ffffff;
+  border-radius: 0 0 20px 20px;
+}
+
+* {
+  border: none;
+  border-radius: 6px;
+  font-family: "CaskaydiaCove Nerd Font";
+  font-size: 20px;
+}
+
+#custom-gentoo {
+  margin: 4px 8px 6px 8px;
+  min-width: 38px;
+  font-size: 24px;
+}
+
+#workspaces button {
+  padding: 0 4px 0 4px;
+  margin: 4px 0 4px 0;
+  min-width: 35px;
+  background-color: transparent;
+  color: #ffffff;
+}
+#workspaces button.focused {
+  background-color: @active-bg;
+  color: @active-fg;
+}
+#workspaces button.urgent {
+  background-color: @alert;
+}
+#workspaces button:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad {
+  padding: 0 4px 0 4px;
+  margin: 4px 0 4px 0;
+  min-width: 36px;
+}
+
+#mode {
+  padding: 0 4px 0 4px;
+  margin: 4px 0 4px 0;
+  background-color: @active-bg;
+  color: @active-fg;
+}
+
+#mpris {
+  padding: 1px 6px 0px 6px;
+  margin: 4px 3px 4px 3px;
+  color: @accent-dark;
+}
+
+#custom-mail {
+  margin: 4px 8px 6px 8px;
+}
+
+#idle_inhibitor {
+  padding: 0 4px 0 4px;
+  margin: 4px 0 4px 0;
+  min-width: 24px;
+  color: @accent-dark;
+}
+
+#idle_inhibitor.activated {
+  color: @accent-red;
+}
+
+#cpu,#memory {
+  padding: 1px 6px 0px 6px;
+  margin: 4px 3px 4px 3px;
+  background-color: transparent;
+  color: @accent-dark;
+}
+
+#cpu.low, #memory.low       { color: @accent-green; }
+#cpu.medium, #memory.medium { color: @accent-yellow; }
+#cpu.high, #memory.high     { color: @accent-red; }
+
+#network {
+  padding: 1px 6px 0px 6px;
+  margin: 4px 3px 4px 3px;
+}
+
+#network.disabled { color: @accent-red; }
+
+#network.wg {
+  padding: 1px 6px 0px 6px;
+  margin: 4px 3px 4px 3px;
+  color: @accent-yellow;
+}
+
+#network.wg.disconnected, #network.wg.disabled { color: @accent-dark; }
+
+#bluetooth {
+  padding: 1px 6px 0px 6px;
+  margin: 4px 3px 4px 3px;
+}
+
+#bluetooth.off { color: @accent-dark; }
+#bluetooth.connected { color: @accent-purple; }
+#bluetooth.disabled { color: @accent-red; }
+
+#wireplumber {
+  padding: 1px 6px 0px 6px;
+  margin: 4px 3px 4px 3px;
+}
+
+#wireplumber.muted { color: @accent-red; }
+
+#battery {
+  padding: 1px 6px 0px 6px;
+  margin: 4px 3px 4px 3px;
+}
+
+#battery.low { color: @accent-yellow; }
+#battery.critical { color: @accent-red; }
+#battery.charging { color: @accent-purple; }
+#battery.full, #battery.plugged { color: @accent-green; }
+#battery-not-charging, #battery.unknown { background-color: @alert; }
+
+#clock {
+  padding: 1px 6px 0px 6px;
+  margin: 4px 3px 4px 3px;
+}

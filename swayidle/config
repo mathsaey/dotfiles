@@ -1,0 +1,13 @@
+# Make it visually obvious we are locking, and give a few extra seconds to
+# prevent a lock once the lock animation ends.
+timeout 180 'swaylock --fade-in=3 --grace=5'
+
+# Turn off the display to save power
+timeout 300 'swaymsg "output * power off"' resume 'swaymsg "output * power on"'
+
+# Suspend to save even more power.
+timeout 600 'systemctl suspend-then-hibernate'
+
+# Ensure we lock when the session gets locked (e.g. when the lid is closed)
+before-sleep 'swaylock'
+lock 'swaylock'

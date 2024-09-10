@@ -1,0 +1,28 @@
+[global]
+follow = keyboard
+origin = top-right
+offset = 5x5
+width = 400
+frame_width = 1
+corner_radius = 5
+font = "CaskaydiaCove Nerd Font 14"
+progress_bar_corner_radius = 5
+enable_posix_regex=true
+
+[color-normal-priority]
+msg_urgency=normal
+background = "#222222"
+
+[color-critical-priority]
+msg_urgency=critical
+background = "#f92a72"
+
+[center-progress]
+stack_tag=(volume|brightness)
+alignment=center
+
+[change-muted-color]
+stack_tag=volume
+body=.*Muted.*
+highlight = "#f92a72"
+format = "<b>%s</b>"

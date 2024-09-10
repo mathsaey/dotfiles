@@ -1,0 +1,4 @@
+[Default]
+save_dir=$HOME/Pictures/screenshots
+save_filename_format=%F_%T.png
+early_exit=true
