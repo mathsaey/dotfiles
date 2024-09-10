@@ -4,93 +4,80 @@ config:
   banner: false
   link_dotfile_default: link
   import_variables:
-    - local.yaml:optional
-    - uservariables.yaml:optional
+  - local.yaml:optional
+  - uservariables.yaml:optional
 
 dotfiles:
-  # Core set -----------------------------------------------------------------
   bashrc:
     src: bash/bashrc
     dst: ~/.bashrc
   bash_profile:
     src: bash/bashrc
     dst: ~/.bash_profile
-
   gitconfig:
     src: git/config
     dst: ~/.config/git/config
   gitignore:
     src: git/ignore
     dst: ~/.config/git/ignore
-
   tmuxconf:
     src: tmux/tmux
     dst: ~/.config/tmux/tmux.conf
-
   vim:
     src: vim
     dst: ~/.vim/
     link: link_children
     actions:
-      - vim_make_dirs
+    - vim_make_dirs
 
   zshrc:
     src: zsh/zshrc
     dst: ~/.zshrc
-  # Mail set ------------------------------------------------------------------
   mailcap:
     src: mailcap/mailcap
     dst: ~/.mailcap
-
   mbsync:
     src: mbsync/mbsyncrc
     dst: ~/.mbsyncrc
     actions:
-      - mbsync_create_maildirs
+    - mbsync_create_maildirs
 
   msmtp:
     src: msmtp/config
     dst: ~/.config/msmtp/config
-
   neomutt:
     src: neomutt
     dst: ~/.config/neomutt
     link: link_children
     actions:
-      - neomutt_create_cache_dir
-  # ---------------------------------------------------------------------------
+    - neomutt_create_cache_dir
+
   emacs:
     src: emacs
     dst: ~/.config/emacs/
     link: link_children
-
   latexmkrc:
     src: tex/latexmkrc
     dst: ~/.config/latexmk/latexmkrc
-
   ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
-
   tex:
     src: tex/packages/
     dst: ~/.config/tex
-  # ---------------------------------------------------------------------------
 
 actions:
   vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
-  mbsync_create_maildirs: "{%@@ for account in mbsync @@%} mkdir -p ~/.local/mail/{{@@ account @@}} ;{%@@ endfor @@%} "
+  mbsync_create_maildirs: '{%@@ for account in mbsync @@%} mkdir -p ~/.local/mail/{{@@ account @@}} ;{%@@ endfor @@%} '
   neomutt_create_cache_dir: mkdir -p ~/.cache/neomutt/header/
 
-# Always needed so we prompt for it.
 uservariables:
-  email: "email"
-  name: "Full name"
+  email: email
+  name: Full name
 
 variables:
   editor: vim
   visual: vim
-  # Optional features that require local configuration
   signkey: false
   userctl: false
   path: false
@@ -99,42 +86,41 @@ variables:
   ssh: false
 
 profiles:
-  # Core set of config to include everywhere.
-  # Use -p core when only this set is needed.
   core:
     dotfiles:
-      - bashrc
-      - bash_profile
-      - gitconfig
-      - gitignore
-      - tmuxconf
-      - vim
-      - zshrc
+    - bashrc
+    - bash_profile
+    - gitconfig
+    - gitignore
+    - tmuxconf
+    - vim
+    - zshrc
 
   # Set for mail-related utilities
   mail:
     dotfiles:
-      - neomutt
-      - mailcap
-      - mbsync
-      - msmtp
+    - neomutt
+    - mailcap
+    - mbsync
+    - msmtp
 
   # Hostname-based profiles
   silverlode:
     include:
-      - core
-      - mail
+    - core
+    - mail
     dotfiles:
-      - emacs
-      - latexmkrc
-      - ssh_config
-      - tex
+    - emacs
+    - latexmkrc
+    - ssh_config
+    - tex
 
   sirion:
     include:
-      - core
-      - mail
+    - core
+    - mail
     dotfiles:
-      - emacs
-      - ssh_config
-      - latexmkrc
+    - emacs
+    - ssh_config
+    - latexmkrc
+    - d_sway
