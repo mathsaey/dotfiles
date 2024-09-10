@@ -1,0 +1,111 @@
+# Movement
+# -------
+
+# Vim keybinds for life
+def_key "k"
+  scroll_up
+def_key "j"
+  scroll_down
+def_key "l"
+  next_column
+def_key "h"
+ previous_column
+
+def_key "?"
+  show_help
+
+# Global
+# ------
+
+# Only make "q" quit on one of the "main" screens, otherwise, head back to the
+# playlist. Ideally, we'd go back to the previous screen, but this is not
+# possible as far as I know.
+
+def_key "q"
+  require_screen "playlist"
+  quit
+
+def_key "q"
+  require_screen "media_library"
+  quit
+
+def_key "q"
+  require_screen "playlist_editor"
+  quit
+
+def_key "q"
+  show_playlist
+
+# Browser
+# --------
+
+# Use enter to play the playlist
+def_key "enter"
+  require_screen "playlist_editor"
+  clear_main_playlist
+  play_item
+  play
+
+def_key "enter"
+  enter_directory
+
+def_key "enter"
+  toggle_output
+
+def_key "enter"
+  run_action
+
+def_key "enter"
+  play_item
+
+
+# Unbind
+# ------
+
+# Only allow clear / crop in main playlist
+def_key "c"
+  require_screen "playlist"
+  clear_main_playlist
+
+def_key "C"
+  require_screen "playlist"
+  crop_main_playlist
+
+# Don't use left/right to lower/raise volume, use default binds otherwise
+def_key "left"
+  previous_column
+def_key "left"
+  master_screen
+
+def_key "right"
+  next_column
+def_key "right"
+  slave_screen
+
+# Don't change browser mode
+def_key "2"
+  show_browser
+
+# Unbind keys that are just bound to confuse me when I hit them accidentally
+def_key "T"
+  dummy
+
+def_key "|"
+  dummy
+
+def_key "w"
+  dummy
+
+def_key "\\"
+  dummy
+
+def_key "F"
+  dummy
+
+def_key "L"
+  dummy
+
+def_key "alt-l"
+  dummy
+
+

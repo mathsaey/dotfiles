@@ -100,6 +100,14 @@ dotfiles:
     dst: ~/.config/wlogout
     link: link_children
 
+  mpd:
+    src: mpd/mpd.conf
+    dst: ~/.config/mpd/mpd.confg
+  ncmpcpp:
+    src: ncmpcpp
+    dst: ~/.config/ncmpcpp
+    link: link_children
+
 actions:
   vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
   mbsync_create_maildirs: '{%@@ for account in mbsync @@%} mkdir -p ~/.local/mail/{{@@ account @@}} ;{%@@ endfor @@%} '
@@ -152,6 +160,11 @@ profiles:
     - waybar
     - wlogout
 
+  mpd:
+    dotfiles:
+    - mpd
+    - ncmpcpp
+
   # Hostname-based profiles
   silverlode:
     include:
@@ -168,6 +181,7 @@ profiles:
     - core
     - mail
     - sway_desktop
+    - mpd
     dotfiles:
     - emacs
     - ssh_config
