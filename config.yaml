@@ -102,7 +102,7 @@ dotfiles:
 
   mpd:
     src: mpd/mpd.conf
-    dst: ~/.config/mpd/mpd.confg
+    dst: ~/.config/mpd/mpd.conf
   ncmpcpp:
     src: ncmpcpp
     dst: ~/.config/ncmpcpp
