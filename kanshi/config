@@ -1,8 +1,8 @@
 output eDP-1 adaptive_sync on
+output "Microstep MSI MAG323UPF Unknown" adaptive_sync on
 
 profile standalone {
   output eDP-1 {
-    adaptive_sync on
     position 0,0
     enable
   }
@@ -12,7 +12,6 @@ profile standalone {
 profile desk@home {
   output eDP-1 {
     position 3840,345
-    adaptive_sync on
   }
   output "Microstep MSI MAG323UPF Unknown" {
     position 0,0
