@@ -20,6 +20,9 @@ bind generic,index N search-opposite
 
 bind index ~ toggle-new
 
+bind index,pager r group-reply
+bind index,pager R reply
+
 # Index-specific navigation
 bind index j next-entry
 bind index k previous-entry
