@@ -85,6 +85,10 @@ window#waybar {
   color: @accent-red;
 }
 
+#power-profiles-daemon.performance{ color: @accent-yellow; }
+#power-profiles-daemon.balanced{ color: @accent-dark; }
+#power-profiles-daemon.power-saver{ color: @accent-green; }
+
 #cpu,#memory {
   padding: 1px 6px 0px 6px;
   margin: 4px 3px 4px 3px;

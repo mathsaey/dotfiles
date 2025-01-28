@@ -12,7 +12,7 @@
     "tray", "custom/separator",
     "custom/mail", "custom/separator",
     "idle_inhibitor", "custom/separator",
-    "cpu", "memory", "custom/separator",
+    "cpu", "memory", "power-profiles-daemon", "custom/separator",
     /* "network#wg", */
     "network", "bluetooth", "custom/separator",
     "wireplumber", "custom/separator",
@@ -25,7 +25,7 @@
     "tooltip-format": "{}",
     "return-type": "json",
     "exec": "~/.config/waybar/read_portage_packages.sh",
-    "on-click": "footclient --hold sudo emerge --update --newuse --deep --with-bdeps=y @world"
+    "on-click": "~/.config/waybar/update_world.sh"
   },
   "sway/workspaces": {
     "format": "{icon}",
@@ -33,7 +33,7 @@
     "disable-scroll": true,
     "format-icons": {
       "web": "󰈹",
-      "org": ""
+      "projector": "󰐮",
     }
   },
   "sway/scratchpad": {
@@ -87,6 +87,13 @@
     },
     "tooltip-format-activated": "{icon} staying awake",
     "tooltip-format-deactivated": "{icon} could use a coffee"
+  },
+  "power-profiles-daemon": {
+    "format-icons": {
+      "power-saver": " 󱕊 ",
+      "balanced": " 󱇼 ",
+      "performance": " 󱕌 ",
+    },
   },
   "cpu": {
     "format": "",
@@ -144,7 +151,8 @@
   "wireplumber": {
     "format": "󰕾 {volume:3}%",
     "format-muted": "󰝟 {volume:3}%",
-    "on-click": "helvum"
+    "on-click": "helvum",
+    "on-click-right": "mctl animation cava toggle",
   },
   "battery": {
     "bat": "BAT1",
