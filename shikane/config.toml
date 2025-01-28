@@ -1,0 +1,69 @@
+[[profile]]
+name = "standalone"
+exec = [
+  "xbacklight -set 10",
+  "powerprofilesctl set balanced"
+]
+
+[[profile.output]]
+search = ["n=eDP-1"]
+scale = 1.0
+enable = true
+adaptive_sync = true
+position = "0,0"
+mode = "2560x1600@165Hz"
+
+[[profile]]
+name = "desk@home"
+exec = [
+  "swaymsg workspace web, move workspace to '\"Microstep MSI MAG323UPF Unknown\"'",
+  "powerprofilesctl set performance"
+]
+
+[[profile.output]]
+search = ["m=MSI MAG323UPF", "v=Microstep"]
+scale = 1.0
+enable = true
+adaptive_sync = true
+position = "0,0"
+mode = "3840x2160@59.997Hz"
+
+[[profile.output]]
+search = ["n=eDP-1"]
+scale = 1.0
+enable = true
+adaptive_sync = true
+position = "3840,345"
+mode = "2560x1600@165Hz"
+
+[[profile]]
+name = "desk+projector@home"
+exec = [
+  "swaymsg workspace web, move workspace to '\"Microstep MSI MAG323UPF Unknown\"'",
+  "swaymsg workspace projector, move workspace to '\"ONKYO Corporation TX-SR444 Unknown\"'",
+  "powerprofilesctl set performance"
+]
+
+[[profile.output]]
+search = ["m=MSI MAG323UPF", "v=Microstep"]
+scale = 1.0
+enable = true
+adaptive_sync = true
+position = "0,0"
+mode = "3840x2160@59.997Hz"
+
+[[profile.output]]
+search = ["m=TX-SR444", "s=", "v=ONKYO Corporation"]
+scale = 1.0
+enable = true
+adaptive_sync = false
+position = "781,2160"
+mode = "1920x1080@59.94Hz"
+
+[[profile.output]]
+search = ["n=eDP-1"]
+scale = 1.0
+enable = true
+adaptive_sync = true
+position = "3840,345"
+mode = "2560x1600@165Hz"

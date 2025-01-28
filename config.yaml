@@ -65,16 +65,15 @@ dotfiles:
   tex:
     src: tex/packages/
     dst: ~/.config/tex
-
   dunst:
     src: dunst/dunstrc
     dst: ~/.config/dunst/dunstrc
   foot:
     src: foot/foot.ini
     dst: ~/.config/foot/foot.ini
-  kanshi:
-    src: kanshi/config
-    dst: ~/.config/kanshi/config
+  shikane:
+    src: shikane/config.toml
+    dst: ~/.config/shikane/config.toml
   rofi:
     src: rofi/config.rasi
     dst: ~/.config/rofi/config.rasi
@@ -151,7 +150,7 @@ profiles:
     dotfiles:
     - dunst
     - foot
-    - kanshi
+    - shikane
     - rofi
     - swappy
     - sway
