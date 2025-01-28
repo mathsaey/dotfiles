@@ -5,7 +5,9 @@ timeout 180 'swaylock --fade-in=3 --grace=5'
 # Turn off the display to save power
 timeout 300 'swaymsg "output * power off"' resume 'swaymsg "output * power on"'
 
-# Suspend to save even more power.
+# When we are not docked to our monitor, suspend to save more power.
+# Don't suspend when docked, as this seems to mess up the display connection
+# timeout 600 '[[ $(swaymsg -t get_outputs -r | jq "map(.model) | any(index(\"MSI MAG323UPF\"))") != true ]] && systemctl suspend-then-hibernate'
 timeout 600 'systemctl suspend-then-hibernate'
 
 # Ensure we lock when the session gets locked (e.g. when the lid is closed)

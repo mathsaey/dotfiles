@@ -10,7 +10,7 @@ configuration {
   drun-display-format: "{name}";
 
   combi-display-format: "{mode} {text}";
-  display-combi: "";
+  display-combi: " ";
   display-drun: "";
   display-run: "";
   display-ssh: "󰣀";
@@ -18,6 +18,12 @@ configuration {
   display-window: "";
   display-emoji: "😀";
   window-format: "{c} · {t}";
+  emoji-mode: "insert_no_copy";
+}
+
+emoji {
+  // Set in sway config, as the plugin seems to ignore this config file
+  emoji-mode: "insert_no_copy";
 }
 
 * {

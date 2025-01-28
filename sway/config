@@ -68,6 +68,7 @@ bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
 bindsym $mod+w workspace "web"
+bindsym $mod+p workspace "projector"
 
 # Between tiling / floating
 bindsym $mod+g focus mode_toggle
@@ -92,6 +93,11 @@ bindsym $mod+Shift+g floating toggle
 bindsym $mod+Shift+grave move container to workspace back_and_forth
 bindsym $mod+Shift+Left move container to workspace prev_on_output
 bindsym $mod+Shift+Right move container to workspace next_on_output
+bindsym $mod+Alt+Shift+$left move container to output left
+bindsym $mod+Alt+Shift+$right move container to output right
+bindsym $mod+Alt+Shift+$up move container to output up
+bindsym $mod+Alt+Shift+$down move container to output down
+
 
 bindsym $mod+Shift+1 move container to workspace number 1
 bindsym $mod+Shift+2 move container to workspace number 2
@@ -104,6 +110,7 @@ bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
 bindsym $mod+Shift+w move container to workspace "web"
+bindsym $mod+Shift+p move container to workspace "projector"
 
 # Moving workspaces
 # -----------------
@@ -162,9 +169,10 @@ bindsym $mod+r mode "resize"
 bindsym $mod+Return exec footclient
 
 # Rofi invocations
-bindsym $mod+e exec rofi -show emoji
-bindsym $mod+space exec rofi -show combi
-bindsym $mod+alt+space exec rofi -show calc -modes calc
+set $rofi rofi -emoji-mode insert_no_copy
+bindsym $mod+e exec $rofi -show emoji
+bindsym $mod+space exec $rofi -show combi
+bindsym $mod+alt+space exec $rofi -show calc
 
 bindsym $mod+c reload
 bindsym XF86Tools exec wlogout --protocol layer-shell
@@ -174,18 +182,19 @@ set $notify-audio mctl percent $(wpctl get-volume @DEFAULT_SINK@ | awk '{print $
 set $notify-brightness mctl percent $(xbacklight -get)
 
 # Audio
-bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle ; exec "mctl speaker $(if [[ -z $(wpctl get-volume @DEFAULT_SINK@ | awk '{print $3}') ]] ; then echo on ; else echo off ; fi)"
+bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle ; exec "mctl $(if [[ -z $(wpctl get-volume @DEFAULT_SINK@ | awk '{print $3}') ]] ; then echo unmute ; else echo mute ; fi)"
 bindsym --locked XF86AudioLowerVolume exec wpctl set-volume --limit 2 @DEFAULT_SINK@ 5%- ; exec $notify-audio
 bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume --limit 2 @DEFAULT_SINK@ 5%+ ; exec $notify-audio
 bindsym --locked Shift+XF86AudioLowerVolume exec wpctl set-volume --limit 1 @DEFAULT_SINK@ 1%- ; exec $notify-audio
 bindsym --locked Shift+XF86AudioRaiseVolume exec wpctl set-volume --limit 1 @DEFAULT_SINK@ 1%+ ; exec $notify-audio
 
-bindsym --locked XF86AudioPrev exec playerctl --player playerctld previous
-bindsym --locked XF86AudioPlay exec playerctl --player playerctld play-pause
-bindsym --locked XF86AudioNext exec playerctl --player playerctld next
-bindsym --locked Shift+XF86AudioPlay exec playerctl --player playerctld stop
-bindsym --locked Shift+XF86AudioPrev exec playerctl --player playerctld position 5-
-bindsym --locked Shift+XF86AudioNext exec playerctl --player playerctld position 5+
+bindsym XF86AudioPlay exec playerctl --player playerctld play-pause
+bindsym --locked XF86AudioPlay exec playerctl --player playerctld pause
+bindsym Shift+XF86AudioPlay exec playerctl --player playerctld stop
+bindsym XF86AudioPrev exec playerctl --player playerctld previous
+bindsym XF86AudioNext exec playerctl --player playerctld next
+bindsym Shift+XF86AudioPrev exec playerctl --player playerctld position 5-
+bindsym Shift+XF86AudioNext exec playerctl --player playerctld position 5+
 bindsym alt+XF86AudioPlay exec footclient ncmpcpp
 
 # Brightness

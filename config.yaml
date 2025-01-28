@@ -98,7 +98,6 @@ dotfiles:
     src: wlogout
     dst: ~/.config/wlogout
     link: link_children
-
   mpd:
     src: mpd/mpd.conf
     dst: ~/.config/mpd/mpd.conf
@@ -106,16 +105,15 @@ dotfiles:
     src: ncmpcpp
     dst: ~/.config/ncmpcpp
     link: link_children
-
+    link: nolink
 actions:
   vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
-  mbsync_create_maildirs: '{%@@ for account in mbsync @@%} mkdir -p ~/.local/mail/{{@@ account @@}} ;{%@@ endfor @@%} '
+  mbsync_create_maildirs: '{%@@ for account in mbsync @@%} mkdir -p ~/.local/mail/{{@@
+    account @@}} ;{%@@ endfor @@%} '
   neomutt_create_cache_dir: mkdir -p ~/.cache/neomutt/header/
-
 uservariables:
   email: email
   name: Full name
-
 variables:
   editor: vim
   visual: vim
@@ -125,7 +123,6 @@ variables:
   unlock: false
   mail: false
   ssh: false
-
 profiles:
   core:
     dotfiles:
