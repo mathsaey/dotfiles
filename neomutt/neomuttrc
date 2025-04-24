@@ -74,6 +74,10 @@ mailboxes '~/.local/mail/{{@@ account @@}}/{{@@ box @@}}'
 # SMTP
 # ----
 
+# When replying, use address mail was received on as "From" if it is present
+# in the alternates list.
+set reverse_name
+
 # Derive envelop_from from from
 set use_envelope_from
 # Don't send from the local host when no domain is specified
