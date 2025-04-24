@@ -2,4 +2,4 @@
 
 footclient --hold \
   powerprofilesctl launch --reason "Updating @world" --profile performance \
-  sudo emerge --update --newuse --deep --with-bdeps=y --keep-going @world
+  sudo emerge --update --changed-use --deep --with-bdeps=y --keep-going @world
