@@ -177,6 +177,8 @@ bindsym $mod+alt+space exec $rofi -show calc
 bindsym $mod+c reload
 bindsym XF86Tools exec wlogout --protocol layer-shell
 
+bindsym XF86RFKill exec rfkill toggle all
+
 # Notifications
 set $notify-audio mctl percent $(wpctl get-volume @DEFAULT_SINK@ | awk '{print $2 * 100}')
 set $notify-brightness mctl percent $(xbacklight -get)
