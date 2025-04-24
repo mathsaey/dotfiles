@@ -25,7 +25,8 @@
     "tooltip-format": "{}",
     "return-type": "json",
     "exec": "~/.config/waybar/read_portage_packages.sh",
-    "on-click": "~/.config/waybar/update_world.sh"
+    "on-click": "~/.config/waybar/update_world.sh",
+    "on-click-right": "footclient --hold sudo emerge --depclean",
   },
   "sway/workspaces": {
     "format": "{icon}",
