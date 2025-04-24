@@ -9,7 +9,7 @@ PassCmd "{{@@ mail[account].passcmd @@}}"
 {%@@ if 'imapextra' in mail[account] @@%}
 {{@@ mail[account].imapextra @@}}
 {%@@ endif @@%}
-SSLType IMAPS
+TLSType IMAPS
 
 MaildirStore {{@@ account @@}}-local
 SubFolders Verbatim
