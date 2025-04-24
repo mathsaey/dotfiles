@@ -105,7 +105,6 @@ dotfiles:
     src: ncmpcpp
     dst: ~/.config/ncmpcpp
     link: link_children
-    link: nolink
 actions:
   vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
   mbsync_create_maildirs: '{%@@ for account in mbsync @@%} mkdir -p ~/.local/mail/{{@@
