@@ -55,7 +55,7 @@
     "dynamic-separator": " / ",
     "dynamic-order": ["artist", "album", "title", "position", "length"],
     "enable-tooltip-len-limits": true,
-    "on-click-right": "footclient ncmpcpp",
+    "on-click-right": "footclient --no-wait ncmpcpp",
     "status-icons": {
       "playing": "",
       "paused": "",
@@ -77,8 +77,8 @@
   "custom/mail": {
     "return-type": "json",
     "exec": "~/.config/waybar/unread_mails.sh",
-    "on-click": "footclient neomutt -f ~/.local/mail/mathsaey.be/Inbox",
-    "on-click-right": "footclient neomutt -f ~/.local/mail/vub.be/Inbox"
+    "on-click": "footclient --no-wait neomutt -f ~/.local/mail/mathsaey.be/Inbox",
+    "on-click-right": "footclient --no-wait neomutt -f ~/.local/mail/vub.be/Inbox"
   },
   "idle_inhibitor": {
     "format": "{icon}",
@@ -98,7 +98,7 @@
   },
   "cpu": {
     "format": "",
-    "on-click": "footclient htop",
+    "on-click": "footclient --no-wait htop",
     "states": {
       "low": 10,
       "medium": 40,
@@ -108,7 +108,7 @@
   "memory": {
     "format": "",
     "tooltip-format": "Mem: {used:4.2} / {avail:.2} GiB\nSwp: {swapUsed:4.2} / {swapAvail:.2} GiB",
-    "on-click": "footclient htop",
+    "on-click": "footclient --no-wait htop",
     "states": {
       "low": 10,
       "medium": 40,
@@ -117,7 +117,7 @@
   },
   "bluetooth": {
     "on-click": "~/.config/waybar/toggle_bluetooth_power.sh",
-    "on-click-right": "footclient bluetoothctl",
+    "on-click-right": "footclient --no-wait bluetoothctl",
     "format-on": "󰂯",
     "tooltip-format-on": "{controller_address_type}: {controller_address}",
     "format-off": "󰂲",
@@ -131,7 +131,7 @@
   "network": {
     "interval": 5,
     "on-click": "iwgtk",
-    "on-click-right": "footclient iwctl",
+    "on-click-right": "footclient --no-wait iwctl",
     "format-ethernet": "󰈁",
     "format-disabled": "󰖪",
     "format-disconnected": "󱛅",
