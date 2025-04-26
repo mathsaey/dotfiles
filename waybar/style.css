@@ -27,6 +27,11 @@ window#waybar {
   font-size: 20px;
 }
 
+menu {
+  background: rgba(50, 50, 50, 0.9);
+  color: #ffffff;
+}
+
 #custom-gentoo {
   margin: 4px 8px 6px 8px;
   min-width: 38px;
@@ -55,6 +60,10 @@ window#waybar {
   padding: 0 4px 0 4px;
   margin: 4px 0 4px 0;
   min-width: 36px;
+}
+
+#systemd-failed-units.degraded {
+  color: @accent-red;
 }
 
 #mode {

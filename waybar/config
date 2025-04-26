@@ -4,6 +4,7 @@
     "custom/gentoo", "sway/workspaces", "custom/separator", "sway/scratchpad"
   ],
   "modules-center": [
+    "systemd-failed-units", "custom/separator",
     "sway/mode", "custom/separator",
     "mpris", "custom/separator",
     "privacy"
@@ -25,8 +26,13 @@
     "tooltip-format": "{}",
     "return-type": "json",
     "exec": "~/.config/waybar/read_portage_packages.sh",
-    "on-click": "~/.config/waybar/update_world.sh",
-    "on-click-right": "footclient --hold sudo emerge --depclean",
+    "menu": "on-click",
+    "menu-file": "~/.config/waybar/gentoo.xml",
+    "menu-actions": {
+      "update": "~/.config/waybar/update_world.sh",
+      "depclean": "footclient --hold --no-wait sudo emerge --depclean",
+      "sync": "footclient --hold --no-wait sudo EMERGE_DEFAULT_OPTS=\"\" emaint sync",
+    },
   },
   "sway/workspaces": {
     "format": "{icon}",
@@ -43,6 +49,18 @@
     "format-icons": ["", ""],
     "tooltip": true,
     "tooltip-format": "{app}: {title}"
+  },
+  "systemd-failed-units": {
+    "format": "[ ● ◀ ] {nr_failed_system}/{nr_failed_user}",
+    "tooltip-format": "shi",
+    "tooltip": true,
+    "menu": "on-click",
+    "menu-file": "~/.config/waybar/systemd-failed-units.xml",
+    "menu-actions": {
+      "system": "footclient --no-wait systemctl status --failed",
+      "user": "footclient --no-wait systemctl status --user --failed",
+    },
+    "on-click-right": "sudo systemctl reset-failed",
   },
   "sway/mode": {
     "tooltip": false,

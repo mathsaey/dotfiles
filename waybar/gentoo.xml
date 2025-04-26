@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkMenu" id="menu">
+     <child>
+          <object class="GtkMenuItem" id="update">
+               <property name="label">Update World</property>
+        </object>
+     </child>
+     <child>
+        <object class="GtkMenuItem" id="depclean">
+               <property name="label">Depclean</property>
+        </object>
+     </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="delimiter"/>
+    </child>
+    <child>
+          <object class="GtkMenuItem" id="sync">
+               <property name="label">Sync Repos</property>
+          </object>
+    </child>
+  </object>
+</interface>
