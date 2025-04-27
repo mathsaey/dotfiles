@@ -51,9 +51,7 @@
     "tooltip-format": "{app}: {title}"
   },
   "systemd-failed-units": {
-    "format": "[ ● ◀ ] {nr_failed_system}/{nr_failed_user}",
-    "tooltip-format": "shi",
-    "tooltip": true,
+    "format": "[ FAIL ] {nr_failed_system}S {nr_failed_user}U",
     "menu": "on-click",
     "menu-file": "~/.config/waybar/systemd-failed-units.xml",
     "menu-actions": {
