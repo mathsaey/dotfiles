@@ -1,0 +1,2 @@
+{%@@ from 'templates' import swayidle with context @@%}
+{{@@ swayidle(lock=300, display=600) @@}}

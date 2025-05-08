@@ -85,8 +85,11 @@ dotfiles:
     dst: ~/.config/sway
     link: link_children
   swayidle:
-    src: swayidle/config
-    dst: ~/.config/swayidle/config
+    src: swayidle
+    dst: ~/.config/swayidle
+    link: link_children
+    actions:
+    - swayidle_link_default
   swaylock:
     src: swaylock/config
     dst: ~/.config/swaylock/config
@@ -110,6 +113,7 @@ actions:
   mbsync_create_maildirs: '{%@@ for account in mbsync @@%} mkdir -p ~/.local/mail/{{@@
     account @@}} ;{%@@ endfor @@%} '
   neomutt_create_cache_dir: mkdir -p ~/.cache/neomutt/header/
+  swayidle_link_default: ln -s ~/.config/swayidle/laptop ~/.config/swayidle/config
 uservariables:
   email: email
   name: Full name
