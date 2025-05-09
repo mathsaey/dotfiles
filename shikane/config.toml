@@ -1,89 +1,70 @@
 [[profile]]
-name = "standalone"
+name = "laptop"
 exec = [
   "xbacklight -set 10",
-  "powerprofilesctl set balanced"
+  "powerprofilesctl set balanced",
+  "~/.config/swayidle/select.sh laptop"
 ]
 
-[[profile.output]]
-search = ["n=eDP-1"]
-scale = 1.0
-enable = true
-adaptive_sync = true
-position = "0,0"
-mode = "2560x1600@165Hz"
+  [[profile.output]]
+  search = ["n=eDP-1"]
+  position = "0,0"
+  enable = true
+
+[[profile]]
+name = "projector"
+exec = ["~/.config/swayidle/select.sh projector"]
+
+  [[profile.output]]
+  search = ["n=eDP-1"]
+  position = "0,0"
+  enable = true
+
+  [[profile.output]]
+  search = ["n%DP-"]
+  position = "2560,295"
+  enable = true
+  exec = ["swaymsg workspace projector, move workspace to $SHIKANE_OUTPUT_NAME"]
 
 [[profile]]
 name = "desk@home"
 exec = [
-  "swaymsg workspace web, move workspace to '\"Microstep MSI MAG323UPF Unknown\"'",
+  "~/.config/swayidle/select.sh docked",
   "powerprofilesctl set performance"
 ]
 
-[[profile.output]]
-search = ["m=MSI MAG323UPF", "v=Microstep"]
-scale = 1.0
-enable = true
-adaptive_sync = true
-position = "0,0"
-mode = "3840x2160@59.997Hz"
+  [[profile.output]]
+  search = ["m=MSI MAG323UPF", "v=Microstep"]
+  position = "0,0"
+  enable = true
+  exec = ["swaymsg workspace web, move workspace to $SHIKANE_OUTPUT_NAME"]
 
-[[profile.output]]
-search = ["n=eDP-1"]
-scale = 1.0
-enable = true
-adaptive_sync = true
-position = "3840,345"
-mode = "2560x1600@165Hz"
+  [[profile.output]]
+  search = ["n=eDP-1"]
+  position = "3840,345"
+  enable = true
 
 [[profile]]
 name = "desk+projector@home"
 exec = [
-  "swaymsg workspace web, move workspace to '\"Microstep MSI MAG323UPF Unknown\"'",
-  "swaymsg workspace projector, move workspace to '\"ONKYO Corporation TX-SR444 Unknown\"'",
+  "~/.config/swayidle/select.sh projector",
   "powerprofilesctl set performance"
 ]
 
-[[profile.output]]
-search = ["m=MSI MAG323UPF", "v=Microstep"]
-scale = 1.0
-enable = true
-adaptive_sync = true
-position = "0,0"
-mode = "3840x2160@59.997Hz"
+  [[profile.output]]
+  search = ["m=MSI MAG323UPF", "v=Microstep"]
+  position = "0,0"
+  enable = true
+  exec = ["swaymsg workspace web, move workspace to $SHIKANE_OUTPUT_NAME"]
 
-[[profile.output]]
-search = ["m=TX-SR444", "s=", "v=ONKYO Corporation"]
-scale = 1.0
-enable = true
-adaptive_sync = false
-position = "781,2160"
-mode = "1920x1080@59.94Hz"
+  [[profile.output]]
+  search = ["m=TX-SR444", "s=", "v=ONKYO Corporation"]
+  position = "781,2160"
+  enable = true
+  exec = ["swaymsg workspace projector, move workspace to $SHIKANE_OUTPUT_NAME"]
 
-[[profile.output]]
-search = ["n=eDP-1"]
-scale = 1.0
-enable = true
-adaptive_sync = true
-position = "3840,345"
-mode = "2560x1600@165Hz"
+  [[profile.output]]
+  search = ["n=eDP-1"]
+  position = "3840,345"
+  enable = true
 
-[[profile]]
-name = "projector@home"
-exec = ["swaymsg workspace projector, move workspace to '\"ONKYO Corporation TX-SR444 Unknown\"'"]
-
-[[profile.output]]
-search = ["n=eDP-1"]
-scale = 1.0
-enable = true
-adaptive_sync = true
-position = "0,0"
-mode = "2560x1600@165Hz"
-
-[[profile.output]]
-search = ["m=TX-SR444", "s=", "v=ONKYO Corporation"]
-scale = 1.0
-enable = true
-adaptive_sync = false
-position = "2560,295"
-mode = "1920x1080@60Hz"
