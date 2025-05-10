@@ -10,6 +10,7 @@ exec = [
   search = ["n=eDP-1"]
   position = "0,0"
   enable = true
+  adaptive_sync = true
 
 [[profile]]
 name = "projector"
@@ -19,6 +20,7 @@ exec = ["~/.config/swayidle/select.sh projector"]
   search = ["n=eDP-1"]
   position = "0,0"
   enable = true
+  adaptive_sync = true
 
   [[profile.output]]
   search = ["n%DP-"]
@@ -37,12 +39,14 @@ exec = [
   search = ["m=MSI MAG323UPF", "v=Microstep"]
   position = "0,0"
   enable = true
+  adaptive_sync = true
   exec = ["swaymsg workspace web, move workspace to $SHIKANE_OUTPUT_NAME"]
 
   [[profile.output]]
   search = ["n=eDP-1"]
   position = "3840,345"
   enable = true
+  adaptive_sync = true
 
 [[profile]]
 name = "desk+projector@home"
@@ -55,6 +59,7 @@ exec = [
   search = ["m=MSI MAG323UPF", "v=Microstep"]
   position = "0,0"
   enable = true
+  adaptive_sync = true
   exec = ["swaymsg workspace web, move workspace to $SHIKANE_OUTPUT_NAME"]
 
   [[profile.output]]
@@ -67,4 +72,4 @@ exec = [
   search = ["n=eDP-1"]
   position = "3840,345"
   enable = true
-
+  adaptive_sync = true
