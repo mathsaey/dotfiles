@@ -7,6 +7,75 @@ config:
   - local.yaml:optional
   - uservariables.yaml:optional
 
+uservariables:
+  email: email
+  name: Full name
+variables:
+  editor: vim
+  visual: vim
+  signkey: false
+  userctl: false
+  path: false
+  unlock: false
+  mail: false
+  ssh: false
+
+profiles:
+  # Sets
+  core:
+    dotfiles:
+    - bashrc
+    - bash_profile
+    - gitconfig
+    - gitignore
+    - tmuxconf
+    - vim
+    - zshrc
+  mail:
+    dotfiles:
+    - mailcap
+    - mbsync
+    - msmtp
+    - neomutt
+  sway_desktop:
+    dotfiles:
+    - dunst
+    - foot
+    - rofi
+    - shikane
+    - swappy
+    - sway
+    - swayidle
+    - swaylock
+    - systemd
+    - waybar
+    - wlogout
+  mpd:
+    dotfiles:
+    - mpd
+    - ncmpcpp
+
+  # Machines
+  silverlode:
+    include:
+    - core
+    - mail
+    dotfiles:
+    - emacs
+    - latexmkrc
+    - ssh_config
+    - tex
+  sirion:
+    include:
+    - core
+    - mail
+    - sway_desktop
+    - mpd
+    dotfiles:
+    - emacs
+    - ssh_config
+    - latexmkrc
+
 dotfiles:
   bashrc:
     src: bash/bashrc
@@ -29,10 +98,10 @@ dotfiles:
     link: link_children
     actions:
     - vim_make_dirs
-
   zshrc:
     src: zsh/zshrc
     dst: ~/.zshrc
+
   mailcap:
     src: mailcap/mailcap
     dst: ~/.mailcap
@@ -41,7 +110,6 @@ dotfiles:
     dst: ~/.mbsyncrc
     actions:
     - mbsync_create_maildirs
-
   msmtp:
     src: msmtp/config
     dst: ~/.config/msmtp/config
@@ -65,6 +133,7 @@ dotfiles:
   tex:
     src: tex/packages/
     dst: ~/.config/tex
+
   dunst:
     src: dunst/dunstrc
     dst: ~/.config/dunst/dunstrc
@@ -112,81 +181,10 @@ dotfiles:
     src: systemd
     dst: ~/.config/systemd/user
     link: link_children
+
 actions:
   vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
   mbsync_create_maildirs: '{%@@ for account in mbsync @@%} mkdir -p ~/.local/mail/{{@@
     account @@}} ;{%@@ endfor @@%} '
   neomutt_create_cache_dir: mkdir -p ~/.cache/neomutt/header/
   swayidle_link_default: ln -s ~/.config/swayidle/laptop ~/.config/swayidle/config
-uservariables:
-  email: email
-  name: Full name
-variables:
-  editor: vim
-  visual: vim
-  signkey: false
-  userctl: false
-  path: false
-  unlock: false
-  mail: false
-  ssh: false
-profiles:
-  core:
-    dotfiles:
-    - bashrc
-    - bash_profile
-    - gitconfig
-    - gitignore
-    - tmuxconf
-    - vim
-    - zshrc
-
-  # Set for mail-related utilities
-  mail:
-    dotfiles:
-    - neomutt
-    - mailcap
-    - mbsync
-    - msmtp
-
-  # Sway-based desktop
-  sway_desktop:
-    dotfiles:
-    - dunst
-    - foot
-    - shikane
-    - rofi
-    - swappy
-    - sway
-    - swayidle
-    - swaylock
-    - systemd
-    - waybar
-    - wlogout
-
-  mpd:
-    dotfiles:
-    - mpd
-    - ncmpcpp
-
-  # Hostname-based profiles
-  silverlode:
-    include:
-    - core
-    - mail
-    dotfiles:
-    - emacs
-    - latexmkrc
-    - ssh_config
-    - tex
-
-  sirion:
-    include:
-    - core
-    - mail
-    - sway_desktop
-    - mpd
-    dotfiles:
-    - emacs
-    - ssh_config
-    - latexmkrc
