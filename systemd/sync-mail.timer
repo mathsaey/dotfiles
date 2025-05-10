@@ -1,0 +1,8 @@
+[Unit]
+Description=Synchronize mailboxes regularly
+
+[Timer]
+OnCalendar=*:0/15
+
+[Install]
+WantedBy=default.target

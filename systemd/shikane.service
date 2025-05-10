@@ -1,0 +1,13 @@
+[Unit]
+Description=Dynamic output configuration
+Documentation=man:shikane(1)
+PartOf=sway-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/shikane
+ExecReload=/usr/bin/shikanectl reload
+Restart=on-failure
+
+[Install]
+WantedBy=sway-session.target

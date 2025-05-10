@@ -1,0 +1,12 @@
+[Unit]
+Description=Background for Wayland
+Documentation=man:swaybg(1)
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/swaybg \
+  --output eDP-1 --image %h/Pictures/wallpapers/screen_laptop \
+  --output  DP-2 --image %h/Pictures/wallpapers/screen_desk
+[Install]
+WantedBy=sway-session.target

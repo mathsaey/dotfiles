@@ -1,0 +1,14 @@
+[Unit]
+Description=nextcloud
+After=network-online.target waybar.service
+Wants=network-online.target systemd-networkd-wait-online.service
+
+[Service]
+# Give waybar some time to start
+ExecStartPre=/usr/bin/sleep 5
+ExecStart=/usr/bin/nextcloud
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=sway-session.target

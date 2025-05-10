@@ -108,6 +108,10 @@ dotfiles:
     src: ncmpcpp
     dst: ~/.config/ncmpcpp
     link: link_children
+  systemd:
+    src: systemd
+    dst: ~/.config/systemd/user
+    link: link_children
 actions:
   vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
   mbsync_create_maildirs: '{%@@ for account in mbsync @@%} mkdir -p ~/.local/mail/{{@@
@@ -156,6 +160,7 @@ profiles:
     - sway
     - swayidle
     - swaylock
+    - systemd
     - waybar
     - wlogout
 

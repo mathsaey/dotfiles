@@ -1,0 +1,11 @@
+[Unit]
+Description=Control media player via MPRIS
+Documentation=man:playerctl(1)
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/playerctld
+
+[Install]
+WantedBy=graphical-session.target
