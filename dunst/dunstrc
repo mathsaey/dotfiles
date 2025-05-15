@@ -1,7 +1,7 @@
 [global]
 follow = keyboard
 origin = top-right
-offset = 5x5
+offset = (5, 5)
 width = 400
 frame_width = 1
 corner_radius = 5
