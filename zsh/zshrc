@@ -16,14 +16,6 @@ export KEYTIMEOUT=1
 bindkey -v
 
 function zle-keymap-select {
-  case $KEYMAP in
-    (main)
-      ZLE_MODE="insert" ;;
-    (vicmd)
-      ZLE_MODE="normal" ;;
-    (*)
-      echo "Unknown keymap: " $KEYMAP
-  esac
   zle reset-prompt
 }
 

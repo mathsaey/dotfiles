@@ -43,8 +43,8 @@ precmd() {
 }
 
 prompt() {
-  case $ZLE_MODE in
-    (normal)
+  case $KEYMAP in
+    (vicmd)
       echo -n "%F{green}[V]%f " ;;
     (*)
       echo -n "%F{red}❯❯❯%f " ;;
