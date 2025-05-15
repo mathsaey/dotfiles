@@ -93,8 +93,13 @@
   "custom/mail": {
     "return-type": "json",
     "exec": "~/.config/waybar/unread_mails.sh",
-    "on-click": "footclient --no-wait neomutt -f ~/.local/mail/mathsaey.be/Inbox",
-    "on-click-right": "footclient --no-wait neomutt -f ~/.local/mail/vub.be/Inbox"
+    "menu": "on-click",
+    "menu-file": "~/.config/waybar/mail.xml",
+    "menu-actions": {
+      "mathsaey.be": "footclient --no-wait neomutt -f ~/.local/mail/mathsaey.be/Inbox",
+      "vub.be": "footclient --no-wait neomutt -f ~/.local/mail/vub.be/Inbox",
+      "sync": "systemctl --user start sync-mail.service",
+    }
   },
   "idle_inhibitor": {
     "format": "{icon}",
