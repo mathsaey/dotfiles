@@ -9,7 +9,10 @@ autoload -Uz compinit && compinit
 HISTFILE=~/.local/state/zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
-setopt appendhistory
+setopt extended_history
+setopt hist_ignore_all_dups
+setopt hist_reduce_blanks
+setopt inc_append_history_time
 
 # Use vim keybinds
 export KEYTIMEOUT=1
@@ -40,6 +43,49 @@ done
 # Prompt
 setopt prompt_subst
 source {{@@ _dotdrop_dotpath @@}}/zsh/prompt.zsh-theme
+
+# --------------- #
+# FZF Integration #
+# --------------- #
+
+# Fuzzy find a path and add it at the cursor.
+fzf-path-widget() {
+  local paths=""
+
+  fzf-tmux --reverse --walker=file,dir --scheme=path --multi < /dev/tty | \
+    while read -r item; do paths="${paths}${(q)item} " ; done
+
+  local ret=$?
+  LBUFFER="${LBUFFER}${paths}"
+  zle reset-prompt
+  return $ret
+}
+
+zle     -N           fzf-path-widget
+bindkey -M main '^T' fzf-path-widget
+
+# Fuzzy find in history, replace current prompt
+fzf-history-widget() {
+  local cmd=$(fc -rlnDt '%s' 1 | awk '{
+    ts = int($1)
+    delta = systime() - ts
+    delta_days = int(delta / 86400)
+    if (delta < 0) { $1="+" (-delta_days) "d" }
+    else if (delta_days < 1 && delta < 72000) { $1=strftime("%H:%M", ts) }
+    else if (delta_days == 0) { $1="1d" }
+    else { $1=delta_days "d" }
+    $2="(" $2 ")"
+    print $0
+  }' | fzf-tmux --reverse --scheme=history --nth='1,3..' --accept-nth='3..')
+  local ret=$?
+
+  if [[ $ret -eq 0 && -n $cmd ]] ; then BUFFER="$cmd" ; fi
+  zle reset-prompt
+  return $ret
+}
+
+zle     -N           fzf-history-widget
+bindkey -M main '^R' fzf-history-widget
 
 # ------- #
 # Plugins #
