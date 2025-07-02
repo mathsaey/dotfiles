@@ -175,6 +175,7 @@
   "battery": {
     "bat": "BAT1",
     "interval": 5,
+    "on-click": "sudo systemctl start charge-control-threshold@100.service",
     "format-unknown": "󰂑 {capacity:3}%",
     "format-full": "󰚥 {capacity:3}%",
     "format-plugged": "󰚥 {capacity:3}%",
