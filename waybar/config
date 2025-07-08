@@ -22,10 +22,7 @@
   ],
   "custom/gentoo": {
     "format": "",
-    "interval": 600,
-    "tooltip-format": "{}",
-    "return-type": "json",
-    "exec": "~/.config/waybar/read_portage_packages.sh",
+    "interval": "once",
     "menu": "on-click",
     "menu-file": "~/.config/waybar/gentoo.xml",
     "menu-actions": {
