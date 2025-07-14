@@ -19,9 +19,7 @@ smart_borders off
 
 smart_gaps inverse_outer
 gaps inner 5
-gaps outer 2
-
-workspace web gaps inner 0
+gaps outer 1
 
 # -------- #
 # Keybinds #
