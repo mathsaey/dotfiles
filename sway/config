@@ -4,7 +4,7 @@ exec "~/.config/sway/manage_systemd_user_session.sh"
 # Laptop hardware configuration
 # -----------------------------
 
-input "2362:628:PIXA3854:00_093A:0274_Touchpad" {
+input * {
   tap enabled
   drag disabled
   tap_button_map lrm
