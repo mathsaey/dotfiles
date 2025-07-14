@@ -173,7 +173,7 @@
     "on-click-right": "mctl animation cava toggle",
   },
   "battery": {
-    "bat": "BAT1",
+    "bat": "{{@@ waybar.battery @@}}",
     "interval": 5,
     "on-click": "sudo systemctl start charge-control-threshold@100.service",
     "format-unknown": "󰂑 {capacity:3}%",
