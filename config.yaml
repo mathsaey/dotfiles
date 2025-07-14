@@ -75,6 +75,16 @@ profiles:
     - emacs
     - ssh_config
     - latexmkrc
+  brandywine:
+    include:
+    - core
+    - mail
+    - sway_desktop
+    - mpd
+    dotfiles:
+    - emacs
+    - ssh_config
+    - latexmkrc
 
 dotfiles:
   bashrc:
