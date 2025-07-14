@@ -42,7 +42,6 @@ profiles:
     - dunst
     - foot
     - rofi
-    - shikane
     - swappy
     - sway
     - swayidle
@@ -150,9 +149,6 @@ dotfiles:
   foot:
     src: foot/foot.ini
     dst: ~/.config/foot/foot.ini
-  shikane:
-    src: shikane/config.toml
-    dst: ~/.config/shikane/config.toml
   rofi:
     src: rofi/config.rasi
     dst: ~/.config/rofi/config.rasi
