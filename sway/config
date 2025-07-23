@@ -233,7 +233,9 @@ for_window [title = "Administrator privileges required"] floating enable
 # Start on launch
 # ---------------
 
-workspace web
-exec firefox-bin
+{%@@ for item in sway.launch @@%}
+workspace {{@@ sway.launch[item].workspace @@}}
+exec {{@@ item @@}}
+{%@@ endfor @@%}
 
 workspace 1
