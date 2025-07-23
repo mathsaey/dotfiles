@@ -40,6 +40,7 @@
     "disable-scroll": true,
     "format-icons": {
       "web": "󰈹",
+      "chat": "󰭻",
       "projector": "󰐮",
     }
   },
