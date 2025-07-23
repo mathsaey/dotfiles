@@ -8,6 +8,8 @@ input * {
   tap enabled
   drag disabled
   tap_button_map lrm
+  xkb_options compose:ralt
+  xkb_numlock enabled
 }
 
 # Visuals
