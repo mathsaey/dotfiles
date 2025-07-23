@@ -177,17 +177,17 @@ bindsym $mod+alt+space exec $rofi -show calc
 bindsym $mod+alt+c reload ; exec shikanectl reload
 
 bindsym XF86RFKill exec rfkill toggle all
+bindsym XF86Tools exec wlogout --protocol layer-shell
+bindsym XF86Assistant exec wlogout --protocol layer-shell
 
-# Notifications
-set $notify-audio mctl percent $(wpctl get-volume @DEFAULT_SINK@ | awk '{print $2 * 100}')
-set $notify-brightness mctl percent $(xbacklight -get)
-
+{%@@ from 'macros' import execIfExists with context @@%}
 # Audio
-bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle ; exec "mctl $(if [[ -z $(wpctl get-volume @DEFAULT_SINK@ | awk '{print $3}') ]] ; then echo unmute ; else echo mute ; fi)"
-bindsym --locked XF86AudioLowerVolume exec wpctl set-volume --limit 2 @DEFAULT_SINK@ 5%- ; exec $notify-audio
-bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume --limit 2 @DEFAULT_SINK@ 5%+ ; exec $notify-audio
-bindsym --locked Shift+XF86AudioLowerVolume exec wpctl set-volume --limit 1 @DEFAULT_SINK@ 1%- ; exec $notify-audio
-bindsym --locked Shift+XF86AudioRaiseVolume exec wpctl set-volume --limit 1 @DEFAULT_SINK@ 1%+ ; exec $notify-audio
+bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle {{@@ execIfExists(sway.notify.mute) @@}}
+bindsym --locked XF86AudioLowerVolume exec wpctl set-volume --limit 2 @DEFAULT_SINK@ 5%- {{@@ execIfExists(sway.notify.volume) @@}}
+bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume --limit 2 @DEFAULT_SINK@ 5%+ {{@@ execIfExists(sway.notify.volume) @@}}
+bindsym --locked Shift+XF86AudioLowerVolume exec wpctl set-volume --limit 1 @DEFAULT_SINK@ 1%- {{@@ execIfExists(sway.notify.volume) @@}}
+bindsym --locked Shift+XF86AudioRaiseVolume exec wpctl set-volume --limit 1 @DEFAULT_SINK@ 1%+ {{@@ execIfExists(sway.notify.volume) @@}}
+bindsym --locked XF86AudioMicMute exec wpctl set-mute @DEFAULT_SOURCE@ toggle
 
 bindsym XF86AudioPlay exec playerctl --player playerctld play-pause
 bindsym --locked XF86AudioPlay exec playerctl --player playerctld pause
@@ -198,11 +198,16 @@ bindsym Shift+XF86AudioPrev exec playerctl --player playerctld position 5-
 bindsym Shift+XF86AudioNext exec playerctl --player playerctld position 5+
 bindsym alt+XF86AudioPlay exec footclient ncmpcpp
 
+# Not all laptops have media keys (looking at you hp..)
+bindsym $mod+alt+Down exec playerctl --player playerctld play-pause
+bindsym $mod+alt+Left exec playerctl --player playerctld previous
+bindsym $mod+alt+Right exec playerctl --player playerctld next
+
 # Brightness
-bindsym --locked XF86MonBrightnessDown exec xbacklight -dec 5 ; exec $notify-brightness
-bindsym --locked XF86MonBrightnessUp exec xbacklight -inc 5 ; exec $notify-brightness
-bindsym --locked Shift+XF86MonBrightnessDown exec xbacklight -dec 1 ; exec $notify-brightness
-bindsym --locked Shift+XF86MonBrightnessUp exec xbacklight -inc 1 ; exec $notify-brightness
+bindsym --locked XF86MonBrightnessDown exec xbacklight -dec 5 {{@@ execIfExists(sway.notify.brightness) @@}}
+bindsym --locked XF86MonBrightnessUp exec xbacklight -inc 5 {{@@ execIfExists(sway.notify.brightness) @@}}
+bindsym --locked Shift+XF86MonBrightnessDown exec xbacklight -dec 1 {{@@ execIfExists(sway.notify.brightness) @@}}
+bindsym --locked Shift+XF86MonBrightnessUp exec xbacklight -inc 1 {{@@ execIfExists(sway.notify.brightness) @@}}
 bindsym alt+XF86MonBrightnessDown output eDP-1 disable
 bindsym alt+XF86MonBrightnessUp output eDP-1 enable
 
