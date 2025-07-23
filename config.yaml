@@ -16,6 +16,8 @@ variables:
   signkey: false
   userctl: false
   path: false
+  manpath: false
+  infopath: false
   unlock: false
   mail: false
   ssh: false
