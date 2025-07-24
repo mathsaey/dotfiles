@@ -1,2 +1,2 @@
-{%@@ from 'templates' import swayidle with context @@%}
+{%@@ from 'macros' import swayidle with context @@%}
 {{@@ swayidle(lock=600, display=900) @@}}

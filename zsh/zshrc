@@ -101,7 +101,15 @@ source {{@@ _dotdrop_dotpath @@}}/zsh/plugins/zsh-autosuggestions/zsh-autosugges
 export EDITOR={{@@ editor @@}}
 export VISUAL={{@@ visual @@}}
 
-{%@@ if path @@%}export PATH={{@@ path @@}}{%@@ endif @@%}
+{%@@ if path @@%}
+export PATH={{@@ path @@}}:$PATH
+{%@@ endif @@%}
+{%@@ if manpath @@%}
+export MANPATH={{@@ manpath @@}}:$MANPATH
+{%@@ endif @@%}
+{%@@ if infopath @@%}
+export INFOPATH={{@@ infopath @@}}:$INFOPATH
+{%@@ endif @@%}
 
 # ------------------------- #
 # Aliases & Custom Commands #

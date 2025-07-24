@@ -45,6 +45,9 @@ menu {
   background-color: transparent;
   color: #ffffff;
 }
+#workspaces button.visible {
+  color: @accent-purple;
+}
 #workspaces button.focused {
   background-color: @active-bg;
   color: @active-fg;

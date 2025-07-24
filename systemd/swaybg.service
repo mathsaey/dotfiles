@@ -6,7 +6,6 @@ PartOf=graphical-session.target
 [Service]
 Type=simple
 ExecStart=/usr/bin/swaybg \
-  --output eDP-1 --image %h/Pictures/wallpapers/screen_laptop \
-  --output  DP-2 --image %h/Pictures/wallpapers/screen_desk
+  {{@@ background @@}}
 [Install]
 WantedBy=sway-session.target

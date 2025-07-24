@@ -16,6 +16,8 @@ variables:
   signkey: false
   userctl: false
   path: false
+  manpath: false
+  infopath: false
   unlock: false
   mail: false
   ssh: false
@@ -42,7 +44,6 @@ profiles:
     - dunst
     - foot
     - rofi
-    - shikane
     - swappy
     - sway
     - swayidle
@@ -66,6 +67,16 @@ profiles:
     - ssh_config
     - tex
   sirion:
+    include:
+    - core
+    - mail
+    - sway_desktop
+    - mpd
+    dotfiles:
+    - emacs
+    - ssh_config
+    - latexmkrc
+  brandywine:
     include:
     - core
     - mail
@@ -140,9 +151,6 @@ dotfiles:
   foot:
     src: foot/foot.ini
     dst: ~/.config/foot/foot.ini
-  shikane:
-    src: shikane/config.toml
-    dst: ~/.config/shikane/config.toml
   rofi:
     src: rofi/config.rasi
     dst: ~/.config/rofi/config.rasi
@@ -184,7 +192,7 @@ dotfiles:
 
 actions:
   vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
-  mbsync_create_maildirs: '{%@@ for account in mbsync @@%} mkdir -p ~/.local/mail/{{@@
+  mbsync_create_maildirs: '{%@@ for account in mail @@%} mkdir -p ~/.local/mail/{{@@
     account @@}} ;{%@@ endfor @@%} '
   neomutt_create_cache_dir: mkdir -p ~/.cache/neomutt/header/
   swayidle_link_default: ln -s ~/.config/swayidle/laptop ~/.config/swayidle/config

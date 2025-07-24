@@ -23,3 +23,7 @@ timeout {{@@ suspend @@}} 'systemctl suspend-then-hibernate'
 before-sleep 'swaylock'
 lock 'swaylock'
 {%@@ endmacro @@%}
+
+{%@@ macro execIfExists(name) @@%}
+{%@@ if name @@%}; exec "{{@@ name @@}}"{%@@ endif @@%}
+{%@@ endmacro @@%}
