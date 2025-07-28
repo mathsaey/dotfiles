@@ -2,8 +2,7 @@
 @define-color warning #a6adc8;  /* warning color */
 @define-color alert   #BF616A;
 
-@define-color active-bg #81A1C1;
-@define-color active-fg #323232;
+@define-color text-light #323232;
 
 @define-color accent-dark #a6adc8;
 @define-color accent-green #a9dc76;
@@ -49,8 +48,8 @@ menu {
   color: @accent-purple;
 }
 #workspaces button.focused {
-  background-color: @active-bg;
-  color: @active-fg;
+  background-color: @accent-purple;
+  color: @text-light;
 }
 #workspaces button.urgent {
   background-color: @alert;
@@ -72,8 +71,8 @@ menu {
 #mode {
   padding: 0 4px 0 4px;
   margin: 4px 0 4px 0;
-  background-color: @active-bg;
-  color: @active-fg;
+  background-color: @accent-purple;
+  color: @text-light;
 }
 
 #mpris {
