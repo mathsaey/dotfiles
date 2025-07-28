@@ -26,6 +26,9 @@ gaps outer 2
 workspace web gaps inner 0
 workspace web gaps outer 1
 
+client.focused #c4a7e7 #c4a7e7 #323232 #ebbcba
+client.focused_inactive #c4a7e7 #c4a7e7 #323232 #ebbcba
+
 # -------- #
 # Keybinds #
 # -------- #
