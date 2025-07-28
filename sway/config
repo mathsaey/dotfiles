@@ -174,19 +174,11 @@ bindsym $mod+r mode "resize"
 # Generic
 # -------
 
-bindsym $mod+Return exec footclient
-
 # Rofi invocations
 set $rofi rofi -emoji-mode insert_no_copy
 bindsym $mod+e exec $rofi -show emoji
 bindsym $mod+space exec $rofi -show combi
 bindsym $mod+alt+space exec $rofi -show calc
-
-bindsym $mod+alt+c reload ; exec shikanectl reload
-
-bindsym XF86RFKill exec rfkill toggle all
-bindsym XF86Tools exec wlogout --protocol layer-shell
-bindsym XF86Assistant exec wlogout --protocol layer-shell
 
 {%@@ from 'macros' import execIfExists with context @@%}
 # Audio
@@ -225,6 +217,18 @@ bindsym Shift+Print exec grim -g "$(slurp)" - | swappy -f -
 bindsym Alt+Print exec swaymsg -t get_tree | \
   jq -r '.. | (.nodes? // empty)[] | select(.pid and .visible) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' \
   | slurp | grim -g - - | swappy -f -
+
+# Session control
+bindsym XF86Tools exec wlogout --protocol layer-shell
+bindsym XF86Assistant exec wlogout --protocol layer-shell
+bindsym alt+XF86Tools exec swaylock
+bindsym alt+XF86Assistant exec swaylock
+
+# Misc
+bindsym $mod+Return exec footclient
+bindsym $mod+alt+c reload ; exec shikanectl reload
+bindsym XF86RFKill exec rfkill toggle all
+bindsym XF86Display exec wl-mirror $(swaymsg --raw --type get_outputs | jq --raw-output '.[] | select(.name != "eDP-1") | .name' | head -n 1) ; move workspace to eDP-1
 
 # Window Rules
 # ------------
