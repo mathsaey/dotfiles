@@ -1,0 +1,4 @@
+map y exec "bash -c 'wl-paste --primary --no-newline | wl-copy'"
+
+set selection-notification false
+set guioptions ""

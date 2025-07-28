@@ -51,6 +51,7 @@ profiles:
     - systemd
     - waybar
     - wlogout
+    - zathura
   mpd:
     dotfiles:
     - mpd
@@ -189,7 +190,9 @@ dotfiles:
     src: systemd
     dst: ~/.config/systemd/user
     link: link_children
-
+  zathura:
+    src: zathura/zathurarc
+    dst: ~/.config/zathura/zathurarc
 actions:
   vim_make_dirs: mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo ~/.vim/sessions
   mbsync_create_maildirs: '{%@@ for account in mail @@%} mkdir -p ~/.local/mail/{{@@
