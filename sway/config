@@ -15,19 +15,17 @@ input * {
 # Visuals
 # -------
 
-default_border pixel 3
-default_floating_border normal
-smart_borders off
+default_border pixel 4
+default_floating_border pixel 2
 
-smart_gaps inverse_outer
 gaps inner 4
 gaps outer 2
+smart_gaps inverse_outer
 
-workspace web gaps inner 0
-workspace web gaps outer 1
-
-client.focused #c4a7e7 #c4a7e7 #323232 #ebbcba
-client.focused_inactive #c4a7e7 #c4a7e7 #323232 #ebbcba
+client.focused #c4a7e7 #c4a7e7 #323232 #ebbcba #c4a7e7
+client.focused_inactive #a6adc8 #a6adc8 #323232 #a6adc8 #a6adc8
+client.unfocused #a6adc8 #a6adc8 #323232 #a6adc8 #a6adc8
+client.urgent #eb6f92 #eb6f92 #323232 #eb6f92 #eb6f92
 
 # -------- #
 # Keybinds #
@@ -230,9 +228,12 @@ bindsym $mod+alt+c reload ; exec shikanectl reload
 bindsym XF86RFKill exec rfkill toggle all
 bindsym XF86Display exec wl-mirror $(swaymsg --raw --type get_outputs | jq --raw-output '.[] | select(.name != "eDP-1") | .name' | head -n 1) ; move workspace to eDP-1
 
-# Window Rules
-# ------------
+# Behaviour
+# ---------
 
+focus_on_window_activation focus
+
+# Window Rules
 for_window [app_id = "floating"] floating enable
 for_window [app_id = "floating_update"] floating enable, resize set width 1000px height 600px
 for_window [title = "Administrator privileges required"] floating enable
