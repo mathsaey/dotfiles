@@ -47,12 +47,12 @@ menu {
 #workspaces button.visible {
   color: @accent-purple;
 }
+#workspaces button.urgent {
+  color: @alert;
+}
 #workspaces button.focused {
   background-color: @accent-purple;
   color: @text-light;
-}
-#workspaces button.urgent {
-  background-color: @alert;
 }
 #workspaces button:hover {
   background: rgba(0, 0, 0, 0.2);
