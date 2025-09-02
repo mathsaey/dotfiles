@@ -89,8 +89,9 @@
     "menu": "on-click",
     "menu-file": "~/.config/waybar/mail.xml",
     "menu-actions": {
-      "mathsaey.be": "footclient --no-wait neomutt -f ~/.local/mail/mathsaey.be/Inbox",
-      "vub.be": "footclient --no-wait neomutt -f ~/.local/mail/vub.be/Inbox",
+{%@@ for account in mail @@%}
+      "{{@@ account @@}}": "footclient --no-wait neomutt -f ~/.local/mail/{{@@ account @@}}/Inbox",
+{%@@ endfor @@%}
       "sync": "systemctl --user start sync-mail.service",
     }
   },

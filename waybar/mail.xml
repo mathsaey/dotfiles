@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <object class="GtkMenu" id="menu">
+{%@@ for account in mail @@%}
      <child>
-          <object class="GtkMenuItem" id="mathsaey.be">
-               <property name="label">mathsaey.be</property>
+       <object class="GtkMenuItem" id="{{@@ account @@}}">
+               <property name="label">{{@@ account @@}}</property>
         </object>
      </child>
-     <child>
-        <object class="GtkMenuItem" id="vub.be">
-               <property name="label">vub.be</property>
-        </object>
-     </child>
+{%@@ endfor @@%}
     <child>
       <object class="GtkSeparatorMenuItem" id="delimiter"/>
     </child>
