@@ -166,8 +166,9 @@
   "wireplumber": {
     "format": "󰕾 {volume:3}%",
     "format-muted": "󰝟 {volume:3}%",
-    "on-click": "helvum",
-    "on-click-right": "mctl animation cava toggle",
+    "on-click": "pavucontrol",
+    "on-click-right": "helvum",
+    "on-click-middle": "mctl animation cava toggle",
   },
   "battery": {
     "bat": "{{@@ waybar.battery @@}}",
