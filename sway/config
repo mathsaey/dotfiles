@@ -224,6 +224,7 @@ bindsym alt+XF86Assistant exec swaylock
 
 # Misc
 bindsym $mod+Return exec footclient
+bindsym $mod+alt+Return exec thunar
 bindsym $mod+alt+c reload ; exec shikanectl reload
 bindsym XF86RFKill exec rfkill toggle all
 bindsym XF86Display exec wl-mirror $(swaymsg --raw --type get_outputs | jq --raw-output '.[] | select(.name != "eDP-1") | .name' | head -n 1) ; move workspace to eDP-1
