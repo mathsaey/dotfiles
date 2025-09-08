@@ -312,7 +312,6 @@
       "j" 'org-agenda-next-line
       "k" 'org-agenda-previous-line
 
-
       "a" 'org-agenda
       "l" 'org-agenda-log-mode
       "v" 'org-agenda-view-mode-dispatch
@@ -499,6 +498,7 @@
   (set-face-attribute 'org-modern-internal-target nil :inherit '(variable-pitch org-modern-done))
   (set-face-attribute 'org-modern-label nil :height 0.9 :inherit 'fixed-pitch)
   (setq org-modern-list '((?* . "◦") (?- . "•")(?+ . "‣"))
+        org-modern-star 'replace
         org-modern-table nil
         org-modern-keyword nil
         org-modern-todo-faces
