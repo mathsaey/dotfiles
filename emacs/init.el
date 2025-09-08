@@ -180,6 +180,10 @@
   "s-c" (lambda () (interactive) (call-fun-with-clipboard #'ns-copy-including-secondary))
   "s-x" (lambda () (interactive) (call-fun-with-clipboard #'kill-region)))
 
+(general-define-key
+  "C-=" 'text-scale-increase
+  "C--" 'text-scale-decrease)
+
 ; Misc mappings
 (leader-map "q" 'keyboard-quit
             "w" 'save-buffer
