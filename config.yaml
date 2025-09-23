@@ -20,6 +20,7 @@ variables:
   infopath: false
   unlock: false
   mail: false
+  msmtp: false
   ssh: false
 
 profiles:

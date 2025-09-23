@@ -13,3 +13,8 @@ passwordeval "{{@@ mail[account].passcmd @@}}"
 {{@@ mail[account].smtpextra @@}}
 {%@@ endif @@%}
 {%@@ endfor @@%}
+
+{%@@ if msmtp @@%}
+account default : {{@@ msmtp.default @@}}
+{%@@ endif @@%}
+
