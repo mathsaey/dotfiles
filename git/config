@@ -10,3 +10,5 @@
 	default = current
 [alias]
 	tree = log --all --graph --decorate --oneline
+[diff]
+	tool = gvimdiff
