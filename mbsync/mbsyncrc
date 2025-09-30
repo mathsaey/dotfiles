@@ -19,6 +19,7 @@ Inbox ~/.local/mail/{{@@ account @@}}/Inbox
 Channel {{@@ account @@}}
 Near :{{@@ account @@}}-local:
 Far :{{@@ account @@}}-imap:
+Expunge Both
 Syncstate *
 Patterns *
 
