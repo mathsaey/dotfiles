@@ -525,3 +525,10 @@ vmap <Leader>P :set paste<CR>"+P:set nopaste<CR>
 
 " Split line (inverse of J)
 nnoremap <Leader>j i<CR><Esc>k$
+
+" Vimdiff
+" -------
+
+if &diff
+  nnoremap q :qa<CR>
+endif
