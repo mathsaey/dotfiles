@@ -12,7 +12,7 @@
   "modules-right": [
     "tray", "custom/separator",
     "custom/mail", "custom/separator",
-    "idle_inhibitor", "custom/separator",
+    "idle_inhibitor", "custom/dunst", "custom/separator",
     "cpu", "memory", "power-profiles-daemon", "custom/separator",
     /* "network#wg", */
     "network", "bluetooth", "custom/separator",
@@ -103,6 +103,16 @@
     },
     "tooltip-format-activated": "{icon} staying awake",
     "tooltip-format-deactivated": "{icon} could use a coffee"
+  },
+  "custom/dunst": {
+    "return-type": "json",
+    "interval": "once",
+    "exec-on-event": "true",
+    "exec": "~/.config/waybar/dunst_pause_level.sh",
+    "on-click": "if [[ $(dunstctl get-pause-level) = 0 ]] ; then dunstctl set-pause-level 10 ; else dunstctl set-pause-level 0 ; fi",
+    "on-click-right": "dunstctl history-pop",
+    "on-scroll-up": "dunstctl set-pause-level $(($(dunstctl get-pause-level) + 10))",
+    "on-scroll-down": "dunstctl set-pause-level $(($(dunstctl get-pause-level) - 10))"
   },
   "power-profiles-daemon": {
     "format-icons": {

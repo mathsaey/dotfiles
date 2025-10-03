@@ -96,6 +96,17 @@ menu {
   color: @accent-red;
 }
 
+#custom-dunst {
+  padding: 0 4px 0 4px;
+  margin: 4px 0 4px 0;
+  min-width: 24px;
+  color: @accent-dark;
+}
+
+#custom-dunst.paused {
+  color: @accent-red;
+}
+
 #power-profiles-daemon.performance{ color: @accent-yellow; }
 #power-profiles-daemon.balanced{ color: @accent-dark; }
 #power-profiles-daemon.power-saver{ color: @accent-green; }
