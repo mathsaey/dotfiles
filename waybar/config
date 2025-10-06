@@ -48,8 +48,7 @@
     "tooltip-format": "{app}: {title}"
   },
   "systemd-failed-units": {
-    "user": false,
-    "format": "[ FAIL ] {nr_failed_system}S",
+    "format": "[ FAIL ] {nr_failed_user}U{nr_failed_system}S",
     "on-click": "footclient --no-wait systemctl status --failed",
     "on-click-right": "sudo systemctl reset-failed ; systemctl --user reset-failed",
   },
