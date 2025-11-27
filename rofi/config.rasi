@@ -18,12 +18,10 @@ configuration {
   display-window: "";
   display-emoji: "😀";
   window-format: "{c} · {t}";
-  emoji-mode: "insert_no_copy";
-}
-
-emoji {
   // Set in sway config, as the plugin seems to ignore this config file
   emoji-mode: "insert_no_copy";
+  // Useful to copy in rofi-emoji mode.
+  kb-custom-1: "Alt+Meta+Return";
 }
 
 * {
