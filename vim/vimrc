@@ -256,7 +256,14 @@ let g:lsc_server_commands = {
   \    'command': expand('~/.vim/plugs/elixir-ls/release/language_server.sh'),
   \    'log_level': 'Error'
   \  },
-  \  'rust': 'rust-analyzer'
+  \  'rust': {
+  \    'command': 'rust-analyzer',
+  \    'message_hooks': {
+  \      'initialize': {
+  \        'initializationOptions': { 'check': { 'command': 'clippy' }}
+  \      }
+  \    }
+  \  }
   \}
 
 let g:lsc_auto_map = {
