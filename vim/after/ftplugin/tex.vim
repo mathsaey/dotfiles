@@ -23,6 +23,7 @@ let g:tex_flavor = 'latex'
 
 " Use the omni completion (provided by vimtex)
 let b:vcm_tab_complete = 'omni'
+let g:vimtex_include_search_enabled = 0
 
 " Split lines at puncutation
 function! SplitLines(start, end)
