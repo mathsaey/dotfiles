@@ -103,7 +103,6 @@ bindsym $mod+Alt+Shift+$right move container to output right
 bindsym $mod+Alt+Shift+$up move container to output up
 bindsym $mod+Alt+Shift+$down move container to output down
 
-
 bindsym $mod+Shift+1 move container to workspace number 1
 bindsym $mod+Shift+2 move container to workspace number 2
 bindsym $mod+Shift+3 move container to workspace number 3
