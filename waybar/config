@@ -4,7 +4,6 @@
     "custom/gentoo", "sway/workspaces", "custom/separator", "sway/scratchpad"
   ],
   "modules-center": [
-    "systemd-failed-units", "custom/separator",
     "sway/mode", "custom/separator",
     "mpris", "custom/separator",
     "privacy"
