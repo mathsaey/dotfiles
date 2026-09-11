@@ -1,0 +1,98 @@
+# Prevent trackpad accidents
+option disable-scrolling true
+
+# Prevent the toolbox from showing up when a touchscreen is attached
+option toolbox false
+
+# Pre-cache all slides when opening a presentation.
+# Makes startup slow but prevents freezes while presenting.
+# option prerender-slides -1
+# option prerender-delay 2
+
+# Don't purge cache, we have plenty of memory
+option cache-expiration -1
+
+# Show the first slide of overlay groups instead of the last
+option next-slide-first-overlay true
+
+# Set up the screen for widescreen presentations
+option next-height 50
+
+# Avoid accidents, only bind what we know and use
+unbind_all
+unmouse_all
+
+# Navigation
+# ----------
+
+bind Right next
+bind Down next
+bind space next
+bind Page_Down next
+
+bind Left prev
+bind Up prev
+bind Page_Up prev
+bind S+space prev
+
+bind S+Right lastOverlay
+bind S+Left firstOverlay
+
+bind Home gotoFirst
+bind End gotoLast
+
+bind C+o histBack
+bind C+i histFwd
+
+bind m saveBookmark
+bind S+m loadBookmark
+
+bind Tab overview
+bind C+e endSlide
+
+# Timer
+# -----
+
+bind t cycleTimerMode
+bind C+t resetTimer
+
+# Stopping the Presentation
+# -------------------------
+
+bind S+h hide
+bind S+b blank
+bind S+f freeze
+
+# Modes
+# -----
+
+bind 1 switchMode normal
+bind 2 switchMode pointer
+bind 3 switchMode spotlight
+bind z zoom
+
+bind equal increaseSize
+bind minus decreaseSize
+
+# Drawing
+# -------
+bind 9 switchMode pen
+bind 0 switchMode eraser
+
+bind S+d clearDrawing
+bind d   toggleDrawings
+
+bind u undo
+bind r redo
+
+# Misc
+# ----
+
+bind Escape exitState
+bind q exitState
+
+bind C+r reload
+bind C+q quit
+bind C+c quit
+bind S+c customize
+bind question showHelp

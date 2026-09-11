@@ -57,6 +57,11 @@ profiles:
     dotfiles:
     - mpd
     - ncmpcpp
+  tex:
+    dotfiles:
+      - latexmkrc
+      - pdfpc
+      - tex
 
   # Machines
   silverlode:
@@ -84,6 +89,7 @@ profiles:
     - mail
     - sway_desktop
     - mpd
+    - tex
     dotfiles:
     - emacs
     - ssh_config
@@ -137,15 +143,19 @@ dotfiles:
     src: emacs
     dst: ~/.config/emacs/
     link: link_children
-  latexmkrc:
-    src: tex/latexmkrc
-    dst: ~/.config/latexmk/latexmkrc
   ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
+
+  latexmkrc:
+    src: tex/latexmkrc
+    dst: ~/.config/latexmk/latexmkrc
   tex:
     src: tex/packages/
     dst: ~/.config/tex
+  pdfpc:
+    src: pdfpc/
+    dst: ~/.config/pdfpc
 
   dunst:
     src: dunst/dunstrc
