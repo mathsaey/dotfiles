@@ -1,3 +1,5 @@
+; -*- lexical-binding: t; -*-
+
 ; ------------- ;
 ; Package Setup ;
 ; ------------- ;
@@ -271,6 +273,13 @@
     (apply orig-fun args)))
 
 (advice-add 'org-open-at-point-global :around 'm/org-open-at-point-consider-alist)
+
+; When on linux, use zathura to open pdfs
+(setq org-file-apps-gnu
+  '(("\\.pdf::\\([0-9]+\\)?\\'" . "zathura %s -P %1")
+    ("pdf" . "zathura %s")
+    (system . mailcap)
+    (t . mailcap)))
 
 ; Keybinds
 ; --------
