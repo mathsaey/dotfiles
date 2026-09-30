@@ -85,10 +85,9 @@ profiles:
     - latexmkrc
   brandywine:
     include:
+    - sway_desktop
     - core
     - mail
-    - sway_desktop
-    - mpd
     - tex
     dotfiles:
     - emacs
