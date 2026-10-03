@@ -119,6 +119,8 @@ dotfiles:
   zshrc:
     src: zsh/zshrc
     dst: ~/.zshrc
+    actions:
+    - zsh_make_state_dir
 
   mailcap:
     src: mailcap/mailcap
@@ -209,3 +211,4 @@ actions:
     account @@}} ;{%@@ endfor @@%} '
   neomutt_create_cache_dir: mkdir -p ~/.cache/neomutt/header/
   swayidle_link_default: ln -s ~/.config/swayidle/laptop ~/.config/swayidle/config
+  zsh_make_state_dir: mkdir -p ~/.local/state
